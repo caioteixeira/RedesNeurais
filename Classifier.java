@@ -1,7 +1,7 @@
 
 public abstract class Classifier {
 	
-	public abstract void train(String trainSet, String validateSet);
-	public abstract void test(String testSet);
+	public abstract void train(DataSet trainSet, DataSet validateSet);
+	public abstract void test(DataSet testSet);
 	
 }
