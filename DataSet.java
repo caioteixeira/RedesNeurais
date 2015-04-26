@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.Random;
 
 public class DataSet {
 	
@@ -43,7 +44,13 @@ public class DataSet {
 			while(sc.hasNext())
 			{
 				String line = sc.nextLine();
-				dataSet.add(line);
+				Random r = new Random();
+				int s = dataSet.size();
+				
+				//Garante que DataSet seja carregado em memória em ordem aleatória
+				int a = s > 1? r.nextInt(s): 0;
+				
+				dataSet.add(a, line);
 			}
 		}
 		catch(FileNotFoundException e)
