@@ -32,6 +32,23 @@ public class DataSet {
 		readDataSetFile(dataSetFile);
 	}
 	
+	//Inicializa DataSet de uma List
+	public DataSet(int classAtributteIndex, List<String> list)
+	{
+		this.classAttributteIndex = classAtributteIndex;
+		
+		dataSet = new LinkedList<String>();
+		for(String line : list)
+		{
+			Random r = new Random();
+			int s = dataSet.size();
+			
+			//Garante que DataSet seja carregado em memória em ordem aleatória
+			int a = s > 1? r.nextInt(s): 0;
+			
+			dataSet.add(a, line);
+		}
+	}
 	private void readDataSetFile(String fileName)
 	{
 		System.out.println("reading "+fileName);
@@ -60,7 +77,7 @@ public class DataSet {
 	}
 	
 	//Imprime distribuicao
-	public void checkClassDistribution(int classAtributteIndex)
+	public void printClassDistribution(int classAtributteIndex)
 	{
 		HashMap<Integer, List<String>> map = new HashMap<Integer, List<String>>();
 		
@@ -82,5 +99,68 @@ public class DataSet {
 		{
 			System.out.println(i + " : "+ map.get(i).size());
 		}
+	}
+	
+	//Divide DataSet em conjuntos igualmente distribuidos
+	//Saida: Arranjo com os DataSets (Treino, Validacao e Saida)
+	public DataSet[] divideDataSet()
+	{
+		//Inicializa HashMap para dividir por classe
+		HashMap<Integer, List<String>> map = new HashMap<Integer, List<String>>();
+		for(String dataLine : dataSet)
+		{
+			String[] data = dataLine.split(",");
+			Integer classIn = Integer.parseInt(data[this.classAttributteIndex]);
+			List<String> list = map.get(classIn);
+			if(list == null)
+			{
+				list = new LinkedList<String>();
+				map.put(classIn, list);
+			}
+			list.add(dataLine);
+		}
+		
+		DataSet[] out = new DataSet[3];
+		
+		//Divide conjuntos com distribuição uniforme
+		for(int cont = 0; cont < 3; cont++)
+		{
+			List<String> list = new LinkedList<>();
+			int size = 0;
+			switch(cont)
+			{
+				case 0:
+					size = 60; //60 por cento Treinamento
+					break;
+				case 1:
+					size = 50; //20 por cento Validacao
+					break;
+				case 2:
+					size = 100; //20 por cento teste
+					break;
+			}
+			
+			for(Integer key : map.keySet())
+			{
+				List<String> mapList = map.get(key);
+				
+				//System.out.println(key + "Size: "+mapList.size()+ " Subset: "+size+" result: "+ ((size * mapList.size())/100));
+				int cSize = (size * mapList.size())/100;
+				int i = 0;
+				while(i<cSize && !mapList.isEmpty())
+				{
+					list.add(mapList.remove(0));
+					i++;
+				}	
+			}
+			
+			out[cont] = new DataSet(this.classAttributteIndex, list);
+		}	
+		return out;
+	}
+	
+	public void save(String name)
+	{
+		
 	}
 }
