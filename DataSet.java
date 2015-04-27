@@ -11,6 +11,8 @@ public class DataSet {
 	List<String> dataSet;
 	int classAttributteIndex;
 	
+	int readIndex = 0;
+	
 	//Carrega DataSet de arquivos
 	public DataSet(int classAtributteIndex, String[] dataSetFiles)
 	{
@@ -22,7 +24,6 @@ public class DataSet {
 			
 			readDataSetFile(fileName);
 		}
-		
 	}
 	
 	public DataSet(int classAtributteIndex, String dataSetFile)
@@ -162,5 +163,32 @@ public class DataSet {
 	public void save(String name)
 	{
 		
+	}
+	
+	public boolean hasNext()
+	{
+		return readIndex < dataSet.size();
+	}
+	
+	public String nextString()
+	{
+		String r = dataSet.get(readIndex);
+		readIndex++;
+		return r;
+	}
+	
+	public float[] next()
+	{
+		String line = nextString();
+		String[] values = line.split(",");
+		
+		float[] response = new float[values.length];
+		
+		for(int i = 0; i < values.length; i++)
+		{
+			response[i] = Float.parseFloat(values[i]);
+		}
+		
+		return response;
 	}
 }
