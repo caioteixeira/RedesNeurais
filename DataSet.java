@@ -177,18 +177,23 @@ public class DataSet {
 		return r;
 	}
 	
-	public float[] next()
+	public double[] next()
 	{
 		String line = nextString();
 		String[] values = line.split(",");
 		
-		float[] response = new float[values.length];
+		double[] response = new double[values.length];
 		
 		for(int i = 0; i < values.length; i++)
 		{
-			response[i] = Float.parseFloat(values[i]);
+			response[i] = Double.parseDouble(values[i]);
 		}
 		
 		return response;
+	}
+	
+	public void reset()
+	{
+		readIndex = 0;
 	}
 }
