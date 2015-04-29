@@ -48,10 +48,14 @@ public class LVQ extends Classifier {
 
 		// WORK IN PROGRESS...
 		double stopCondition = 0; // TODO
-
+		
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
 		while (learnRate > stopCondition) {
 			// DO something
+			int pesoMenorDist;
+			for (int i = 0; i < trainSet.dataSet.size(); i++) {
+				// TODO
+			}
 		}
 	}
 
@@ -129,7 +133,7 @@ class Vector
 		// http://en.wikipedia.org/wiki/Taxicab_geometry
 		// http://stackoverflow.com/questions/8224470/calculating-manhattan-distance
 		// distance = Math.abs(x1-x0) + Math.abs(y1-y0);
-		//http://pt.stackoverflow.com/questions/12654/como-fa%C3%A7o-pra-calcular-dist%C3%A2ncia-euclidiana
+		// http://pt.stackoverflow.com/questions/12654/como-fa%C3%A7o-pra-calcular-dist%C3%A2ncia-euclidiana
 		// Euclidiana -- distance = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
 		
 		double distance = -1;
@@ -143,7 +147,7 @@ class Vector
 			distance = 0;
 			// Select method
 			switch (distanceMethod) {
-			
+
 			case MANHATTAN:
 				for(int i = 0; i < vector1Length; i++) {
 					distance += Math.abs(this.components[i] - vector.components[i]);
@@ -195,7 +199,7 @@ class LVQNeuron
 	//Calcula distancia com outra unidade
 	public double distanceFrom(LVQNeuron n)
 	{
-		return this.vector.distanceFrom(n.vector);
+		return this.vector.distanceFrom(n.vector, Vector.DistanceMethod.EUCLIDEAN);
 	}
 	
 	//TODO: metodo de aproximar
