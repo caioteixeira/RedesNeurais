@@ -1,21 +1,41 @@
-
 public class LVQ extends Classifier {
 
-	
 	int i = 65; //Class Index
 	Vector[] inputNeurons;
 	Vector[] outputNeurons;
-	
-	
-	public LVQ(String config)
+	private double learnRate;
+
+	public LVQ(double learnRate)
 	{
-		//L� string de configuracao da LVQ
+		this.learnRate = learnRate;
 	}
 
 	@Override
 	public void train(DataSet trainSet) {
-		// TODO Auto-generated method stub
 		System.out.println("Training");
+		/*
+			x – vetor de treinamento (x1, ..., xi, ..., xn)
+			T – classe correta para o vetor de treinamento
+			wj – vetor peso da j-ésima unidade de saída (w1,j, ..., wi,j, ..., wn,j)
+			Cj – classe representada pela j-ésima unidade de saída
+			║ x – wj ║ - distância Euclidiana entre o vetor de entrada e (vetor de pesos para) o j-ésimo vetor de saída.
+			J - uma unidade de saída
+		*/
+		//1- Enquanto condicao de parada eh falsa execute os passos 2-6
+		//2- Para cada vetor de entrada de treinamento, executar os passos 3-4
+		//3- Encontre a unidade de saida J tal que | x - Wj | seja minima
+		/*4- Altere Wj como na regra abaixo
+			Se T = CJ, então
+				wJ(new) = wJ(old) + α[x – wJ(old)];
+			Se T ≠ CJ, então
+				wJ(new) = wJ(old) - α[x – wJ(old)]; 
+		*/
+		// 5 - Reduza a taxa de aprendizado (?) como?
+		/* 6
+			Teste a condição de parada
+			A condição deve especificar um número fixo de iterações (i.e.,execução do Passo 1) 
+			ou um valor mínimo para a taxa de aprendizado. 
+		*/
 	}
 
 	@Override
@@ -84,8 +104,13 @@ class Vector
 	//Distancia de manhatan
 	public double distanceFrom(Vector value)
 	{
-		//TODO: Implementar distancia de manhatan
-		//TODO: Outras tecnicas
+		// http://en.wikipedia.org/wiki/Taxicab_geometry
+		// http://stackoverflow.com/questions/8224470/calculating-manhattan-distance
+		// distance = Math.abs(x1-x0) + Math.abs(y1-y0);
+		// TODO: Implementar distancia de manhatan
+		// TODO: Outras tecnicas
+
+		// Euclidiana -- distance = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
 		return 0.0;
 	}
 	
