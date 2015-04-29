@@ -1,18 +1,27 @@
+import java.util.Random;
+
+import LVQ.DistanceMethod;
+
 public class LVQ extends Classifier {
+	Random random = new Random();
+	int neuronsCount;
 
 	int i = 65; //Class Index
 	Vector[] inputNeurons;
 	Vector[] outputNeurons;
 	private double learnRate;
 
-	public LVQ(double learnRate)
+	public LVQ(double learnRate, int neuronsCount)
 	{
 		this.learnRate = learnRate;
+		this.neuronsCount = neuronsCount;
 	}
 
 	@Override
 	public void train(DataSet trainSet) {
 		System.out.println("Training");
+
+		// PASSO 0 inicializar todos os pesos... K-means ou random
 		/*
 			x – vetor de treinamento (x1, ..., xi, ..., xn)
 			T – classe correta para o vetor de treinamento
@@ -36,6 +45,14 @@ public class LVQ extends Classifier {
 			A condição deve especificar um número fixo de iterações (i.e.,execução do Passo 1) 
 			ou um valor mínimo para a taxa de aprendizado. 
 		*/
+
+		// WORK IN PROGRESS...
+		double stopCondition = 0; // TODO
+
+		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
+		while (learnRate > stopCondition) {
+			// DO something
+		}
 	}
 
 	@Override
@@ -55,6 +72,11 @@ public class LVQ extends Classifier {
 //Representa vetor e suas operacoes
 class Vector
 {
+	public static enum DistanceMethod {
+		MANHATTAN,
+		EUCLIDEAN
+	};
+	
 	public double[] components;
 	public Vector(double[] values)
 	{
@@ -101,17 +123,42 @@ class Vector
 		return new Vector(rVector);
 	}
 	
-	//Distancia de manhatan
-	public double distanceFrom(Vector value)
+	//Distancia de manhatan e euclidiana
+	public double distanceFrom(Vector vector, DistanceMethod distanceMethod)
 	{
 		// http://en.wikipedia.org/wiki/Taxicab_geometry
 		// http://stackoverflow.com/questions/8224470/calculating-manhattan-distance
 		// distance = Math.abs(x1-x0) + Math.abs(y1-y0);
-		// TODO: Implementar distancia de manhatan
-		// TODO: Outras tecnicas
-
+		//http://pt.stackoverflow.com/questions/12654/como-fa%C3%A7o-pra-calcular-dist%C3%A2ncia-euclidiana
 		// Euclidiana -- distance = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
-		return 0.0;
+		
+		double distance = -1;
+		
+		// Vector Lengths
+		int vector1Length = this.components.length;
+		int vector2Length = vector.components.length;
+		
+		// Check vector lengths
+		if (vector1Length == vector2Length) {
+			distance = 0;
+			// Select method
+			switch (distanceMethod) {
+			
+			case MANHATTAN:
+				for(int i = 0; i < vector1Length; i++) {
+					distance += Math.abs(this.components[i] - vector.components[i]);
+				}
+				break;
+				
+			case EUCLIDEAN:
+			default:
+				for(int i = 0; i < vector1Length; i++) {
+					distance += Math.pow(this.components[i] - vector.components[i], 2);
+				}
+			}
+		}
+
+		return distance;
 	}
 	
 	private boolean hasEqualDimensions(Vector value)
