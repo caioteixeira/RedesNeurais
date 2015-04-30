@@ -1,7 +1,5 @@
 import java.util.Random;
 
-import LVQ.DistanceMethod;
-
 public class LVQ extends Classifier {
 	Random random = new Random();
 	int neuronsCount;
@@ -20,7 +18,7 @@ public class LVQ extends Classifier {
 	@Override
 	public void train(DataSet trainSet) {
 		System.out.println("Training");
-
+		
 		// PASSO 0 inicializar todos os pesos... K-means ou random
 		/*
 			x – vetor de treinamento (x1, ..., xi, ..., xn)

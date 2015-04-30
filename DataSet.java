@@ -8,12 +8,16 @@ import java.util.Random;
 
 public class DataSet {
 	
-	List<String> dataSet;
-	int classAttributteIndex;
+	private List<String> dataSet;
+	private int classAttributteIndex;
 	
-	int readIndex = 0;
+	private int readIndex = 0;
 	
-	//Carrega DataSet de arquivos
+	/** 
+	 * Carrega DataSet de arquivos
+	 * @param classAtributteIndex
+	 * @param dataSetFiles
+	 */
 	public DataSet(int classAtributteIndex, String[] dataSetFiles)
 	{
 		dataSet = new LinkedList<String>();
@@ -26,6 +30,11 @@ public class DataSet {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param classAtributteIndex
+	 * @param dataSetFile
+	 */
 	public DataSet(int classAtributteIndex, String dataSetFile)
 	{
 		dataSet = new LinkedList<String>();
@@ -33,7 +42,11 @@ public class DataSet {
 		readDataSetFile(dataSetFile);
 	}
 	
-	//Inicializa DataSet de uma List
+	/**
+	 * Inicializa DataSet de uma List
+	 * @param classAtributteIndex
+	 * @param list
+	 */
 	public DataSet(int classAtributteIndex, List<String> list)
 	{
 		this.classAttributteIndex = classAtributteIndex;
@@ -44,12 +57,17 @@ public class DataSet {
 			Random r = new Random();
 			int s = dataSet.size();
 			
-			//Garante que DataSet seja carregado em memória em ordem aleatória
+			//Garante que DataSet seja carregado em memï¿½ria em ordem aleatï¿½ria
 			int a = s > 1? r.nextInt(s): 0;
 			
 			dataSet.add(a, line);
 		}
 	}
+	
+	/**
+	 * 
+	 * @param fileName
+	 */
 	private void readDataSetFile(String fileName)
 	{
 		System.out.println("reading "+fileName);
@@ -65,19 +83,24 @@ public class DataSet {
 				Random r = new Random();
 				int s = dataSet.size();
 				
-				//Garante que DataSet seja carregado em memória em ordem aleatória
+				//Garante que DataSet seja carregado em memï¿½ria em ordem aleatï¿½ria
 				int a = s > 1? r.nextInt(s): 0;
 				
 				dataSet.add(a, line);
 			}
+			
+			sc.close();
 		}
 		catch(FileNotFoundException e)
 		{
-			System.out.println("NÃO ACHOU ARQUIVO: "+fileName);
+			System.out.println("Nï¿½O ACHOU ARQUIVO: "+fileName);
 		}
 	}
 	
-	//Imprime distribuicao
+	/**
+	 * Imprime distribuicao
+	 * @param classAtributteIndex
+	 */
 	public void printClassDistribution(int classAtributteIndex)
 	{
 		HashMap<Integer, List<String>> map = new HashMap<Integer, List<String>>();
@@ -102,8 +125,12 @@ public class DataSet {
 		}
 	}
 	
-	//Divide DataSet em conjuntos igualmente distribuidos
-	//Saida: Arranjo com os DataSets (Treino, Validacao e Saida)
+	
+	/**
+	 * Divide DataSet em conjuntos igualmente distribuidos
+	 * Saida: Arranjo com os DataSets (Treino, Validacao e Saida)
+	 * @return DataSet[]
+	 */
 	public DataSet[] divideDataSet()
 	{
 		//Inicializa HashMap para dividir por classe
@@ -123,7 +150,7 @@ public class DataSet {
 		
 		DataSet[] out = new DataSet[3];
 		
-		//Divide conjuntos com distribuição uniforme
+		//Divide conjuntos com distribuiï¿½ï¿½o uniforme
 		for(int cont = 0; cont < 3; cont++)
 		{
 			List<String> list = new LinkedList<>();
@@ -177,6 +204,10 @@ public class DataSet {
 		return r;
 	}
 	
+	/**
+	 * FunÃ§Ã£o para retornar proximo vetor do arquivo convertido para double
+	 * @return double[]
+	 */
 	public double[] next()
 	{
 		String line = nextString();
@@ -192,6 +223,9 @@ public class DataSet {
 		return response;
 	}
 	
+	/**
+	 * Volta para o inicio do dataset
+	 */
 	public void reset()
 	{
 		readIndex = 0;
