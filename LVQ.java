@@ -116,8 +116,12 @@ public class LVQ extends Classifier {
 
 	@Override
 	public void test(DataSet testSet) {
-		// TODO Auto-generated method stub
 		System.out.println("Testing");
+		int acertos = 0;
+		
+		while (testSet.hasNext()) {
+			// Do something... TODO
+		}
 	}
 }
 
