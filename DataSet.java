@@ -14,12 +14,10 @@ public class DataSet {
 	private int readIndex = 0;
 	
 	// FIXME - Pre Carregamento TODO
-	public static final int attribCount = 65;
+	public static final int ATTRIB_COUNT = 65;
 	
 	// Classificar entre 10 classes
-	public static final int MIN_CLASS_ATTB_INDEX = 0;
-	public static final int MAX_CLASS_ATTB_INDEX = 9;
-	
+	public static final int CLASS_COUNT = 10;
 	
 	/** 
 	 * Carrega DataSet de arquivos

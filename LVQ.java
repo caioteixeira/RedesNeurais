@@ -16,10 +16,24 @@ public class LVQ extends Classifier {
 		this.learnRate = learnRate;
 		this.neuronsCount = neuronsCount;
 		
+		initializeNeurons();
+	}
+	
+	private void initializeNeurons() {
 		// Initialize Neurons
-		neurons = new LVQNeuron[(DataSet.MAX_CLASS_ATTB_INDEX+1)*neuronsCount];
+		neurons = new LVQNeuron[(DataSet.CLASS_COUNT)*neuronsCount];
+		int countNeuronsFromClass = 0;
+		int actualClassIndex = 0;
 		for (int i = 0; i < neurons.length; i++) {
-			neurons[i] = new LVQNeuron();
+			// Change class index
+			if (countNeuronsFromClass < DataSet.CLASS_COUNT) {
+				countNeuronsFromClass++;
+			} else {
+				actualClassIndex++;
+				countNeuronsFromClass = 0;
+			}
+			
+			neurons[i] = new LVQNeuron(actualClassIndex);
 		}
 	}
 
@@ -81,7 +95,6 @@ public class LVQ extends Classifier {
 					Se T ≠ CJ, então
 						wJ(new) = wJ(old) - α[x – wJ(old)]; 
 				 */
-				// TODO : Checar classe setada nos neuronios randomicos
 				if (selectedNeuron._class == neuronDataLine._class) {
 					selectedNeuron.vector.add(newWeight);
 				} else {
@@ -237,15 +250,18 @@ class LVQNeuron
 	double _class;
 	
 	// Random weights constructor
-	public LVQNeuron() {
+	public LVQNeuron(double _class) {
 		Random random = new Random();
-		double[] values = new double[DataSet.attribCount];
+		double[] values = new double[DataSet.ATTRIB_COUNT];
 		for (int i = 0; i < values.length; i++) {
 			// Tem que ver se assim ta um random legal
 			values[i] = random.nextDouble()*10;
 		}
 		
-		_class = -1;
+		// Set neuron class number
+		this._class = _class;
+		
+		// Create vector with random values
 		vector = new Vector(values);
 	}
 	
