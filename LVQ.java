@@ -16,6 +16,7 @@ public class LVQ extends Classifier {
 		this.learnRate = learnRate;
 		this.neuronsCount = neuronsCount;
 		
+		// PASSO 0 inicializar todos os pesos... K-means ou random
 		initializeNeurons();
 	}
 	
@@ -41,7 +42,6 @@ public class LVQ extends Classifier {
 	public void train(DataSet trainSet) {
 		System.out.println("Training");
 		
-		// PASSO 0 inicializar todos os pesos... K-means ou random
 		/*
 			x – vetor de treinamento (x1, ..., xi, ..., xn)
 			T – classe correta para o vetor de treinamento
@@ -49,21 +49,6 @@ public class LVQ extends Classifier {
 			Cj – classe representada pela j-ésima unidade de saída
 			║ x – wj ║ - distância Euclidiana entre o vetor de entrada e (vetor de pesos para) o j-ésimo vetor de saída.
 			J - uma unidade de saída
-		*/
-		//1- Enquanto condicao de parada eh falsa execute os passos 2-6
-		//2- Para cada vetor de entrada de treinamento, executar os passos 3-4
-		//3- Encontre a unidade de saida J tal que | x - Wj | seja minima
-		/*4- Altere Wj como na regra abaixo
-			Se T = CJ, então
-				wJ(new) = wJ(old) + α[x – wJ(old)];
-			Se T ≠ CJ, então
-				wJ(new) = wJ(old) - α[x – wJ(old)]; 
-		*/
-		// 5 - Reduza a taxa de aprendizado (?) como?
-		/* 6
-			Teste a condição de parada
-			A condição deve especificar um número fixo de iterações (i.e.,execução do Passo 1) 
-			ou um valor mínimo para a taxa de aprendizado. 
 		*/
 
 		// WORK IN PROGRESS...
