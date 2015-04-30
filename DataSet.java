@@ -14,7 +14,7 @@ public class DataSet {
 	private int readIndex = 0;
 	
 	// FIXME - Pre Carregamento TODO
-	public static final int ATTRIB_COUNT = 65;
+	public static final int ATTRIB_COUNT = 64;
 	
 	// Classificar entre 10 classes
 	public static final int CLASS_COUNT = 10;
@@ -31,7 +31,6 @@ public class DataSet {
 		
 		for(String fileName : dataSetFiles)
 		{
-			
 			readDataSetFile(fileName);
 		}
 	}

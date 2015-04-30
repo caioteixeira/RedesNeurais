@@ -71,8 +71,13 @@ public class LVQ extends Classifier {
 		
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
 		while (learnRate > stopCondition) {
+			int line = 1;
+			
+			System.out.println("Taxa de aprendizado em: " + learnRate + " - parar em " + stopCondition);
 			//2- Para cada vetor de entrada de treinamento, executar os passos 3-4
 			while (trainSet.hasNext()) {
+				//System.out.println("Treinando linha " + line + " do DataSet");
+				
 				//3- Encontre a unidade de saida J tal que | x - Wj | seja minima
 				LVQNeuron selectedNeuron = neurons[0];
 				LVQNeuron neuronDataLine = new LVQNeuron(trainSet.next(), trainSet.classAttributteIndex);
@@ -100,11 +105,15 @@ public class LVQ extends Classifier {
 				} else {
 					selectedNeuron.vector.subtract(newWeight);
 				}
+				
+				line++;
 			}
+			
+			// Reseta Train set para um possivel novo treinamento
+			trainSet.reset();
 			
 			// 5 - Reduza a taxa de aprendizado (?) como?
 			learnRate -= 0.1;
-			
 			/* 6
 				Teste a condição de parada
 				A condição deve especificar um número fixo de iterações (i.e.,execução do Passo 1) 
