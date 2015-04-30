@@ -116,9 +116,26 @@ public class LVQ extends Classifier {
 	public void test(DataSet testSet) {
 		System.out.println("Testing");
 		int acertos = 0;
-		
+		int erros = 0;
 		while (testSet.hasNext()) {
-			// Do something... TODO
+			LVQNeuron selectedNeuron = neurons[0];
+			LVQNeuron neuronDataLine = new LVQNeuron(testSet.next(), testSet.classAttributteIndex);
+
+			double minDistance = Double.MAX_VALUE;
+			double temp;
+			for (int i = 0; i < neurons.length; i++) {
+				temp = neurons[i].distanceFrom(neuronDataLine);
+				if (temp < minDistance) {
+					minDistance = temp;
+					selectedNeuron = neurons[i];
+				}
+			}
+			
+			if (selectedNeuron._class == neuronDataLine._class) acertos++;
+			else erros++;
 		}
+		
+		System.out.println("Acertou: " + acertos);
+		System.out.println("Errou: " + erros);
 	}
 }
