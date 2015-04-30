@@ -9,9 +9,17 @@ import java.util.Random;
 public class DataSet {
 	
 	private List<String> dataSet;
-	private int classAttributteIndex;
+	public int classAttributteIndex;
 	
 	private int readIndex = 0;
+	
+	// FIXME - Pre Carregamento TODO
+	public static final int attribCount = 65;
+	
+	// Classificar entre 10 classes
+	public static final int MIN_CLASS_ATTB_INDEX = 0;
+	public static final int MAX_CLASS_ATTB_INDEX = 9;
+	
 	
 	/** 
 	 * Carrega DataSet de arquivos

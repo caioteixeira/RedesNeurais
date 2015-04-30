@@ -1,18 +1,26 @@
 import java.util.Random;
 
 public class LVQ extends Classifier {
-	Random random = new Random();
 	int neuronsCount;
 
 	int i = 65; //Class Index
 	Vector[] inputNeurons;
 	Vector[] outputNeurons;
 	private double learnRate;
-
+	private LVQNeuron[] neurons;
+	
+	static final Vector.DistanceMethod DEFAULT_DISTANCE_METHOD = Vector.DistanceMethod.EUCLIDEAN;
+	
 	public LVQ(double learnRate, int neuronsCount)
 	{
 		this.learnRate = learnRate;
 		this.neuronsCount = neuronsCount;
+		
+		// Initialize Neurons
+		neurons = new LVQNeuron[(DataSet.MAX_CLASS_ATTB_INDEX+1)*neuronsCount];
+		for (int i = 0; i < neurons.length; i++) {
+			neurons[i] = new LVQNeuron();
+		}
 	}
 
 	@Override
@@ -49,11 +57,46 @@ public class LVQ extends Classifier {
 		
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
 		while (learnRate > stopCondition) {
-			// DO something
-			int pesoMenorDist;
-			for (int i = 0; i < trainSet.dataSet.size(); i++) {
-				// TODO
+			//2- Para cada vetor de entrada de treinamento, executar os passos 3-4
+			while (trainSet.hasNext()) {
+				//3- Encontre a unidade de saida J tal que | x - Wj | seja minima
+				LVQNeuron selectedNeuron = neurons[0];
+				LVQNeuron neuronDataLine = new LVQNeuron(trainSet.next(), trainSet.classAttributteIndex);
+
+				double minDistance = Double.MAX_VALUE;
+				double temp;
+				for (int i = 0; i < neurons.length; i++) {
+					temp = neurons[i].distanceFrom(neuronDataLine);
+					if (temp < minDistance) {
+						minDistance = temp;
+						selectedNeuron = neurons[i];
+					}
+				}
+				
+				double newWeight = learnRate * minDistance;
+				
+				/*4- Altere Wj como na regra abaixo
+					Se T = CJ, então
+						wJ(new) = wJ(old) + α[x – wJ(old)];
+					Se T ≠ CJ, então
+						wJ(new) = wJ(old) - α[x – wJ(old)]; 
+				 */
+				// TODO : Checar classe setada nos neuronios randomicos
+				if (selectedNeuron._class == neuronDataLine._class) {
+					selectedNeuron.vector.add(newWeight);
+				} else {
+					selectedNeuron.vector.subtract(newWeight);
+				}
 			}
+			
+			// 5 - Reduza a taxa de aprendizado (?) como?
+			// TODO
+			
+			/* 6
+				Teste a condição de parada
+				A condição deve especificar um número fixo de iterações (i.e.,execução do Passo 1) 
+				ou um valor mínimo para a taxa de aprendizado. 
+			 */
 		}
 	}
 
@@ -85,6 +128,24 @@ class Vector
 		this.components = values;
 	}
 	
+	//Operacao de alteracao dos pesos - add
+	public void add(double newWeight)
+	{
+		for(int i = 0; i < this.components.length; i++)
+		{
+			this.components[i] += newWeight;
+		}
+	}
+	
+	//Operacao de alteracao dos pesos - subtract
+	public void subtract(double newWeight)
+	{
+		for(int i = 0; i < this.components.length; i++)
+		{
+			this.components[i] -= newWeight;
+		}
+	}
+	
 	//Operacao de adicao
 	public Vector add(Vector value)
 	{
@@ -95,7 +156,7 @@ class Vector
 			return null;
 		}
 		
-		//Vetor de resposta
+		// Vetor de resposta
 		double[] rVector = new double[components.length];
 		for(int i = 0; i < rVector.length; i++)
 		{
@@ -115,7 +176,7 @@ class Vector
 			return null;
 		}
 		
-		//Vetor de resposta
+		// Vetor de resposta
 		double[] rVector = new double[components.length];
 		for(int i = 0; i < rVector.length; i++)
 		{
@@ -175,6 +236,20 @@ class LVQNeuron
 	public Vector vector;
 	double _class;
 	
+	// Random weights constructor
+	public LVQNeuron() {
+		Random random = new Random();
+		double[] values = new double[DataSet.attribCount];
+		for (int i = 0; i < values.length; i++) {
+			// Tem que ver se assim ta um random legal
+			values[i] = random.nextDouble()*10;
+		}
+		
+		_class = -1;
+		vector = new Vector(values);
+	}
+	
+	// Dataset constructor
 	public LVQNeuron(double[] dataSetLine, int classAtributteIndex)
 	{
 		//TODO: Verificar se indice e valido
@@ -197,7 +272,7 @@ class LVQNeuron
 	//Calcula distancia com outra unidade
 	public double distanceFrom(LVQNeuron n)
 	{
-		return this.vector.distanceFrom(n.vector, Vector.DistanceMethod.EUCLIDEAN);
+		return this.vector.distanceFrom(n.vector, LVQ.DEFAULT_DISTANCE_METHOD);
 	}
 	
 	//TODO: metodo de aproximar
