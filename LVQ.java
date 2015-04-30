@@ -67,7 +67,7 @@ public class LVQ extends Classifier {
 		*/
 
 		// WORK IN PROGRESS...
-		double stopCondition = 0; // TODO
+		double stopCondition = 0; // TODO: Assim? Zero?
 		
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
 		while (learnRate > stopCondition) {
@@ -103,7 +103,7 @@ public class LVQ extends Classifier {
 			}
 			
 			// 5 - Reduza a taxa de aprendizado (?) como?
-			// TODO
+			learnRate -= 0.1;
 			
 			/* 6
 				Teste a condição de parada
