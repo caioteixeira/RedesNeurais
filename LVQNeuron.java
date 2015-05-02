@@ -48,6 +48,21 @@ public class LVQNeuron
 		return this.vector.distanceFrom(n.vector, LVQ.DEFAULT_DISTANCE_METHOD);
 	}
 	
-	//TODO: metodo de aproximar
-	//TODO: metodo de distanciar
+	//Aproxima
+	public void aproach(LVQNeuron x, double learnRate)
+	{
+		VectorNeural xV = x.vector;
+		
+		//Pesos antigos + taxa * (x - pesos antigos)
+		this.vector = this.vector.add(xV.subtract(this.vector).multiply(learnRate));
+	}
+	
+	//Afasta
+	public void diverge(LVQNeuron x, double learnRate)
+	{
+VectorNeural xV = x.vector;
+		
+		//Pesos antigos + taxa * (x - pesos antigos)
+		this.vector = this.vector.subtract(xV.subtract(this.vector).multiply(learnRate));
+	}
 }

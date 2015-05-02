@@ -13,21 +13,12 @@ public class VectorNeural
 		this.components = values;
 	}
 	
-	//Operacao de alteracao dos pesos - add
-	public void add(double newWeight)
+	public VectorNeural(double value, int dimensions)
 	{
-		for(int i = 0; i < this.components.length; i++)
+		this.components = new double[dimensions];
+		for(int i = 0; i < dimensions; i++)
 		{
-			this.components[i] += newWeight;
-		}
-	}
-	
-	//Operacao de alteracao dos pesos - subtract
-	public void subtract(double newWeight)
-	{
-		for(int i = 0; i < this.components.length; i++)
-		{
-			this.components[i] -= newWeight;
+			this.components[i] = value;
 		}
 	}
 	
@@ -66,6 +57,18 @@ public class VectorNeural
 		for(int i = 0; i < rVectorNeural.length; i++)
 		{
 			rVectorNeural[i] = this.components[i] - value.components[i];
+		}
+		
+		return new VectorNeural(rVectorNeural);
+	}
+	
+	//Operacao de multiplicacao
+	public VectorNeural multiply(double value)
+	{
+		double[] rVectorNeural = new double[components.length];
+		for(int i = 0; i < rVectorNeural.length; i++)
+		{
+			rVectorNeural[i] = this.components[i] * value;
 		}
 		
 		return new VectorNeural(rVectorNeural);

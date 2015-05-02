@@ -7,7 +7,7 @@ public class LVQ extends Classifier {
 	private double learnRate;
 	private LVQNeuron[] neurons;
 	
-	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.EUCLIDEAN;
+	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.MANHATTAN;
 	
 	public LVQ(double learnRate, int neuronsCount)
 	{
@@ -50,13 +50,15 @@ public class LVQ extends Classifier {
 		*/
 
 		// WORK IN PROGRESS...
-		double stopCondition = 0; // TODO: Assim? Zero?
+		int stopCondition = 20; // TODO: Assim? Zero?
 		
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
-		while (learnRate > stopCondition) {
+		
+		int EpochsCounter = 0;
+		while (EpochsCounter < stopCondition) {
 			int line = 1;
 			
-			System.out.println("Taxa de aprendizado em: " + learnRate + " - parar em " + stopCondition);
+			System.out.println("Epoca: " + EpochsCounter +" Taxa de aprendizado em: " + learnRate + " - parar em " + stopCondition);
 			//2- Para cada vetor de entrada de treinamento, executar os passos 3-4
 			while (trainSet.hasNext()) {
 				//System.out.println("Treinando linha " + line + " do DataSet");
@@ -75,8 +77,6 @@ public class LVQ extends Classifier {
 					}
 				}
 				
-				double newWeight = learnRate * minDistance;
-				
 				/*4- Altere Wj como na regra abaixo
 					Se T = CJ, então
 						wJ(new) = wJ(old) + α[x – wJ(old)];
@@ -84,9 +84,13 @@ public class LVQ extends Classifier {
 						wJ(new) = wJ(old) - α[x – wJ(old)]; 
 				 */
 				if (selectedNeuron._class == neuronDataLine._class) {
-					selectedNeuron.vector.add(newWeight);
+					selectedNeuron.aproach(neuronDataLine, learnRate);
+					//double distance = selectedNeuron.distanceFrom(neuronDataLine);
+					//System.out.println(distance);
 				} else {
-					selectedNeuron.vector.subtract(newWeight);
+					selectedNeuron.diverge(neuronDataLine, learnRate);
+					//double distance = selectedNeuron.distanceFrom(neuronDataLine);
+					//System.out.println(distance);
 				}
 				
 				line++;
@@ -96,7 +100,9 @@ public class LVQ extends Classifier {
 			trainSet.reset();
 			
 			// 5 - Reduza a taxa de aprendizado (?) como?
-			learnRate -= 0.1;
+			learnRate *= 0.5;
+			
+			EpochsCounter++;
 			/* 6
 				Teste a condição de parada
 				A condição deve especificar um número fixo de iterações (i.e.,execução do Passo 1) 
@@ -107,9 +113,32 @@ public class LVQ extends Classifier {
 
 	@Override
 	public double validate(DataSet validateSet) {
-		// TODO Auto-generated method stub
 		System.out.println("Validating");
-		return 0;
+		
+		double totalError = 0;
+		
+		while(validateSet.hasNext())
+		{
+			LVQNeuron selectedNeuron = neurons[0];
+			LVQNeuron neuronDataLine = new LVQNeuron(validateSet.next(), validateSet.classAttributteIndex);
+			
+			double minDistance = Double.MAX_VALUE;
+			double temp;
+			for (int i = 0; i < neurons.length; i++) {
+				temp = neurons[i].distanceFrom(neuronDataLine);
+				//System.out.println("Temp: " + temp);
+				if (temp < minDistance && neuronDataLine._class == neurons[i]._class) {
+					//System.out.println(minDistance);
+					minDistance = temp;
+					selectedNeuron = neurons[i];
+				}
+			}
+			
+			totalError += minDistance;
+		}
+		
+		System.out.println(totalError);
+		return totalError;
 	}
 
 	@Override
@@ -117,6 +146,7 @@ public class LVQ extends Classifier {
 		System.out.println("Testing");
 		int acertos = 0;
 		int erros = 0;
+		//testSet.printClassDistribution(testSet.classAttributteIndex);
 		while (testSet.hasNext()) {
 			LVQNeuron selectedNeuron = neurons[0];
 			LVQNeuron neuronDataLine = new LVQNeuron(testSet.next(), testSet.classAttributteIndex);
