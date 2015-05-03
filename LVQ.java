@@ -50,15 +50,14 @@ public class LVQ extends Classifier {
 		*/
 
 		// WORK IN PROGRESS...
-		int stopCondition = 20; // TODO: Assim? Zero?
+		int stopCondition = 5; // TODO: Assim? Zero?
 		
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
-		
 		int EpochsCounter = 0;
-		while (EpochsCounter < stopCondition) {
-			int line = 1;
-			
-			System.out.println("Epoca: " + EpochsCounter +" Taxa de aprendizado em: " + learnRate + " - parar em " + stopCondition);
+		double actualLearnRate = learnRate;
+		while (EpochsCounter < stopCondition && actualLearnRate > 0.0) {
+
+			System.out.println("Epoca: " + EpochsCounter +" Taxa de aprendizado em: " + actualLearnRate + " - parar em " + stopCondition);
 			//2- Para cada vetor de entrada de treinamento, executar os passos 3-4
 			while (trainSet.hasNext()) {
 				//System.out.println("Treinando linha " + line + " do DataSet");
@@ -84,23 +83,21 @@ public class LVQ extends Classifier {
 						wJ(new) = wJ(old) - α[x – wJ(old)]; 
 				 */
 				if (selectedNeuron._class == neuronDataLine._class) {
-					selectedNeuron.aproach(neuronDataLine, learnRate);
-					//double distance = selectedNeuron.distanceFrom(neuronDataLine);
-					//System.out.println(distance);
+					selectedNeuron.aproach(neuronDataLine, actualLearnRate);
+					double distance = selectedNeuron.distanceFrom(neuronDataLine);
+					System.out.println(distance);
 				} else {
-					selectedNeuron.diverge(neuronDataLine, learnRate);
-					//double distance = selectedNeuron.distanceFrom(neuronDataLine);
-					//System.out.println(distance);
+					selectedNeuron.diverge(neuronDataLine, actualLearnRate);
+					double distance = selectedNeuron.distanceFrom(neuronDataLine);
+					System.out.println(distance);
 				}
-				
-				line++;
 			}
 			
 			// Reseta Train set para um possivel novo treinamento
 			trainSet.reset();
 			
 			// 5 - Reduza a taxa de aprendizado (?) como?
-			learnRate *= 0.5;
+			actualLearnRate = learnRate * 1.0 - ((double)EpochsCounter/stopCondition);
 			
 			EpochsCounter++;
 			/* 6
