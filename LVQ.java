@@ -50,7 +50,7 @@ public class LVQ extends Classifier {
 		*/
 
 		// WORK IN PROGRESS...
-		int stopCondition = 5; // TODO: Assim? Zero?
+		int stopCondition = 50; // TODO: Assim? Zero?
 		
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
 		int EpochsCounter = 0;

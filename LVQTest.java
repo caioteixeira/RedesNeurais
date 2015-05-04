@@ -10,7 +10,7 @@ public class LVQTest {
 		//Divide dataSet em tres subconjuntos com 60,20 e 20 por cento dos dados, respectivamente
 		DataSet[] sets = set.divideDataSet();
 		DataSet trainSet = sets[0];
-		LVQ lvq = new LVQ(0.9, 2);
+		LVQ lvq = new LVQ(0.001, 2);
 		lvq.train(trainSet);
 		
 		DataSet validateSet = sets[1];

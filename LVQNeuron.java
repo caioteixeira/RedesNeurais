@@ -12,7 +12,7 @@ public class LVQNeuron
 		double[] values = new double[DataSet.ATTRIB_COUNT];
 		for (int i = 0; i < values.length; i++) {
 			// Tem que ver se assim ta um random legal
-			values[i] = random.nextDouble()*10;
+			values[i] = random.nextDouble();
 		}
 		
 		// Set neuron class number
