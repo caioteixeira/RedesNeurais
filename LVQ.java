@@ -141,6 +141,7 @@ public class LVQ extends Classifier {
 	@Override
 	public void test(DataSet testSet) {
 		System.out.println("Testing");
+		System.out.println("Quantidade de testes: " + testSet.size());
 		int acertos = 0;
 		int erros = 0;
 		//testSet.printClassDistribution(testSet.classAttributteIndex);

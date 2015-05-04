@@ -267,6 +267,20 @@ public class DataSet {
 		readIndex = 0;
 	}
 	
+	/**
+	 * Funcao que retorna tamanho do DataSet
+	 * @return
+	 */
+	public int size() {
+		return dataSet.size();
+	}
+	
+	/**
+	 * Função estatica para normalizacao dos dados 
+	 * @param dataSet
+	 * @param min
+	 * @param max
+	 */
 	public static void normalize(DataSet dataSet, int min, int max) {
 		// Baseado no slide http://homepages.dcc.ufmg.br/~glpappa/slides/Curso-Parte1.pdf
 		int lines = dataSet.dataSet.size();
