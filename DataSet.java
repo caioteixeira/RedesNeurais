@@ -249,4 +249,51 @@ public class DataSet {
 	{
 		readIndex = 0;
 	}
+	
+	public static void normalize(DataSet dataSet, int min, int max) {
+		int numAttrib = 65; // FIXME Hardcode number
+		int lines = dataSet.dataSet.size();
+		System.out.println("Tamanho" + lines);
+		
+		System.out.println("Merging...");
+		double[][] attrib = new double[lines][numAttrib];
+		int i = 0;
+		while (dataSet.hasNext()) {
+			double[] line = dataSet.next();
+			for (int j = 0; j < line.length; j++) {
+				attrib[i][j] = line[j];
+			}
+			i++;
+		}
+		
+		System.out.println("Definindo min-max de cada atributo");
+		double[][] minMaxAttribs = new double[numAttrib][2];
+		int z = 0;
+		minMaxAttribs[z][0] = attrib[0][0];
+		minMaxAttribs[z][1] = attrib[0][0];
+		// Pega min e max de cada atributo
+		for (; z < numAttrib; z++) {
+			for (int f = 0; f < lines; f++) {
+				// Define min
+				if (attrib[f][z] < minMaxAttribs[z][0]) {
+					minMaxAttribs[z][0] = attrib[f][z];
+				}
+				
+				// Define max
+				if (attrib[f][z] > minMaxAttribs[z][1]) {
+					minMaxAttribs[z][1] = attrib[f][z];
+				}
+			}
+		}
+		
+		System.out.println("Calculando min-max item-a-item");
+		for (z = 0; z < numAttrib; z++) {
+			for (int f = 0; f < lines; f++) {
+				double newValue = (((attrib[f][z] - minMaxAttribs[z][0]) / (minMaxAttribs[z][1] - minMaxAttribs[z][0])) * (max - min))+min;
+				attrib[f][z] = newValue;
+			}
+		}
+		
+		System.out.println("Criando novo dataSet a partir dos dados normalizados...");
+	}
 }
