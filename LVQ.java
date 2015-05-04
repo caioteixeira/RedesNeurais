@@ -84,12 +84,12 @@ public class LVQ extends Classifier {
 				 */
 				if (selectedNeuron._class == neuronDataLine._class) {
 					selectedNeuron.aproach(neuronDataLine, actualLearnRate);
-					double distance = selectedNeuron.distanceFrom(neuronDataLine);
-					System.out.println(distance);
+					//double distance = selectedNeuron.distanceFrom(neuronDataLine);
+					//System.out.println(distance);
 				} else {
 					selectedNeuron.diverge(neuronDataLine, actualLearnRate);
-					double distance = selectedNeuron.distanceFrom(neuronDataLine);
-					System.out.println(distance);
+					//double distance = selectedNeuron.distanceFrom(neuronDataLine);
+					//System.out.println(distance);
 				}
 			}
 			
@@ -97,7 +97,8 @@ public class LVQ extends Classifier {
 			trainSet.reset();
 			
 			// 5 - Reduza a taxa de aprendizado (?) como?
-			actualLearnRate = learnRate * 1.0 - ((double)EpochsCounter/stopCondition);
+			//Reduz linearmente
+			actualLearnRate = learnRate * ((double)(stopCondition - EpochsCounter)/(double)stopCondition);
 			
 			EpochsCounter++;
 			/* 6
