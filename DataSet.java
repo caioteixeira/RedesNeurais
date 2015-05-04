@@ -269,12 +269,11 @@ public class DataSet {
 	
 	public static void normalize(DataSet dataSet, int min, int max) {
 		// Baseado no slide http://homepages.dcc.ufmg.br/~glpappa/slides/Curso-Parte1.pdf
-		int numAttrib = 64; // FIXME Hardcode number
 		int lines = dataSet.dataSet.size();
 		//System.out.println("Tamanho" + lines);
 		
 		System.out.println("Merging...");
-		double[][] attrib = new double[lines][numAttrib];
+		double[][] attrib = new double[lines][ATTRIB_COUNT];
 		int i = 0;
 		while (dataSet.hasNext()) {
 			double[] line = dataSet.next();
@@ -285,10 +284,10 @@ public class DataSet {
 		}
 		
 		System.out.println("Definindo min-max de cada atributo");
-		double[][] minMaxAttribs = new double[numAttrib][2];
+		double[][] minMaxAttribs = new double[ATTRIB_COUNT][2];
 		int z = 0;
 		// Pega min e max de cada atributo
-		for (; z < numAttrib; z++) {
+		for (; z < ATTRIB_COUNT; z++) {
 			minMaxAttribs[z][0] = attrib[z][0];
 			minMaxAttribs[z][1] = attrib[z][0];
 			for (int f = 0; f < lines; f++) {
@@ -308,7 +307,7 @@ public class DataSet {
 		System.out.println("Calculando min-max item-a-item");
 		int f;
 		int countNan = 0;
-		for (z = 0; z < numAttrib; z++) {
+		for (z = 0; z < ATTRIB_COUNT; z++) {
 			for (f = 0; f < lines; f++) {
 				double atributo = attrib[f][z];
 				double minimoAtributo = minMaxAttribs[z][0];
