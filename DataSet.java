@@ -336,7 +336,7 @@ public class DataSet {
 				double newValue = (((atributo - minimoAtributo) / (maximoAtributo - minimoAtributo)) * (max - min))+min;
 				
 				if (Double.isNaN(newValue)) {
-					newValue = 0;
+					newValue = min;
 				}
 				
 				attrib[f][z] = newValue;
