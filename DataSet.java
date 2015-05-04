@@ -271,7 +271,7 @@ public class DataSet {
 		// Baseado no slide http://homepages.dcc.ufmg.br/~glpappa/slides/Curso-Parte1.pdf
 		int numAttrib = 64; // FIXME Hardcode number
 		int lines = dataSet.dataSet.size();
-		System.out.println("Tamanho" + lines);
+		//System.out.println("Tamanho" + lines);
 		
 		System.out.println("Merging...");
 		double[][] attrib = new double[lines][numAttrib];
@@ -304,7 +304,7 @@ public class DataSet {
 			}
 			//System.out.println("Min " + minMaxAttribs[z][0] + " Max " + minMaxAttribs[z][1]);
 		}
-		System.out.println("Min " + minMaxAttribs[0][0] + " Max " + minMaxAttribs[0][1]);
+		
 		System.out.println("Calculando min-max item-a-item");
 		int f;
 		int countNan = 0;

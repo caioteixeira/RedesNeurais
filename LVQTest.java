@@ -7,7 +7,6 @@ public class LVQTest {
 		
 		DataSet.normalize(set, 0, 1);
 		
-		
 		//Divide dataSet em tres subconjuntos com 60,20 e 20 por cento dos dados, respectivamente
 		DataSet[] sets = set.divideDataSet();
 		DataSet trainSet = sets[0];
@@ -18,7 +17,7 @@ public class LVQTest {
 		lvq.validate(validateSet);
 		
 		DataSet testSet = sets[2];
-		testSet.printClassDistribution(testSet.classAttributteIndex);
+		//testSet.printClassDistribution(testSet.classAttributteIndex);
 		lvq.test(testSet);
 	}
 }
