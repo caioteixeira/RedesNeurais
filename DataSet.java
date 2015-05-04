@@ -243,6 +243,23 @@ public class DataSet {
 	}
 	
 	/**
+	 * Função para setar vetor do arquivo convertido
+	 */
+	public void nextSet(double[] values)
+	{
+		String newLine = String.valueOf(values[0]);
+		for (int i = 1; i < values.length; i++) {
+			newLine += ("," + String.valueOf(values[i]));
+		}
+		
+		// FIXME attrib classe
+		newLine += ",0";
+		
+		dataSet.set(readIndex, newLine);
+		readIndex++;
+	}
+	
+	/**
 	 * Volta para o inicio do dataset
 	 */
 	public void reset()
@@ -251,7 +268,7 @@ public class DataSet {
 	}
 	
 	public static void normalize(DataSet dataSet, int min, int max) {
-		int numAttrib = 65; // FIXME Hardcode number
+		int numAttrib = 64; // FIXME Hardcode number
 		int lines = dataSet.dataSet.size();
 		System.out.println("Tamanho" + lines);
 		
@@ -260,7 +277,7 @@ public class DataSet {
 		int i = 0;
 		while (dataSet.hasNext()) {
 			double[] line = dataSet.next();
-			for (int j = 0; j < line.length; j++) {
+			for (int j = 0; j < line.length-1; j++) {
 				attrib[i][j] = line[j];
 			}
 			i++;
@@ -269,10 +286,10 @@ public class DataSet {
 		System.out.println("Definindo min-max de cada atributo");
 		double[][] minMaxAttribs = new double[numAttrib][2];
 		int z = 0;
-		minMaxAttribs[z][0] = attrib[0][0];
-		minMaxAttribs[z][1] = attrib[0][0];
 		// Pega min e max de cada atributo
 		for (; z < numAttrib; z++) {
+			minMaxAttribs[z][0] = attrib[z][0];
+			minMaxAttribs[z][1] = attrib[z][0];
 			for (int f = 0; f < lines; f++) {
 				// Define min
 				if (attrib[f][z] < minMaxAttribs[z][0]) {
@@ -284,16 +301,37 @@ public class DataSet {
 					minMaxAttribs[z][1] = attrib[f][z];
 				}
 			}
+			//System.out.println("Min " + minMaxAttribs[z][0] + " Max " + minMaxAttribs[z][1]);
 		}
-		
+		System.out.println("Min " + minMaxAttribs[0][0] + " Max " + minMaxAttribs[0][1]);
 		System.out.println("Calculando min-max item-a-item");
+		int f;
+		int countNan = 0;
 		for (z = 0; z < numAttrib; z++) {
-			for (int f = 0; f < lines; f++) {
-				double newValue = (((attrib[f][z] - minMaxAttribs[z][0]) / (minMaxAttribs[z][1] - minMaxAttribs[z][0])) * (max - min))+min;
+			for (f = 0; f < lines; f++) {
+				double atributo = attrib[f][z];
+				double minimoAtributo = minMaxAttribs[z][0];
+				double maximoAtributo = minMaxAttribs[z][1];
+
+				double newValue = (((atributo - minimoAtributo) / (maximoAtributo - minimoAtributo)) * (max - min))+min;
+				
+				if (Double.isNaN(newValue)) {
+					newValue = 0;
+				}
+				
 				attrib[f][z] = newValue;
 			}
 		}
 		
-		System.out.println("Criando novo dataSet a partir dos dados normalizados...");
+		System.out.println("Alterando dataSet a partir dos dados normalizados...");
+		dataSet.reset();
+		for (i = 0; i < attrib.length; i++) {
+			dataSet.nextSet(attrib[i]);
+		}
+		
+		System.out.println("Salvando DataSet Normalizado...");
+		// TODO Salvar novo dataSet
+		dataSet.reset();
+		dataSet.save("optdigits.norm");
 	}
 }
