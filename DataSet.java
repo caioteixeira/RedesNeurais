@@ -245,15 +245,15 @@ public class DataSet {
 	/**
 	 * Função para setar vetor do arquivo convertido
 	 */
-	public void nextSet(double[] values)
+	public void nextSet(double[] values, int attribClass)
 	{
+		// FIXME POG - concat
 		String newLine = String.valueOf(values[0]);
 		for (int i = 1; i < values.length; i++) {
 			newLine += ("," + String.valueOf(values[i]));
 		}
 		
-		// FIXME attrib classe
-		newLine += ",0";
+		newLine += "," + attribClass;
 		
 		dataSet.set(readIndex, newLine);
 		readIndex++;
@@ -288,11 +288,17 @@ public class DataSet {
 		
 		System.out.println("Merging...");
 		double[][] attrib = new double[lines][ATTRIB_COUNT];
+		
+		int[] classes = new int[lines];
 		int i = 0;
 		while (dataSet.hasNext()) {
 			double[] line = dataSet.next();
-			for (int j = 0; j < line.length-1; j++) {
-				attrib[i][j] = line[j];
+			for (int j = 0; j < line.length; j++) {
+				if (j == line.length-1) {
+					classes[i] = (int) line[j];
+				} else {
+					attrib[i][j] = line[j];
+				}
 			}
 			i++;
 		}
@@ -340,7 +346,7 @@ public class DataSet {
 		System.out.println("Alterando dataSet a partir dos dados normalizados...");
 		dataSet.reset();
 		for (i = 0; i < attrib.length; i++) {
-			dataSet.nextSet(attrib[i]);
+			dataSet.nextSet(attrib[i], classes[i]);
 		}
 		
 		System.out.println("Salvando DataSet Normalizado...");
