@@ -268,6 +268,7 @@ public class DataSet {
 	}
 	
 	public static void normalize(DataSet dataSet, int min, int max) {
+		// Baseado no slide http://homepages.dcc.ufmg.br/~glpappa/slides/Curso-Parte1.pdf
 		int numAttrib = 64; // FIXME Hardcode number
 		int lines = dataSet.dataSet.size();
 		System.out.println("Tamanho" + lines);
