@@ -7,6 +7,9 @@ public class LVQ extends Classifier {
 	private double learnRate;
 	private LVQNeuron[] neurons;
 	
+	public DataSet validateSet;
+	
+	
 	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.MANHATTAN;
 	
 	public LVQ(double learnRate, int neuronsCount)
@@ -25,11 +28,11 @@ public class LVQ extends Classifier {
 		int actualClassIndex = 0;
 		for (int i = 0; i < neurons.length; i++) {
 			// Change class index
-			if (countNeuronsFromClass < DataSet.CLASS_COUNT) {
+			if (countNeuronsFromClass < neuronsCount) {
 				countNeuronsFromClass++;
 			} else {
 				actualClassIndex++;
-				countNeuronsFromClass = 0;
+				countNeuronsFromClass = 1;
 			}
 			
 			neurons[i] = new LVQNeuron(actualClassIndex);
@@ -106,6 +109,8 @@ public class LVQ extends Classifier {
 				A condição deve especificar um número fixo de iterações (i.e.,execução do Passo 1) 
 				ou um valor mínimo para a taxa de aprendizado. 
 			 */
+			
+			System.out.println("validando: " + validate(validateSet));
 		}
 	}
 
@@ -114,29 +119,33 @@ public class LVQ extends Classifier {
 		System.out.println("Validating");
 		
 		double totalError = 0;
-		
+		validateSet.reset();
 		while(validateSet.hasNext())
 		{
-			LVQNeuron selectedNeuron = neurons[0];
-			LVQNeuron neuronDataLine = new LVQNeuron(validateSet.next(), validateSet.classAttributteIndex);
-			
-			double minDistance = Double.MAX_VALUE;
-			double temp;
+			boolean found = false;
+			double minDistance = 0.0;
+			LVQNeuron input = new LVQNeuron(validateSet.next(), validateSet.classAttributteIndex);
 			for (int i = 0; i < neurons.length; i++) {
-				temp = neurons[i].distanceFrom(neuronDataLine);
-				//System.out.println("Temp: " + temp);
-				if (temp < minDistance && neuronDataLine._class == neurons[i]._class) {
-					//System.out.println(minDistance);
-					minDistance = temp;
-					selectedNeuron = neurons[i];
+				if(input._class == neurons[i]._class)
+				{
+					double distance = input.distanceFrom(neurons[i]);
+					if(!found)
+						minDistance = distance;
+					else if(minDistance > distance)
+					{
+						minDistance = distance;
+					}
+					
+					found = true;
 				}
 			}
 			
-			totalError += minDistance;
+			if(found)
+				totalError += minDistance;
+			else
+				System.out.println("Class not found!" + input._class);
 		}
-		
-		System.out.println(totalError);
-		return totalError;
+		return totalError/validateSet.size();
 	}
 
 	@Override

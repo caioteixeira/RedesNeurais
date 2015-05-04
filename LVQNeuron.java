@@ -60,9 +60,9 @@ public class LVQNeuron
 	//Afasta
 	public void diverge(LVQNeuron x, double learnRate)
 	{
-VectorNeural xV = x.vector;
+		VectorNeural xV = x.vector;
 		
-		//Pesos antigos + taxa * (x - pesos antigos)
+		//Pesos antigos - taxa * (x - pesos antigos)
 		this.vector = this.vector.subtract(xV.subtract(this.vector).multiply(learnRate));
 	}
 }

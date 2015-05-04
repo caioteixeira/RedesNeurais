@@ -17,11 +17,13 @@ public class LVQTest {
 		//DataSet[] sets = set.divideDataSet();
 		
 		DataSet trainSet = new DataSet(64, "optdigits.norm.tra");
+		DataSet validateSet = new DataSet(64, "optdigits.norm.val");
 		LVQ lvq = new LVQ(0.001, 2);
+		lvq.validateSet = validateSet;
 		lvq.train(trainSet);
 		
-		DataSet validateSet = new DataSet(64, "optdigits.norm.val");
-		lvq.validate(validateSet);
+		
+		//lvq.validate(validateSet);
 		
 		DataSet testSet = new DataSet(64, "optdigits.norm.tes");
 		//testSet.printClassDistribution(testSet.classAttributteIndex);
