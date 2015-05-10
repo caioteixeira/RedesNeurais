@@ -16,14 +16,11 @@ public class LVQ extends Classifier {
 	{
 		this.learnRate = learnRate;
 		this.neuronsCount = neuronsCount;
-		
-		// PASSO 0 inicializar todos os pesos... K-means ou random
-		initializeNeurons();
 	}
 	
-	private void initializeNeurons() {
+	private void initializeNeurons(DataSet trainSet) {
 		// Initialize Neurons
-		neurons = new LVQNeuron[(DataSet.class_count)*neuronsCount];
+		neurons = new LVQNeuron[(trainSet.class_count)*neuronsCount];
 		int countNeuronsFromClass = 0;
 		int actualClassIndex = 0;
 		for (int i = 0; i < neurons.length; i++) {
@@ -35,13 +32,17 @@ public class LVQ extends Classifier {
 				countNeuronsFromClass = 1;
 			}
 			
-			neurons[i] = new LVQNeuron(actualClassIndex);
+			neurons[i] = new LVQNeuron(actualClassIndex, trainSet.attrib_count);
 		}
 	}
 
 	@Override
 	public void train(DataSet trainSet) {
 		System.out.println("Training");
+		
+		// PASSO 0 inicializar todos os pesos... K-means ou random
+		initializeNeurons(trainSet);
+		
 		
 		/*
 			x – vetor de treinamento (x1, ..., xi, ..., xn)

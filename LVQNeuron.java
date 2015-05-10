@@ -7,9 +7,9 @@ public class LVQNeuron
 	double _class;
 	
 	// Random weights constructor
-	public LVQNeuron(double _class) {
+	public LVQNeuron(double _class, int attrib_count) {
 		Random random = new Random();
-		double[] values = new double[DataSet.attrib_count];
+		double[] values = new double[attrib_count];
 		for (int i = 0; i < values.length; i++) {
 			// Tem que ver se assim ta um random legal
 			values[i] = random.nextDouble();

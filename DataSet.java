@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -12,6 +13,8 @@ public class DataSet {
 	
 	private List<String> dataSet;
 	public int classAttributteIndex;
+	public int class_count = 0;
+	public int attrib_count = 0;
 	
 	private int readIndex = 0;
 	
@@ -31,6 +34,7 @@ public class DataSet {
 		{
 			readDataSetFile(fileName);
 		}
+		calculateNumberOfClasses();
 	}
 	
 	/**
@@ -43,6 +47,7 @@ public class DataSet {
 		dataSet = new LinkedList<String>();
 		this.classAttributteIndex = classAtributteIndex;
 		readDataSetFile(dataSetFile);
+		calculateNumberOfClasses();
 	}
 	
 	/**
@@ -65,6 +70,7 @@ public class DataSet {
 			
 			dataSet.add(a, line);
 		}
+		calculateNumberOfClasses();
 	}
 	
 	/**
@@ -104,14 +110,14 @@ public class DataSet {
 	 * Imprime distribuicao
 	 * @param classAtributteIndex
 	 */
-	public void printClassDistribution(int classAtributteIndex)
+	public void printClassDistribution()
 	{
-		HashMap<Integer, List<String>> map = new HashMap<Integer, List<String>>();
+		HashMap<Double, List<String>> map = new HashMap<Double, List<String>>();
 		
 		for(String dataLine : dataSet)
 		{
 			String[] data = dataLine.split(",");
-			Integer classIn = Integer.parseInt(data[classAtributteIndex]);
+			Double classIn = Double.parseDouble(data[this.classAttributteIndex]);
 			List<String> list = map.get(classIn);
 			if(list == null)
 			{
@@ -122,7 +128,7 @@ public class DataSet {
 			list.add(dataLine);
 		}
 		
-		for(Integer i : map.keySet())
+		for(Double i : map.keySet())
 		{
 			System.out.println(i + " : "+ map.get(i).size());
 		}
@@ -137,11 +143,11 @@ public class DataSet {
 	public DataSet[] divideDataSet()
 	{
 		//Inicializa HashMap para dividir por classe
-		HashMap<Integer, List<String>> map = new HashMap<Integer, List<String>>();
+		HashMap<Double, List<String>> map = new HashMap<Double, List<String>>();
 		for(String dataLine : dataSet)
 		{
 			String[] data = dataLine.split(",");
-			Integer classIn = Integer.parseInt(data[this.classAttributteIndex]);
+			Double classIn = Double.parseDouble(data[this.classAttributteIndex]);
 			List<String> list = map.get(classIn);
 			if(list == null)
 			{
@@ -171,7 +177,7 @@ public class DataSet {
 					break;
 			}
 			
-			for(Integer key : map.keySet())
+			for(Double key : map.keySet())
 			{
 				List<String> mapList = map.get(key);
 				
@@ -203,8 +209,32 @@ public class DataSet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void calculateNumberOfClasses()
+	{
+		this.class_count = 0;
+		List<Double> classes = new ArrayList<Double>();
+		reset();
+		while(hasNext())
+		{
+			double[] line = next();
+			
+			//Inicializacoes
+			if(this.classAttributteIndex == -1)
+			{
+				this.classAttributteIndex = line.length-1;
+			}
+			if(attrib_count == 0)
+				attrib_count = line.length;
+			
+			double _class = line[this.classAttributteIndex];
+			if(!classes.contains(_class))
+				classes.add(_class);
+			
+		}
 		
-		
+		this.class_count = classes.size();
 	}
 	
 	public boolean hasNext()
@@ -277,7 +307,8 @@ public class DataSet {
 	 * @param min
 	 * @param max
 	 */
-	public static void normalize(DataSet dataSet, int attrib_count, int class_count) {
+	public void normalize() {
+		DataSet dataSet = this;
 		// Baseado no slide http://homepages.dcc.ufmg.br/~glpappa/slides/Curso-Parte1.pdf
 		int lines = dataSet.dataSet.size();
 		//System.out.println("Tamanho" + lines);

@@ -4,9 +4,9 @@ public class DataSetTest {
 	public static void main(String[] args) {
 	
 		String[] files = {"datasetcortado"};
-		DataSet set = new DataSet(61, files);
-		set.normalize(set, 0, 1);
-		set.printClassDistribution(61);
+		DataSet set = new DataSet(-1, files);
+		set.normalize();
+		set.printClassDistribution();
 		
 		//Divide dataSet em tres subconjuntos com 60,20 e 20 por cento dos dados, respectivamente
 		DataSet[] sets = set.divideDataSet();
@@ -20,11 +20,11 @@ public class DataSetTest {
 		
 		//Conjuntos
 		System.out.println("Training Set");
-		sets[0].printClassDistribution(64);
+		sets[0].printClassDistribution();
 		System.out.println("Validation Set");
-		sets[1].printClassDistribution(64);
+		sets[1].printClassDistribution();
 		System.out.println("Test Set");
-		sets[2].printClassDistribution(64);
+		sets[2].printClassDistribution();
 		
 		//Imprime conjunto de treinamento
 		/*System.out.println("Printing values of training set");
