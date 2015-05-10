@@ -1,4 +1,3 @@
-package guilherme;
 import java.util.*;
 
 class Neuronio{
@@ -83,78 +82,12 @@ class Principal{
 	}
 
 	public double[] respostaEsperada(double classe, int numNeuronios){
-		double[] resp;  
-		if(numNeuronios = 9){
-			switch(classe){
-				case 0:
-					resp = {1,0,0,0,0,0,0,0,0,0};
-					break;
-				case 1:
-					resp = {0,1,0,0,0,0,0,0,0,0};
-					break;
-				case 2:
-					resp = {0,0,1,0,0,0,0,0,0,0};
-					break;
-				case 3:
-					resp = {0,0,0,1,0,0,0,0,0,0};
-					break;
-				case 4:
-					resp = {0,0,0,0,1,0,0,0,0,0};
-					break;
-				case 5:
-					resp = {0,0,0,0,0,1,0,0,0,0};
-					break;
-				case 6:
-					resp = {0,0,0,0,0,0,1,0,0,0};
-					break;
-				case 7:
-					resp = {0,0,0,0,0,0,0,1,0,0};
-					break;
-				case 8:
-					resp = {0,0,0,0,0,0,0,0,1,0};
-					break;
-				case 9:
-					resp = {0,0,0,0,0,0,0,0,0,1};
-					break;
-
-			}
-		}
-		else if(numNeuronios = 4){
-			switch(classe){
-				case 0:
-					resp = {0,0,0,0};
-					break;
-				case 1:
-					resp = {0,0,0,1};
-					break;
-				case 2:
-					resp = {0,0,1,0};
-					break;
-				case 3:
-					resp = {0,0,1,1};
-					break;
-				case 4:
-					resp = {0,1,0,0};
-					break;
-				case 5:
-					resp = {0,1,0,1};
-					break;
-				case 6:
-					resp = {0,1,1,0};
-					break;
-				case 7:
-					resp = {0,1,1,1};
-					break;
-				case 8:
-					resp = {1,0,0,0};
-					break;
-				case 9:
-					resp = {1,0,0,1};
-					break;
+		double[] resp = new double[numNeuronios];  
+		for(int i = 0;i < numNeuronios;i++){
+			if(i == classe) resp[i] = 1;
+			else resp[i] = 0;
 
 		}
-
-		else resp = null;
 
 		return resp;
 
@@ -202,9 +135,9 @@ class Principal{
 			double erroDelta = soma*oculta.derivada(neuronio.valor); 
 			neuronio.erroDelta = erroDelta;
 			
-			for(int i = 0; i < listNeuronioEntrada;i++){
-				Neuronio neuronioEntrada = listNeuronioEntrada.get(i);
-				neuronioEntrada.erroPeso.add(erroDelta*taxaDeAprendizagem*neuronioEntrada.saida)
+			for(int l = 0; l < listNeuronioEntrada.size();l++){
+				Neuronio neuronioEntrada = listNeuronioEntrada.get(l);
+				neuronioEntrada.erroPeso.add(erroDelta*taxaDeAprendizagem*neuronioEntrada.saida);
 
 			}
 			if(neuronio.temBias) neuronio.erroBias = taxaDeAprendizagem*erroDelta;
@@ -230,7 +163,7 @@ class Principal{
 					Neuronio calc = itEntrada.next();
 					aux.valor += calc.saida * calc.pesos.get(j); 
 				}
-				if(aux.temBias) aux.valor += bias; //ADRIANO E ASSIM A SOMA DO BIAS?????
+				if(aux.temBias) aux.valor += aux.bias; //ADRIANO E ASSIM A SOMA DO BIAS?????
 				aux.saida = saida.ativ(aux.valor); //calcula o valor de saida apos a funcao de ativacao
 				j++;
 			}
@@ -266,32 +199,31 @@ class Principal{
 
 	}	
 
-	public void train(Dataset dados){
+	public void train(DataSet dados){
 		System.out.println("Treinamento");
 		while(dados.hasNext()){
 			double[] atributos = dados.next();
 			Layer entrada = this.layers.get(0);
 			for(int i = 0; i < entrada.neuronios.size();i++){
-				entrada.neuronio.get(i).valor = atributos[i];
-				entrada.neuronio.get(i).saida = atributos[i];
+				entrada.neuronios.get(i).valor = atributos[i];
+				entrada.neuronios.get(i).saida = atributos[i];
 				
 			}
 			feedForward();
-			double classe = atributos[classAtributteIndex];
-			double[] resp = respostaEsperada(classe,layers.get(layer.size()-1).neuronios.size());
+			double classe = atributos[dados.classAttributteIndex];
+			double[] resp = respostaEsperada(classe,layers.get(layers.size()-1).neuronios.size());
 			calculaErro(resp);
 			for(int i = this.layers.size()-2;i > 0;i--){
 				calcularErroCamadaOculta(i);
 
 			}
 			update();
-			epoca++;
 		}
 
 	}
 
-	public double validate(Dataset dados){
-		System.out.println("Validacao")
+	public double validate(DataSet dados){
+		System.out.println("Validacao");
 		double erro = 0;
 		int numDados = 0;
 		while(dados.hasNext()){
@@ -299,15 +231,16 @@ class Principal{
 			double[] atributos = dados.next();
 			Layer entrada = this.layers.get(0);
 			for(int i = 0; i < entrada.neuronios.size();i++){
-				entrada.neuronio.get(i).valor = atributos[i];
-				entrada.neuronio.get(i).saida = atributos[i];
+				entrada.neuronios.get(i).valor = atributos[i];
+				entrada.neuronios.get(i).saida = atributos[i];
 				
 			}
 			feedForward();
-			double[] resp = respostaEsperada(classe,layers.get(layer.size()-1).neuronios.size());
-			Layer saida = layers.get(layer.size()-1);
+			double classe = atributos[dados.classAttributteIndex];
+			double[] resp = respostaEsperada(classe,layers.get(layers.size()-1).neuronios.size());
+			Layer saida = layers.get(layers.size()-1);
 			for(int i = 0; i < saida.neuronios.size(); i++){
-				erro += Math.pow(resp[i] - saida.neuronios(i),2); 
+				erro += Math.pow((resp[i] - saida.neuronios.get(i).saida),2); 
 
 			}			
 
@@ -317,14 +250,14 @@ class Principal{
 
 	}
 
-	public void test(Dataset dados){
+	public void test(DataSet dados){
 		System.out.println("Teste");
 		while(dados.hasNext()){
 			double[] atributos = dados.next();
 			Layer entrada = layers.get(0);
 			for(int i = 0; i < entrada.neuronios.size();i++){
-				entrada.neuronio.get(i).valor = atributos[i];
-				entrada.neuronio.get(i).saida = atributos[i];
+				entrada.neuronios.get(i).valor = atributos[i];
+				entrada.neuronios.get(i).saida = atributos[i];
 
 			}
 			feedForward();
