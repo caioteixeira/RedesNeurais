@@ -23,7 +23,7 @@ public class LVQ extends Classifier {
 	
 	private void initializeNeurons() {
 		// Initialize Neurons
-		neurons = new LVQNeuron[(DataSet.CLASS_COUNT)*neuronsCount];
+		neurons = new LVQNeuron[(DataSet.class_count)*neuronsCount];
 		int countNeuronsFromClass = 0;
 		int actualClassIndex = 0;
 		for (int i = 0; i < neurons.length; i++) {
@@ -110,7 +110,8 @@ public class LVQ extends Classifier {
 				ou um valor mínimo para a taxa de aprendizado. 
 			 */
 			
-			System.out.println("validando: " + validate(validateSet));
+			if(EpochsCounter % 10 == 0)
+				System.out.println("validando: " + validate(validateSet));
 		}
 	}
 

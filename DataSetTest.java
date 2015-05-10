@@ -3,12 +3,20 @@ public class DataSetTest {
 
 	public static void main(String[] args) {
 	
-		String[] files = {"optdigits.tes", "optdigits.tra"};
-		DataSet set = new DataSet(64, files);
-		set.printClassDistribution(64);
+		String[] files = {"datasetcortado"};
+		DataSet set = new DataSet(61, files);
+		set.normalize(set, 0, 1);
+		set.printClassDistribution(61);
 		
 		//Divide dataSet em tres subconjuntos com 60,20 e 20 por cento dos dados, respectivamente
 		DataSet[] sets = set.divideDataSet();
+		DataSet trainSet = sets[0];
+		DataSet testSet = sets[2];
+		DataSet validateSet = sets[1];
+		
+		testSet.save("optdigits.norm.cortado.tes");
+		trainSet.save("optdigits.norm.cortado.tra");
+		validateSet.save("optdigits.norm.cortado.val");
 		
 		//Conjuntos
 		System.out.println("Training Set");

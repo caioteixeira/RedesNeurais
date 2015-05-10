@@ -15,11 +15,7 @@ public class DataSet {
 	
 	private int readIndex = 0;
 	
-	// FIXME - Pre Carregamento TODO
-	public static final int ATTRIB_COUNT = 64;
 	
-	// Classificar entre 10 classes
-	public static final int CLASS_COUNT = 10;
 	
 	/** 
 	 * Carrega DataSet de arquivos
@@ -281,13 +277,16 @@ public class DataSet {
 	 * @param min
 	 * @param max
 	 */
-	public static void normalize(DataSet dataSet, int min, int max) {
+	public static void normalize(DataSet dataSet, int attrib_count, int class_count) {
 		// Baseado no slide http://homepages.dcc.ufmg.br/~glpappa/slides/Curso-Parte1.pdf
 		int lines = dataSet.dataSet.size();
 		//System.out.println("Tamanho" + lines);
 		
+		int min = 0;
+		int max = 1;
+		
 		System.out.println("Merging...");
-		double[][] attrib = new double[lines][ATTRIB_COUNT];
+		double[][] attrib = new double[lines][attrib_count];
 		
 		int[] classes = new int[lines];
 		int i = 0;
@@ -304,10 +303,10 @@ public class DataSet {
 		}
 		
 		System.out.println("Definindo min-max de cada atributo");
-		double[][] minMaxAttribs = new double[ATTRIB_COUNT][2];
+		double[][] minMaxAttribs = new double[attrib_count][2];
 		int z = 0;
 		// Pega min e max de cada atributo
-		for (; z < ATTRIB_COUNT; z++) {
+		for (; z < attrib_count; z++) {
 			minMaxAttribs[z][0] = attrib[z][0];
 			minMaxAttribs[z][1] = attrib[z][0];
 			for (int f = 0; f < lines; f++) {
@@ -327,7 +326,7 @@ public class DataSet {
 		System.out.println("Calculando min-max item-a-item");
 		int f;
 		int countNan = 0;
-		for (z = 0; z < ATTRIB_COUNT; z++) {
+		for (z = 0; z < attrib_count; z++) {
 			for (f = 0; f < lines; f++) {
 				double atributo = attrib[f][z];
 				double minimoAtributo = minMaxAttribs[z][0];
