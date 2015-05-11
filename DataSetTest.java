@@ -3,7 +3,7 @@ public class DataSetTest {
 
 	public static void main(String[] args) {
 	
-		String[] files = {"datasetcortado"};
+		String[] files = {"optdigits.cortado"};
 		DataSet set = new DataSet(-1, files);
 		set.normalize();
 		set.printClassDistribution();

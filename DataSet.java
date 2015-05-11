@@ -68,6 +68,16 @@ public class DataSet {
 			//Garante que DataSet seja carregado em mem�ria em ordem aleat�ria
 			int a = s > 1? r.nextInt(s): 0;
 			
+			
+			//Define attrib_count
+			String[] attributes = line.split(",");
+			if(attrib_count == 0)
+				attrib_count = attributes.length-1;
+			if(attrib_count != attributes.length-1)
+			{
+				System.out.println("Numero de atributos incompativel!");
+			}
+			
 			dataSet.add(a, line);
 		}
 		calculateNumberOfClasses();
@@ -89,6 +99,16 @@ public class DataSet {
 			while(sc.hasNext())
 			{
 				String line = sc.nextLine();
+				
+				//Define attrib_count
+				String[] attributes = line.split(",");
+				if(attrib_count == 0)
+					attrib_count = attributes.length-1;
+				if(attrib_count != attributes.length-1)
+				{
+					System.out.println("Numero de atributos incompativel!");
+				}
+				
 				Random r = new Random();
 				int s = dataSet.size();
 				
@@ -225,8 +245,6 @@ public class DataSet {
 			{
 				this.classAttributteIndex = line.length-1;
 			}
-			if(attrib_count == 0)
-				attrib_count = line.length;
 			
 			double _class = line[this.classAttributteIndex];
 			if(!classes.contains(_class))
@@ -235,6 +253,7 @@ public class DataSet {
 		}
 		
 		this.class_count = classes.size();
+		this.reset();
 	}
 	
 	public boolean hasNext()
@@ -309,6 +328,7 @@ public class DataSet {
 	 */
 	public void normalize() {
 		DataSet dataSet = this;
+		this.reset();
 		// Baseado no slide http://homepages.dcc.ufmg.br/~glpappa/slides/Curso-Parte1.pdf
 		int lines = dataSet.dataSet.size();
 		//System.out.println("Tamanho" + lines);
@@ -317,7 +337,7 @@ public class DataSet {
 		int max = 1;
 		
 		System.out.println("Merging...");
-		double[][] attrib = new double[lines][attrib_count];
+		double[][] attrib = new double[lines][attrib_count]; //Desconsidera classe como atributo
 		
 		int[] classes = new int[lines];
 		int i = 0;
@@ -329,6 +349,7 @@ public class DataSet {
 				} else {
 					attrib[i][j] = line[j];
 				}
+				
 			}
 			i++;
 		}
