@@ -14,7 +14,7 @@ public class LVQTest {
 		
 		//DataSet trainSet = new DataSet(64, "optdigits.norm.tra");
 		//DataSet validateSet = new DataSet(64, "optdigits.norm.val");
-		LVQ lvq = new LVQ(0.001, 2, LVQ.LVQIniMethod.Random);
+		LVQ lvq = new LVQ(0.001, 2, LVQ.LVQIniMethod.FirstValues);
 		lvq.validateSet = validateSet;
 		lvq.train(trainSet);
 		

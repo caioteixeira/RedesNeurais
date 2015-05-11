@@ -91,13 +91,11 @@ public class LVQ extends Classifier {
 			║ x – wj ║ - distância Euclidiana entre o vetor de entrada e (vetor de pesos para) o j-ésimo vetor de saída.
 			J - uma unidade de saída
 		*/
-
-		// WORK IN PROGRESS...
-		int stopCondition = 100; // TODO: Assim? Zero?
 		
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
 		int EpochsCounter = 0;
 		double actualLearnRate = learnRate;
+		double reductionRate = 150;
 		
 		//Erros
 		double actualError = validate(validateSet);
@@ -112,7 +110,7 @@ public class LVQ extends Classifier {
 				break;
 			}
 			
-			System.out.println("Epoca: " + EpochsCounter +" Taxa de aprendizado em: " + actualLearnRate + " - parar em " + stopCondition);
+			System.out.println("Epoca: " + EpochsCounter +" Taxa de aprendizado em: " + actualLearnRate);
 			//2- Para cada vetor de entrada de treinamento, executar os passos 3-4
 			while (trainSet.hasNext()) {
 				//System.out.println("Treinando linha " + line + " do DataSet");
@@ -153,7 +151,8 @@ public class LVQ extends Classifier {
 			
 			// 5 - Reduza a taxa de aprendizado (?) como?
 			//Reduz linearmente
-			actualLearnRate = learnRate * ((double)(stopCondition - EpochsCounter)/(double)stopCondition);
+			//actualLearnRate = learnRate * ((double)(stopCondition - EpochsCounter)/(double)stopCondition);
+			actualLearnRate = learnRate * Math.pow(Math.E, -1 * (Math.E/reductionRate));
 			
 			EpochsCounter++;
 			/* 6
