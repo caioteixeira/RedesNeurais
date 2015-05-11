@@ -209,9 +209,7 @@ public class LVQ extends Classifier {
 	@Override
 	public void test(DataSet testSet) {
 		System.out.println("Testing");
-		System.out.println("Quantidade de testes: " + testSet.size());
-		int acertos = 0;
-		int erros = 0;
+		TestData test = new TestData(testSet.class_count);
 		//testSet.printClassDistribution(testSet.classAttributteIndex);
 		while (testSet.hasNext()) {
 			LVQNeuron selectedNeuron = neurons[0];
@@ -227,11 +225,9 @@ public class LVQ extends Classifier {
 				}
 			}
 			
-			if (selectedNeuron._class == neuronDataLine._class) acertos++;
-			else erros++;
+			test.test(selectedNeuron._class , neuronDataLine._class);
 		}
 		
-		System.out.println("Acertou: " + acertos);
-		System.out.println("Errou: " + erros);
+		test.printResults();
 	}
 }
