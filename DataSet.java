@@ -66,7 +66,7 @@ public class DataSet {
 			int s = dataSet.size();
 			
 			//Garante que DataSet seja carregado em mem�ria em ordem aleat�ria
-			int a = s > 1? r.nextInt(s): 0;
+			//int a = s > 1? r.nextInt(s): 0;
 			
 			
 			//Define attrib_count
@@ -78,7 +78,7 @@ public class DataSet {
 				System.out.println("Numero de atributos incompativel!");
 			}
 			
-			dataSet.add(a, line);
+			dataSet.add(line);
 		}
 		calculateNumberOfClasses();
 	}
@@ -113,9 +113,9 @@ public class DataSet {
 				int s = dataSet.size();
 				
 				//Garante que DataSet seja carregado em mem�ria em ordem aleat�ria
-				int a = s > 1? r.nextInt(s): 0;
+				//int a = s > 1? r.nextInt(s): 0;
 				
-				dataSet.add(a, line);
+				dataSet.add(line);
 			}
 			
 			sc.close();

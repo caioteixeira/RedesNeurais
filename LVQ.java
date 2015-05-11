@@ -1,6 +1,12 @@
-public class LVQ extends Classifier {
-	int neuronsCount;
 
+public class LVQ extends Classifier {
+	public enum LVQIniMethod
+	{
+		Random,
+		FirstValues
+	}
+
+	int neuronsCount;
 	int i = 65; //Class Index
 	VectorNeural[] inputNeurons;
 	VectorNeural[] outputNeurons;
@@ -9,17 +15,19 @@ public class LVQ extends Classifier {
 	
 	public DataSet validateSet;
 	
+	private LVQIniMethod iniMethod = LVQIniMethod.FirstValues;
 	
 	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.MANHATTAN;
 	
-	public LVQ(double learnRate, int neuronsCount)
+	public LVQ(double learnRate, int neuronsCount, LVQIniMethod iniMethod)
 	{
 		this.learnRate = learnRate;
 		this.neuronsCount = neuronsCount;
+		this.iniMethod = iniMethod;
 	}
 	
 	private void initializeNeurons(DataSet trainSet) {
-		// Initialize Neurons
+		// Inicializa em posicoes randomicas
 		neurons = new LVQNeuron[(trainSet.class_count)*neuronsCount];
 		int countNeuronsFromClass = 0;
 		int actualClassIndex = 0;
@@ -34,6 +42,37 @@ public class LVQ extends Classifier {
 			
 			neurons[i] = new LVQNeuron(actualClassIndex, trainSet.attrib_count);
 		}
+		
+		//Se for First Values, procura os primeiros valores de cada classe
+		if(iniMethod == LVQIniMethod.FirstValues)
+		{
+			trainSet.reset();
+			for(int i = 0; i < neurons.length; i++)
+			{
+				LVQNeuron neuron = neurons[i];
+				
+				//Se for um neuronio de classe diferente do anterior, volta a contar do inicio
+				if(i-1 > -1)
+				{
+					if(neuron._class != neurons[i-1]._class)
+					{
+						trainSet.reset();
+					}
+				}
+				
+				//Posiciona neuronio na posicao da primeira entrada encontrada
+				while(trainSet.hasNext())
+				{
+					LVQNeuron in = new LVQNeuron(trainSet.next(), trainSet.classAttributteIndex);
+					if(in._class == neuron._class)
+					{
+						neuron.vector = in.vector;
+						break;
+					}
+				}
+			}
+		}
+		
 	}
 
 	@Override
@@ -54,13 +93,25 @@ public class LVQ extends Classifier {
 		*/
 
 		// WORK IN PROGRESS...
-		int stopCondition = 50; // TODO: Assim? Zero?
+		int stopCondition = 100; // TODO: Assim? Zero?
 		
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
 		int EpochsCounter = 0;
 		double actualLearnRate = learnRate;
-		while (EpochsCounter < stopCondition && actualLearnRate > 0.0) {
-
+		
+		//Erros
+		double actualError = validate(validateSet);
+		double lastError = actualError;
+		System.out.println("Erro inicial (pos-inicializacao): " + actualError);
+		
+		while (actualError <= lastError) {
+			
+			if(actualLearnRate <= 0.0)
+			{
+				System.out.print("TAXA MENOR QUE ZERO!");
+				break;
+			}
+			
 			System.out.println("Epoca: " + EpochsCounter +" Taxa de aprendizado em: " + actualLearnRate + " - parar em " + stopCondition);
 			//2- Para cada vetor de entrada de treinamento, executar os passos 3-4
 			while (trainSet.hasNext()) {
@@ -111,8 +162,14 @@ public class LVQ extends Classifier {
 				ou um valor mínimo para a taxa de aprendizado. 
 			 */
 			
+			//Atualiza os erros (a cada 10 epocas)
 			if(EpochsCounter % 10 == 0)
-				System.out.println("validando: " + validate(validateSet));
+			{
+				lastError = actualError;
+				actualError = validate(validateSet);
+				System.out.println("validando: " + actualError);
+			}
+				
 		}
 	}
 
