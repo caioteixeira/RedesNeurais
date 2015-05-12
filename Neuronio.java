@@ -4,7 +4,7 @@ class Neuronio{
 	
 	//ARMAZENA AQUELA PARTE DA ENTRADA QUE ELE MULTIPLICA PESO E PASSA PARA A FUNCAO DE ATIVACAO
 	double valor;
-	List <Double> pesos;
+	List<Double> pesos;
 	//ARMAZENA O RESULTADO DA FUNCAO DE ATIVACAO
 	double saida;
 	//ARMAZENA A DIFERENCA PARA FACILITAR CODIGO. novoPeso = erroPeso.get(i)+pesos.get(i)
@@ -20,22 +20,23 @@ class Neuronio{
 
 	
 	public Neuronio(int numSinapse, boolean bias){
+		this.pesos = new ArrayList<Double>();
+		this.erroPeso = new ArrayList<Double>();
 		for(int i = 0; i < numSinapse; i++){
 			pesos.add(-0.5 + Math.random());
 
 		}
 
 		temBias = bias;
-		this.pesos = new ArrayList<Double>();
-		this.erroPeso = new ArrayList<Double>();
+		
 	} 
 }
 
 class Layer{
 	List<Neuronio> neuronios;
-	List<Double> bias;
+	//List<Double> bias;
 	public Layer(int nNos, int numSinapse, boolean bias){
-		this.bias = new LinkedList<Double>();
+		neuronios = new ArrayList<Neuronio>();
 		for(int i = 0; i < nNos; i++){
 			neuronios.add(new Neuronio(numSinapse,bias));
 		}
@@ -63,10 +64,15 @@ class Principal{
 	List<Layer> layers;
 	public double taxaDeAprendizagem;
 	public int nHidden;
+	int erros;
+	int acertos;
 
 
 	public Principal(int nHidden, int nosEntrada, int nosSaida, int nosHidden, boolean bias){
+		this.erros = 0;
+		this.acertos = 0;
 		this.nHidden = nHidden;
+		this.taxaDeAprendizagem = 0.5;
 		layers = new ArrayList<Layer>();
 		layers.add(new Layer(nosEntrada,nosHidden,bias)); //cria camada de entrada
 		
@@ -98,14 +104,14 @@ class Principal{
 	//faz a diferenca entre a camada de saida e a resposta esperada
 	public void calculaErro(double [] respostaEsperada){
 		Layer saida = layers.get(layers.size()-1);
-		
+		double erro = 0;
 		List<Neuronio> neuronios = saida.neuronios;
 		for(int i = 0; i < neuronios.size(); i++){
 			Neuronio neuronio = neuronios.get(i);
 			//verificar com o guilherme se o neuronio.valor é a mesma coisa q o somatório dos pesos.
 			double erroDelta = (respostaEsperada[i] - neuronio.saida)*saida.derivada(neuronio.valor);
 			neuronio.erroDelta = erroDelta;
-						
+			erro += Math.abs(erroDelta);
 			Layer oculta = layers.get(layers.size()-2);
 			List<Neuronio> listNeuronioOculto = oculta.neuronios;
 			for(int j = 0; j < listNeuronioOculto.size(); j++){
@@ -114,7 +120,8 @@ class Principal{
 			}
 			if(neuronio.temBias) neuronio.erroBias = taxaDeAprendizagem*erroDelta;
 			
-		}	
+		}
+		System.out.println("Erro: "+erro);
 	}
 	
 	//PARA CADA CAMDA OCULTA SOMAR OS DELTAS DA CAMADA ACIMA
@@ -200,15 +207,17 @@ class Principal{
 	}	
 
 	public void train(DataSet dados){
-		System.out.println("Treinamento");
+		//System.out.println("Treinamento");
 		while(dados.hasNext()){
 			double[] atributos = dados.next();
 			Layer entrada = this.layers.get(0);
 			for(int i = 0; i < entrada.neuronios.size();i++){
 				entrada.neuronios.get(i).valor = atributos[i];
 				entrada.neuronios.get(i).saida = atributos[i];
-				
+				//System.out.println(entrada.neuronios.get(i).saida);
+
 			}
+			//System.out.println("FIm");
 			feedForward();
 			double classe = atributos[dados.classAttributteIndex];
 			double[] resp = respostaEsperada(classe,layers.get(layers.size()-1).neuronios.size());
@@ -223,7 +232,7 @@ class Principal{
 	}
 
 	public double validate(DataSet dados){
-		System.out.println("Validacao");
+		//System.out.println("Validacao");
 		double erro = 0;
 		int numDados = 0;
 		while(dados.hasNext()){
@@ -251,7 +260,7 @@ class Principal{
 	}
 
 	public void test(DataSet dados){
-		System.out.println("Teste");
+		//System.out.println("Teste");
 		while(dados.hasNext()){
 			double[] atributos = dados.next();
 			Layer entrada = layers.get(0);
@@ -261,8 +270,25 @@ class Principal{
 
 			}
 			feedForward();
+			double classe = atributos[dados.classAttributteIndex];
+			//System.out.println(classe);
+			double[] resp = respostaEsperada(classe,layers.get(layers.size()-1).neuronios.size());
+			Layer saida = layers.get(layers.size()-1);
+			double erro = 0;
+			for(int i = 0; i < saida.neuronios.size(); i++){
+				erro += Math.pow((resp[i] - saida.neuronios.get(i).saida),2);
+				//System.out.print("Resposta: " +saida.neuronios.get(i).saida + " " +"Esperado: " +resp[i] + " " +"Erro: " +erro);
+				//System.out.println("");
 
+
+			}
+
+			if(erro <= 0.5) acertos++;
+			else erros++;
+			//System.out.println("FimS");
 		}
+		System.out.println("Acertos: " +acertos);
+		System.out.println("Erros: " +erros);
 
 	} 
 }
