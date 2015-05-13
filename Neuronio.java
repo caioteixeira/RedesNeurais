@@ -89,9 +89,53 @@ class Principal{
 	}
 
 	public double[] respostaEsperada(double classe, int numNeuronios){
-		double[] resp = new double[numNeuronios];  
+		double[] resp = new double[numNeuronios];
+		for(int i = 0;i < numNeuronios;i++){
+			resp[i] = 0;
+		}
 		//if(classe == 0) classe=-1;
-		resp[0] = classe;
+		int trunca = (int)classe;
+		//System.out.println(trunca);
+		switch(trunca){
+		case 1:
+			resp[0] = 1;
+			break;
+		case 2:
+			resp[1] = 1;
+			break;
+		case 3:
+			resp[0] = 1;
+			resp[1] = 1;
+			break;			
+		case 4:
+			resp[2] = 1;
+			break;
+		case 5:
+			resp[0] = 1;
+			resp[2] = 1;
+			break;
+		case 6:
+			resp[1] = 1;
+			resp[2] = 1;
+			break;
+		case 7:
+			resp[0] = 1;
+			resp[1] = 1;
+			resp[2] = 1;
+			break;
+		case 8:
+			resp[3] = 1;
+			break;
+		case 9:
+			resp[0] = 1;
+			resp[3] = 1;
+			break;
+		default:
+				for(int i = 0;i < resp.length;i++){
+					resp[i] = 0;
+				}
+					
+		}
 		//else resp[0] = 1;
 		return resp;
 
@@ -100,7 +144,7 @@ class Principal{
 	
 	
 	//faz a diferenca entre a camada de saida e a resposta esperada
-	public void calculaErro(double [] respostaEsperada){
+	public double calculaErro(double [] respostaEsperada){
 		Layer saida = layers.get(layers.size()-1);
 		double erro = 0;
 		List<Neuronio> neuronios = saida.neuronios;
@@ -110,6 +154,8 @@ class Principal{
 			double erroDelta = (respostaEsperada[i] - neuronio.saida)*saida.derivada(neuronio.valor);
 			neuronio.erroDelta = erroDelta;
 			erro += Math.abs(respostaEsperada[i] - neuronio.saida);
+			System.out.print("Resposta: "+neuronio.saida+" Esperado: "+respostaEsperada[i]);
+			System.out.println("");
 			Layer oculta = layers.get(layers.size()-2);
 			List<Neuronio> listNeuronioOculto = oculta.neuronios;
 			for(int j = 0; j < listNeuronioOculto.size(); j++){
@@ -120,6 +166,7 @@ class Principal{
 			
 		}
 		System.out.println("Erro: "+erro);
+		return erro;
 	}
 	
 	//PARA CADA CAMDA OCULTA SOMAR OS DELTAS DA CAMADA ACIMA
@@ -220,7 +267,9 @@ class Principal{
 			//System.out.println("FIm");
 			feedForward();
 			double classe = atributos[dados.classAttributteIndex];
+			System.out.println("Classe: "+classe);
 			double[] resp = respostaEsperada(classe,layers.get(layers.size()-1).neuronios.size());
+			
 			calculaErro(resp);
 			for(int i = this.layers.size()-2;i > 0;i--){
 				calcularErroCamadaOculta(i);
@@ -271,12 +320,12 @@ class Principal{
 			}
 			feedForward();
 			double classe = atributos[dados.classAttributteIndex];
-			//System.out.println(classe);
+			System.out.println(classe);
 			double[] resp = respostaEsperada(classe,layers.get(layers.size()-1).neuronios.size());
 			Layer saida = layers.get(layers.size()-1);
 			double erro = 0;
 			for(int i = 0; i < saida.neuronios.size(); i++){
-				erro += Math.pow((resp[i] - saida.neuronios.get(i).saida),2);
+				erro += Math.abs(resp[i] - saida.neuronios.get(i).saida);
 				System.out.print("Resposta: " +saida.neuronios.get(i).saida + " " +"Esperado: " +resp[i] + " " +"Erro: " +erro);
 				System.out.println("");
 
