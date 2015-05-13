@@ -23,11 +23,12 @@ class Neuronio{
 		this.pesos = new ArrayList<Double>();
 		this.erroPeso = new ArrayList<Double>();
 		for(int i = 0; i < numSinapse; i++){
-			pesos.add(-0.5 + Math.random());
+			pesos.add(0.1);
 
 		}
 
 		temBias = bias;
+		this.bias = -0.5+Math.random();
 		
 	} 
 }
@@ -89,12 +90,9 @@ class Principal{
 
 	public double[] respostaEsperada(double classe, int numNeuronios){
 		double[] resp = new double[numNeuronios];  
-		for(int i = 0;i < numNeuronios;i++){
-			if(i == classe) resp[i] = 1;
-			else resp[i] = 0;
-
-		}
-
+		//if(classe == 0) classe=-1;
+		resp[0] = classe;
+		//else resp[0] = 1;
 		return resp;
 
 	} 
@@ -111,7 +109,7 @@ class Principal{
 			//verificar com o guilherme se o neuronio.valor é a mesma coisa q o somatório dos pesos.
 			double erroDelta = (respostaEsperada[i] - neuronio.saida)*saida.derivada(neuronio.valor);
 			neuronio.erroDelta = erroDelta;
-			erro += Math.abs(erroDelta);
+			erro += Math.abs(respostaEsperada[i] - neuronio.saida);
 			Layer oculta = layers.get(layers.size()-2);
 			List<Neuronio> listNeuronioOculto = oculta.neuronios;
 			for(int j = 0; j < listNeuronioOculto.size(); j++){
@@ -199,6 +197,8 @@ class Principal{
 			List<Neuronio> neuronio = nivel.neuronios;
 			for(Neuronio apaga : neuronio){
 				apaga.erroPeso.clear();
+				apaga.valor = 0;
+				apaga.saida = 0;
 
 			}			
 
@@ -277,15 +277,15 @@ class Principal{
 			double erro = 0;
 			for(int i = 0; i < saida.neuronios.size(); i++){
 				erro += Math.pow((resp[i] - saida.neuronios.get(i).saida),2);
-				//System.out.print("Resposta: " +saida.neuronios.get(i).saida + " " +"Esperado: " +resp[i] + " " +"Erro: " +erro);
-				//System.out.println("");
+				System.out.print("Resposta: " +saida.neuronios.get(i).saida + " " +"Esperado: " +resp[i] + " " +"Erro: " +erro);
+				System.out.println("");
 
 
 			}
 
 			if(erro <= 0.5) acertos++;
 			else erros++;
-			//System.out.println("FimS");
+			System.out.println("----------------------------------------------------------------");
 		}
 		System.out.println("Acertos: " +acertos);
 		System.out.println("Erros: " +erros);

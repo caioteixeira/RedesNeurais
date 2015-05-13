@@ -8,8 +8,9 @@ class MLPTest{
 		DataSet validateSet = new DataSet(-1, "xor.val");
 		validateSet.printClassDistribution();
 		
-		Principal p = new Principal(1,2,2,1,false);
-		for(int i = 0; i < 500;i++){
+		Principal p = new Principal(1,2,1,2,false);
+		for(int i = 0; i < 10;i++){
+			//System.out.println(i);
 			p.train(trainSet);
 		}
 		p.test(testSet);
