@@ -61,7 +61,7 @@ class Layer{
 	
 }
 
-class Principal{
+class Principal extends Classifier{
 	List<Layer> layers;
 	public double taxaDeAprendizagem;
 	public int nHidden;
@@ -253,10 +253,11 @@ class Principal{
 
 	}	
 
-	public void train(DataSet dados){
+	@Override
+	public void train(DataSet trainSet, DataSet validateSet){
 		//System.out.println("Treinamento");
-		while(dados.hasNext()){
-			double[] atributos = dados.next();
+		while(trainSet.hasNext()){
+			double[] atributos = trainSet.next();
 			Layer entrada = this.layers.get(0);
 			for(int i = 0; i < entrada.neuronios.size();i++){
 				entrada.neuronios.get(i).valor = atributos[i];
@@ -266,7 +267,7 @@ class Principal{
 			}
 			//System.out.println("FIm");
 			feedForward();
-			double classe = atributos[dados.classAttributteIndex];
+			double classe = atributos[trainSet.classAttributteIndex];
 			System.out.println("Classe: "+classe);
 			double[] resp = respostaEsperada(classe,layers.get(layers.size()-1).neuronios.size());
 			
@@ -339,5 +340,5 @@ class Principal{
 		System.out.println("Acertos: " +acertos);
 		System.out.println("Erros: " +erros);
 
-	} 
+	}
 }

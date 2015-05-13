@@ -11,7 +11,7 @@ class MLPTest{
 		Principal p = new Principal(1,61,4,40,false);
 		for(int i = 0; i < 1000;i++){
 			System.out.println(i);
-			p.train(trainSet);
+			p.train(trainSet, validateSet);
 			trainSet.reset();
 		}
 		p.test(testSet);
