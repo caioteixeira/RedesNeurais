@@ -95,14 +95,14 @@ public class LVQ extends Classifier {
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
 		int EpochsCounter = 0;
 		double actualLearnRate = learnRate;
-		double reductionRate = 500;
+		double reductionRate = 30;
 		
 		//Erros
 		double actualError = validate(validateSet);
 		double lastError = actualError;
 		System.out.println("Erro inicial (pos-inicializacao): " + actualError);
 		
-		while (/*actualError <= lastError*/ EpochsCounter < 300) {
+		while (actualError <= lastError /*&& EpochsCounter < 1000*/) {
 			
 			if(actualLearnRate <= 0.0)
 			{
@@ -152,7 +152,7 @@ public class LVQ extends Classifier {
 			// 5 - Reduza a taxa de aprendizado (?) como?
 			//Reduz linearmente
 			//actualLearnRate = learnRate * ((double)(stopCondition - EpochsCounter)/(double)stopCondition);
-			actualLearnRate = learnRate * Math.pow(Math.E, -1 * (Math.E/reductionRate));
+			actualLearnRate = learnRate * Math.pow(Math.E, -1 * (EpochsCounter/reductionRate));
 			
 			
 			/* 6
@@ -165,15 +165,18 @@ public class LVQ extends Classifier {
 			
 			double error = validate(validateSet);
 			logError(EpochsCounter, error);
+			
+			
+			EpochsCounter++;
 			//Atualiza os erros (a cada 10 epocas)
-			if(EpochsCounter % 10 == 0)
+			if(EpochsCounter % 15 == 0)
 			{
 				lastError = actualError;
 				actualError = error;
 				System.out.println("validando: " + actualError);
 			}
 			
-			EpochsCounter++;
+			
 				
 		}
 	}
@@ -209,7 +212,7 @@ public class LVQ extends Classifier {
 			else
 				System.out.println("Class not found!" + input._class);
 		}
-		return totalError/validateSet.size();
+		return totalError;
 	}
 
 	@Override
