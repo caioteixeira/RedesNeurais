@@ -23,7 +23,7 @@ public abstract class Classifier {
 	}
 	
 	//Salva arquivo CSV com o Log de erros por época do treinamento
-	public void saveTrainingLogFile(String dir)
+	public void saveTrainningLogFile(String dir)
 	{
 		//Checando erros
 		if(errorMap == null)
@@ -43,7 +43,7 @@ public abstract class Classifier {
 			
 			for(Integer key : errorMap.keySet())
 			{
-				fw.append(key + "," + errorMap.get(key));
+				fw.append(key + "," + errorMap.get(key)+"\n");
 			}
 			
 			fw.close();
