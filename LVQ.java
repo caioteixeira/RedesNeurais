@@ -95,14 +95,14 @@ public class LVQ extends Classifier {
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
 		int EpochsCounter = 0;
 		double actualLearnRate = learnRate;
-		double reductionRate = 150;
+		double reductionRate = 500;
 		
 		//Erros
 		double actualError = validate(validateSet);
 		double lastError = actualError;
 		System.out.println("Erro inicial (pos-inicializacao): " + actualError);
 		
-		while (actualError <= lastError) {
+		while (/*actualError <= lastError*/ EpochsCounter < 300) {
 			
 			if(actualLearnRate <= 0.0)
 			{
@@ -154,7 +154,7 @@ public class LVQ extends Classifier {
 			//actualLearnRate = learnRate * ((double)(stopCondition - EpochsCounter)/(double)stopCondition);
 			actualLearnRate = learnRate * Math.pow(Math.E, -1 * (Math.E/reductionRate));
 			
-			EpochsCounter++;
+			
 			/* 6
 				Teste a condição de parada
 				A condição deve especificar um número fixo de iterações (i.e.,execução do Passo 1) 
@@ -172,13 +172,15 @@ public class LVQ extends Classifier {
 				actualError = error;
 				System.out.println("validando: " + actualError);
 			}
+			
+			EpochsCounter++;
 				
 		}
 	}
 
 	@Override
 	public double validate(DataSet validateSet) {
-		System.out.println("Validating");
+		//System.out.println("Validating");
 		
 		double totalError = 0;
 		validateSet.reset();

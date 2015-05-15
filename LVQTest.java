@@ -14,8 +14,10 @@ public class LVQTest {
 		
 		//DataSet trainSet = new DataSet(64, "optdigits.norm.tra");
 		//DataSet validateSet = new DataSet(64, "optdigits.norm.val");
-		LVQ lvq = new LVQ(0.001, 2, LVQ.LVQIniMethod.FirstValues);
+		LVQ lvq = new LVQ(0.001, 5, LVQ.LVQIniMethod.Random);
 		lvq.train(trainSet, validateSet);
+		
+		lvq.saveTrainningLogFile("trainningLogLVQ.csv");
 		
 		//DataSet testSet = new DataSet(64, "optdigits.norm.tes");
 		//testSet.printClassDistribution(testSet.classAttributteIndex);
