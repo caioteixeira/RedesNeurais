@@ -7,14 +7,16 @@ class MLPTest{
 		testSet.printClassDistribution();
 		DataSet validateSet = new DataSet(-1, "optdigits.norm.cortado.val");
 		validateSet.printClassDistribution();
-		
-		Principal p = new Principal(1,61,4,40,false);
+		boolean print = false;
+		Principal p = new Principal(1,61,4,40,true);
 		for(int i = 0; i < 1000;i++){
-			System.out.println(i);
-			p.train(trainSet);
+			System.out.println("Epoca: "+i);
+			//if(i == 9999) print = true;
+			p.train(trainSet,print);
 			trainSet.reset();
 		}
-		p.test(testSet);
+		//p.apagaErro();
+		p.test(testSet,false);
 		
 	}
 
