@@ -15,7 +15,7 @@ public abstract class Classifier {
 	
 	
 	//Guarda o erro de cada época em um map
-	private void logError(int numberOfEpochs, double error)
+	protected void logError(int numberOfEpochs, double error)
 	{
 		if(errorMap == null)
 			errorMap = new HashMap<Integer, Double>();

@@ -161,11 +161,15 @@ public class LVQ extends Classifier {
 				ou um valor mínimo para a taxa de aprendizado. 
 			 */
 			
+			
+			
+			double error = validate(validateSet);
+			logError(EpochsCounter, error);
 			//Atualiza os erros (a cada 10 epocas)
 			if(EpochsCounter % 10 == 0)
 			{
 				lastError = actualError;
-				actualError = validate(validateSet);
+				actualError = error;
 				System.out.println("validando: " + actualError);
 			}
 				
