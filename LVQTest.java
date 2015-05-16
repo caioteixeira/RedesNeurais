@@ -1,11 +1,11 @@
 
 public class LVQTest {
 	public static void main(String[] args) {
-		DataSet trainSet = new DataSet(-1, "optdigits.norm.cortado.tra");
-		trainSet.printClassDistribution();
+		/*DataSet trainSet = new DataSet(-1, "optdigits.norm.cortado.tra");
+		trainSet.printClassDistribution();*/
 		DataSet testSet = new DataSet(-1, "optdigits.norm.cortado.tes");
 		testSet.printClassDistribution();
-		DataSet validateSet = new DataSet(-1, "optdigits.norm.cortado.val");
+		/*DataSet validateSet = new DataSet(-1, "optdigits.norm.cortado.val");
 		validateSet.printClassDistribution();
 		
 		
@@ -18,10 +18,12 @@ public class LVQTest {
 		lvq.train(trainSet, validateSet);
 		
 		lvq.saveTrainningLogFile("trainningLogLVQ.csv");
-		lvq.save("lvq1Test.lvq");
+		lvq.save("lvqNetwork");*/
 		
+		
+		LVQ lvq = new LVQ("lvqNetwork");
 		//DataSet testSet = new DataSet(64, "optdigits.norm.tes");
 		//testSet.printClassDistribution(testSet.classAttributteIndex);
-		//lvq.test(testSet); 
+		lvq.test(testSet); 
 	}
 }

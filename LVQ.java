@@ -2,8 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.util.StringJoiner;
 
 
 public class LVQ extends Classifier {
@@ -44,7 +45,7 @@ public class LVQ extends Classifier {
 	 */
 	public LVQ(String fileName) {
 		/* TODO Ler na seguinte ordem
-		 * learnRate (double
+		 *  learnRate (double
 		 *	reductionRate (double)
 		 *	stopLimiar (double)
 		 *	neuronsCount (int)
@@ -53,23 +54,52 @@ public class LVQ extends Classifier {
 		 */
 		try
 		{
+			fileName = fileName + ".lvq";
+			System.out.println("Loading LVQ Network...");
 			File f = new File(fileName);
 			Scanner sc = new Scanner(f);
 			
-			String attribsLine = sc.nextLine();
+			// Read and populate attribs
+			String[] attribs = sc.nextLine().split(",");
+			this.learnRate = Double.valueOf(attribs[0]);
+			this.learnRate = Double.valueOf(attribs[1]);
+			this.learnRate = Double.valueOf(attribs[2]);
+			this.neuronsCount = Integer.valueOf(attribs[3]);
+			this.iniMethod = LVQIniMethod.values()[Integer.valueOf(attribs[4])];
 			
+			// Neurons List
+			List<LVQNeuron> neuronsList = new ArrayList<LVQNeuron>();
 			while(sc.hasNext())
 			{
+				// Read Line
 				String neuronLine = sc.nextLine();
+				String[] components = neuronLine.split(",");
 				
-				// TODO
+				// Create New Neuron
+				LVQNeuron neuron = new LVQNeuron(Double.valueOf(components[0]), components.length-1);
+				
+				// Create Double values
+				double[] values = new double[components.length-1];
+				for (int i = 1; i < components.length;i++) {
+					values[i-1] = Double.valueOf(components[i]);
+				}
+				
+				// Set Vector in Neuron
+				neuron.vector = new VectorNeural(values);
+				
+				// Add neuron in list
+				neuronsList.add(neuron);
 			}
 			
+			// Set neurons array in LVQ Network
+			this.neurons = neuronsList.toArray(new LVQNeuron[neuronsList.size()]);
+			
 			sc.close();
+			System.out.println(fileName + " loaded!");
 		}
 		catch(FileNotFoundException e)
 		{
-			System.out.println("N�O ACHOU ARQUIVO: "+fileName);
+			System.out.println("File not founded: "+fileName);
 		}
 	}
 	
@@ -316,6 +346,7 @@ public class LVQ extends Classifier {
 	 */
 	public void save(String fileName) {
 		try {
+			fileName = fileName + ".lvq";
 			System.out.println("Saving LVQ " + fileName + "...");
 			FileWriter file = new FileWriter(fileName);
 			// Escrever TODO
@@ -346,6 +377,10 @@ public class LVQ extends Classifier {
 			// Write Neurons and Weights
 			for (LVQNeuron neuron : neurons) { 
 				StringBuilder builderNeuron = new StringBuilder();
+				// Neuron class
+				builderNeuron.append(neuron._class + ",");
+				
+				// Iterate vector components
 				for (double component : neuron.vector.components) {
 					builderNeuron.append(component + ",");
 				}
