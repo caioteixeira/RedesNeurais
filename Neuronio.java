@@ -23,7 +23,7 @@ class Neuronio{
 		this.pesos = new ArrayList<Double>();
 		this.erroPeso = new ArrayList<Double>();
 		for(int i = 0; i < numSinapse; i++){
-			pesos.add(0.1);
+			pesos.add(-1 + 2*Math.random());
 
 		}
 
@@ -50,13 +50,13 @@ class Layer{
 	}
 
 	public double sigmoid(double valor){
-		return 1/(1 + Math.exp(-valor));
+		return 1/(1 + Math.exp(-3*valor));
 
 	}
 	
 	public double derivada(double valor){
 		double fx = sigmoid(valor); 
-		return fx*(1-fx);
+		return 3*fx*(1-fx);
 	}
 	
 }
@@ -90,52 +90,55 @@ class Principal extends Classifier{
 
 	public double[] respostaEsperada(double classe, int numNeuronios){
 		double[] resp = new double[numNeuronios];
-		for(int i = 0;i < numNeuronios;i++){
-			resp[i] = 0;
-		}
-		//if(classe == 0) classe=-1;
 		int trunca = (int)classe;
-		//System.out.println(trunca);
-		switch(trunca){
+		
+		switch (trunca) {
 		case 1:
 			resp[0] = 1;
 			break;
+			
 		case 2:
 			resp[1] = 1;
 			break;
+		
 		case 3:
 			resp[0] = 1;
 			resp[1] = 1;
-			break;			
+			break;
+			
 		case 4:
 			resp[2] = 1;
 			break;
+			
 		case 5:
 			resp[0] = 1;
 			resp[2] = 1;
 			break;
+			
 		case 6:
 			resp[1] = 1;
 			resp[2] = 1;
 			break;
+			
 		case 7:
 			resp[0] = 1;
 			resp[1] = 1;
 			resp[2] = 1;
 			break;
+			
 		case 8:
 			resp[3] = 1;
 			break;
+		
 		case 9:
 			resp[0] = 1;
 			resp[3] = 1;
-			break;
+			
 		default:
-				for(int i = 0;i < resp.length;i++){
-					resp[i] = 0;
-				}
-					
+			break;
 		}
+		//resp[0] = classe;
+			
 		//else resp[0] = 1;
 		return resp;
 
@@ -253,7 +256,6 @@ class Principal extends Classifier{
 
 	}	
 
-	@Override
 	public void train(DataSet trainSet, DataSet validateSet){
 		//System.out.println("Treinamento");
 		while(trainSet.hasNext()){
@@ -268,7 +270,7 @@ class Principal extends Classifier{
 			//System.out.println("FIm");
 			feedForward();
 			double classe = atributos[trainSet.classAttributteIndex];
-			System.out.println("Classe: "+classe);
+			//System.out.println("Classe: "+classe);
 			double[] resp = respostaEsperada(classe,layers.get(layers.size()-1).neuronios.size());
 			
 			calculaErro(resp);
@@ -278,6 +280,8 @@ class Principal extends Classifier{
 			}
 			update();
 		}
+		apagaErro();
+		//if(imprimePesos) printPeso();
 
 	}
 
@@ -302,7 +306,8 @@ class Principal extends Classifier{
 				erro += Math.pow((resp[i] - saida.neuronios.get(i).saida),2); 
 
 			}			
-
+			
+			apagaErro();
 		}
 
 		return erro/numDados; // CALCULO DO ERRO MEDIO QUADRADO - NAO SEI SE ESTA CERTO
@@ -310,7 +315,7 @@ class Principal extends Classifier{
 	}
 
 	public void test(DataSet dados){
-		//System.out.println("Teste");
+		System.out.println("Teste");
 		while(dados.hasNext()){
 			double[] atributos = dados.next();
 			Layer entrada = layers.get(0);
@@ -321,24 +326,48 @@ class Principal extends Classifier{
 			}
 			feedForward();
 			double classe = atributos[dados.classAttributteIndex];
-			System.out.println(classe);
+			//System.out.println(classe);
 			double[] resp = respostaEsperada(classe,layers.get(layers.size()-1).neuronios.size());
 			Layer saida = layers.get(layers.size()-1);
 			double erro = 0;
 			for(int i = 0; i < saida.neuronios.size(); i++){
 				erro += Math.abs(resp[i] - saida.neuronios.get(i).saida);
-				System.out.print("Resposta: " +saida.neuronios.get(i).saida + " " +"Esperado: " +resp[i] + " " +"Erro: " +erro);
-				System.out.println("");
+				//System.out.print("Resposta: " +saida.neuronios.get(i).saida + " " +"Esperado: " +resp[i] + " " +"Erro: " +erro);
+				//System.out.println("");
 
 
 			}
 
 			if(erro <= 0.5) acertos++;
 			else erros++;
-			System.out.println("----------------------------------------------------------------");
+			//System.out.println("----------------------------------------------------------------");
+			apagaErro();
 		}
 		System.out.println("Acertos: " +acertos);
 		System.out.println("Erros: " +erros);
+		//if(imprimePeso) printPeso();
+		//System.out.println(layers.get(layers.size()-1).neuronios.get(0).bias);
 
 	}
+	
+	public void printPeso(){
+		for(int i = 0; i < layers.size();i++){
+			Layer imp = layers.get(i);
+			System.out.println("Layer: "+i);
+			for(int j = 0; j < imp.neuronios.size();j++){
+				Neuronio n = imp.neuronios.get(j);
+				System.out.println("Neuronio: "+j);
+				for(int k = 0;k < n.pesos.size();k++){
+					System.out.println("Pesos: ");
+					System.out.println(n.pesos.get(k));
+					
+				}
+				
+			}
+			
+		}
+		
+		
+	}
 }
+
