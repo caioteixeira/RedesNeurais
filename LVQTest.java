@@ -14,7 +14,7 @@ public class LVQTest {
 		
 		//DataSet trainSet = new DataSet(64, "optdigits.norm.tra");
 		//DataSet validateSet = new DataSet(64, "optdigits.norm.val");
-		LVQ lvq = new LVQ(0.001, 100, 4, LVQ.LVQIniMethod.FirstValues);
+		LVQ lvq = new LVQ(0.001, 30, 4, LVQ.LVQIniMethod.FirstValues);
 		lvq.train(trainSet, validateSet);
 		
 		lvq.saveTrainningLogFile("trainningLogLVQ.csv");

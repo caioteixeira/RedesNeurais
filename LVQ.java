@@ -3,7 +3,9 @@ public class LVQ extends Classifier {
 	public enum LVQIniMethod
 	{
 		Random,
-		FirstValues
+		FirstValues,
+		Zero
+		
 	}
 
 	int neuronsCount;
@@ -20,7 +22,7 @@ public class LVQ extends Classifier {
 	
 	private LVQIniMethod iniMethod = LVQIniMethod.FirstValues;
 	
-	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.EUCLIDEAN;
+	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.MANHATTAN;
 	
 	public LVQ(double learnRate, double reductionRate, int neuronsCount, LVQIniMethod iniMethod)
 	{
@@ -30,8 +32,9 @@ public class LVQ extends Classifier {
 		this.reductionRate = reductionRate;
 	}
 	
+	//Inicialização dos pesos
 	private void initializeNeurons(DataSet trainSet) {
-		// Inicializa em posicoes randomicas
+		// Inicializa em posicoes randomicas ou zero
 		neurons = new LVQNeuron[(trainSet.class_count)*neuronsCount];
 		int countNeuronsFromClass = 0;
 		int actualClassIndex = 0;
@@ -43,8 +46,16 @@ public class LVQ extends Classifier {
 				actualClassIndex++;
 				countNeuronsFromClass = 1;
 			}
-			
-			neurons[i] = new LVQNeuron(actualClassIndex, trainSet.attrib_count);
+			//Inicializa pesos randomicamente
+			if(iniMethod == LVQIniMethod.Random)
+				neurons[i] = new LVQNeuron(actualClassIndex, trainSet.attrib_count);
+			//Inicializa pesos em zero
+			else
+			{
+				double[] zeroVector = new double[trainSet.attrib_count+1];
+				zeroVector[trainSet.classAttributteIndex] = actualClassIndex;
+				neurons[i] = new LVQNeuron(zeroVector, trainSet.classAttributteIndex);
+			}
 		}
 		
 		//Se for First Values, procura os primeiros valores de cada classe
@@ -172,8 +183,8 @@ public class LVQ extends Classifier {
 			
 			
 			EpochsCounter++;
-			//Atualiza os erros (a cada 10 epocas)
-			if(EpochsCounter % 15 == 0)
+			//Atualiza a checagem do limiar de variacao
+			if(EpochsCounter % 5 == 0)
 			{
 				lastError = actualError;
 				actualError = error;
