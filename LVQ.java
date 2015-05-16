@@ -10,20 +10,24 @@ public class LVQ extends Classifier {
 	int i = 65; //Class Index
 	VectorNeural[] inputNeurons;
 	VectorNeural[] outputNeurons;
-	private double learnRate;
 	private LVQNeuron[] neurons;
 	
 	///public DataSet validateSet;
 	
+	private double reductionRate; //Taxa de redução da taxa de aprendizado
+	private double learnRate; //Taxa inicial de aprendizado
+	private double stopLimiar = 0.00001; //limiar de parada
+	
 	private LVQIniMethod iniMethod = LVQIniMethod.FirstValues;
 	
-	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.MANHATTAN;
+	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.EUCLIDEAN;
 	
-	public LVQ(double learnRate, int neuronsCount, LVQIniMethod iniMethod)
+	public LVQ(double learnRate, double reductionRate, int neuronsCount, LVQIniMethod iniMethod)
 	{
 		this.learnRate = learnRate;
 		this.neuronsCount = neuronsCount;
 		this.iniMethod = iniMethod;
+		this.reductionRate = reductionRate;
 	}
 	
 	private void initializeNeurons(DataSet trainSet) {
@@ -95,14 +99,14 @@ public class LVQ extends Classifier {
 		// 1- Enquanto condicao de parada eh falsa execute os passos 2-6
 		int EpochsCounter = 0;
 		double actualLearnRate = learnRate;
-		double reductionRate = 30;
+		double actualErrorVariation = Double.MAX_VALUE; //Variação atual do erro, se tiver menor que o limiar, treinamento para
 		
 		//Erros
 		double actualError = validate(validateSet);
 		double lastError = actualError;
 		System.out.println("Erro inicial (pos-inicializacao): " + actualError);
 		
-		while (actualError <= lastError /*&& EpochsCounter < 1000*/) {
+		while (actualErrorVariation > stopLimiar /*&& EpochsCounter < 1000*/) {
 			
 			if(actualLearnRate <= 0.0)
 			{
@@ -173,6 +177,8 @@ public class LVQ extends Classifier {
 			{
 				lastError = actualError;
 				actualError = error;
+				
+				actualErrorVariation = Math.abs(lastError - actualError); //Pega o módulo de erro anterior - erro atual
 				System.out.println("validando: " + actualError);
 			}
 			
@@ -212,7 +218,9 @@ public class LVQ extends Classifier {
 			else
 				System.out.println("Class not found!" + input._class);
 		}
-		return totalError;
+		
+		//Retorna erro médio
+		return totalError/validateSet.size();
 	}
 
 	@Override
