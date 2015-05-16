@@ -18,9 +18,10 @@ public class LVQTest {
 		lvq.train(trainSet, validateSet);
 		
 		lvq.saveTrainningLogFile("trainningLogLVQ.csv");
+		lvq.save("lvq1Test.lvq");
 		
 		//DataSet testSet = new DataSet(64, "optdigits.norm.tes");
 		//testSet.printClassDistribution(testSet.classAttributteIndex);
-		lvq.test(testSet); 
+		//lvq.test(testSet); 
 	}
 }

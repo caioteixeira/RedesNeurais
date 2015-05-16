@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.StringJoiner;
 
 
 public class LVQ extends Classifier {
@@ -55,11 +56,13 @@ public class LVQ extends Classifier {
 			File f = new File(fileName);
 			Scanner sc = new Scanner(f);
 			
+			String attribsLine = sc.nextLine();
+			
 			while(sc.hasNext())
 			{
-				String line = sc.nextLine();
+				String neuronLine = sc.nextLine();
 				
-				// TODO Ler atributos e neuronios...
+				// TODO
 			}
 			
 			sc.close();
@@ -309,13 +312,14 @@ public class LVQ extends Classifier {
 	
 	/**
 	 * Salva Rede LVQ em um arquivo .lvq
-	 * @param name
+	 * @param fileName
 	 */
-	public void save(String name) {
+	public void save(String fileName) {
 		try {
-			FileWriter file = new FileWriter(name);
+			System.out.println("Saving LVQ " + fileName + "...");
+			FileWriter file = new FileWriter(fileName);
 			// Escrever TODO
-			/* TODO Ordem
+			/* Ordem
 			 * learnRate (double
 			 *	reductionRate (double)
 			 *	stopLimiar (double)
@@ -323,8 +327,37 @@ public class LVQ extends Classifier {
 			 *	LVQIniMethod (int)
 			 *	Neurons (linha a linha) com os components
 			 */
-			//file.write(this.nextString() + "\n");
+			
+			StringBuilder builder = new StringBuilder();
+			// Learn Rate
+			builder.append(learnRate + ",");
+			// Reduction Rate
+			builder.append(reductionRate + ",");
+			// Stop Limiar
+			builder.append(stopLimiar + ",");
+			// Neurons Count
+			builder.append(neuronsCount + ",");
+			// Init Method
+			builder.append(iniMethod.ordinal() + "\n");
+			
+			// Write Attributes
+			file.write(builder.toString());
+			
+			// Write Neurons and Weights
+			for (LVQNeuron neuron : neurons) { 
+				StringBuilder builderNeuron = new StringBuilder();
+				for (double component : neuron.vector.components) {
+					builderNeuron.append(component + ",");
+				}
+				
+				// Delete last comma
+				builderNeuron.deleteCharAt(builderNeuron.length()-1);
+				// Write Neuron Line
+				file.write(builderNeuron.toString() + "\n");
+			}
+			
 			file.close();
+			System.out.println(fileName + " saved!");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
