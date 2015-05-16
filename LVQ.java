@@ -5,7 +5,6 @@ public class LVQ extends Classifier {
 		Random,
 		FirstValues,
 		Zero
-		
 	}
 
 	int neuronsCount;
@@ -94,7 +93,7 @@ public class LVQ extends Classifier {
 	public void train(DataSet trainSet, DataSet validateSet) {
 		System.out.println("Training");
 		
-		// PASSO 0 inicializar todos os pesos... K-means ou random
+		// PASSO 0 inicializar todos os pesos
 		initializeNeurons(trainSet);
 		
 		
@@ -125,6 +124,7 @@ public class LVQ extends Classifier {
 				break;
 			}
 			
+			//Erro do treino
 			double trainError = 0.0;
 			
 			System.out.println("Epoca: " + EpochsCounter +" Taxa de aprendizado em: " + actualLearnRate);
@@ -183,9 +183,8 @@ public class LVQ extends Classifier {
 			
 			double validationError = validate(validateSet);
 			logError(EpochsCounter, trainError ,validationError);
-			
-			
 			EpochsCounter++;
+			
 			//Atualiza a checagem do limiar de variacao
 			if(EpochsCounter % 5 == 0)
 			{
@@ -219,6 +218,8 @@ public class LVQ extends Classifier {
 		return totalError/validateSet.size();
 	}
 	
+	
+	//Calcula o erro para determinado neurônio de entrada
 	private double calculateError(LVQNeuron input)
 	{
 		boolean found = false;
@@ -253,6 +254,7 @@ public class LVQ extends Classifier {
 			LVQNeuron selectedNeuron = neurons[0];
 			LVQNeuron neuronDataLine = new LVQNeuron(testSet.next(), testSet.classAttributteIndex);
 
+			//Procura neurônio de saída mais próximo
 			double minDistance = Double.MAX_VALUE;
 			double temp;
 			for (int i = 0; i < neurons.length; i++) {
@@ -263,6 +265,7 @@ public class LVQ extends Classifier {
 				}
 			}
 			
+			//Guarda resultado do teste
 			test.test(selectedNeuron._class , neuronDataLine._class);
 		}
 		
