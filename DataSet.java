@@ -1,13 +1,12 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 public class DataSet {
 	
@@ -62,11 +61,12 @@ public class DataSet {
 		dataSet = new LinkedList<String>();
 		for(String line : list)
 		{
+			/* FIXME - REMOVE
 			Random r = new Random();
 			int s = dataSet.size();
 			
-			//Garante que DataSet seja carregado em mem�ria em ordem aleat�ria
-			//int a = s > 1? r.nextInt(s): 0;
+			Garante que DataSet seja carregado em mem�ria em ordem aleat�ria
+			int a = s > 1? r.nextInt(s): 0; */
 			
 			
 			//Define attrib_count
@@ -109,11 +109,12 @@ public class DataSet {
 					System.out.println("Numero de atributos incompativel!");
 				}
 				
+				/* FIXME - REMOVE
 				Random r = new Random();
 				int s = dataSet.size();
 				
-				//Garante que DataSet seja carregado em mem�ria em ordem aleat�ria
-				//int a = s > 1? r.nextInt(s): 0;
+				Garante que DataSet seja carregado em mem�ria em ordem aleat�ria
+				int a = s > 1? r.nextInt(s): 0; */
 				
 				dataSet.add(line);
 			}
@@ -377,7 +378,7 @@ public class DataSet {
 		
 		System.out.println("Calculando min-max item-a-item");
 		int f;
-		int countNan = 0;
+
 		for (z = 0; z < attrib_count; z++) {
 			for (f = 0; f < lines; f++) {
 				double atributo = attrib[f][z];
