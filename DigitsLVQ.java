@@ -5,22 +5,24 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-
-public class DigitsLVQ {
+public class DigitsLVQ extends Digits {
 	
-	private static Options options = new Options();
-	private static HelpFormatter formatter = new HelpFormatter();
-		
-	// Args
-	String trainFilePath;
-	String validateFilePath;
-	String testFilePath;
-	
+	// LVQ Args
 	double learnRate;
-	LVQ.LVQIniMethod initWith; 
+	double reductionRate;
+	int neuronsCount;
+	LVQ.LVQIniMethod iniMethod;
 	
-	int classNeuronsNumbers;
-	int hiddenNeuronsNumbers;
+	// LVQ Args consts
+	static final String LEARN_RATE_OPTION = "lr";
+	static final String REDUCTION_RATE_OPTION = "rr";
+	static final String NEURONS_COUNT_OPTION = "nc";
+	static final String INI_METHOD_OPTION = "init";
+	
+	static final String LEARN_RATE_OPTION_TEXT = "taxa de aprendizado";
+	static final String REDUCTION_RATE_OPTION_TEXT = "taxa de reducao";
+	static final String NEURONS_COUNT_OPTION_TEXT = "numero de neuronios";
+	static final String INI_METHOD_OPTION_TEXT = "metodo de inicializacao dos neuronios (RANDOM , FIRST_VALUES ou ZERO)";
 	
 	public static void main(String[] args) {
 		initializeOptions();
@@ -28,7 +30,7 @@ public class DigitsLVQ {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine cmd = parser.parse( options, args);
-			formatter.printHelp("DigitsProject", options, true);
+			formatter.printHelp("DigitsLVQ", options, true);
 			
 			populateAndValidateArgs(cmd);
 			
@@ -41,32 +43,27 @@ public class DigitsLVQ {
 	}
 	
 	private static void initializeOptions() {
-		options.addOption("tn", true, "nome do arquivo do conjunto de dados de treino");
-		options.addOption("vl", true, "nome do arquivo do conjunto de dados de validacao");
-		options.addOption("tt", true, "nome do arquivo do conjunto de dados de teste");
+		options.addOption(Digits.TRAINING_FILE_OPTION, true, Digits.TRAINING_FILE_OPTION_TEXT);
+		options.addOption(Digits.VALIDATE_FILE_OPTION, true, Digits.VALIDATE_FILE_OPTION_TEXT);
+		options.addOption(Digits.TEST_FILE_OPTION, true, Digits.TEST_FILE_OPTION_TEXT);
 		
-		options.addOption("lr", true, "taxa de aprendizado inicial");
-		
-		// TODO Select Alg. Type MLP or LVQ
-		options.addOption("nhidden", true, "numero de neuronios na cada escondida (para a rede MLP)");
-		options.addOption("nclass", true, "numero de neuronios para cada classe (para a rede LVQ)");
-		
-		options.addOption("init", true, "inicializacao de pesos ZERO or RANDOM"); // FIXME
+		options.addOption(LEARN_RATE_OPTION, true, LEARN_RATE_OPTION_TEXT);
+		options.addOption(REDUCTION_RATE_OPTION, true, REDUCTION_RATE_OPTION_TEXT);
+		options.addOption(NEURONS_COUNT_OPTION, true, NEURONS_COUNT_OPTION_TEXT);
+		options.addOption(INI_METHOD_OPTION, true, INI_METHOD_OPTION_TEXT);
 	}
 	
 	private static void populateAndValidateArgs(CommandLine cmd) {
 		// Files
-		cmd.getOptionValue("tn");
-		cmd.getOptionValue("vl");
-		cmd.getOptionValue("tt");
+		cmd.getOptionValue(Digits.TRAINING_FILE_OPTION);
+		cmd.getOptionValue(Digits.VALIDATE_FILE_OPTION);
+		cmd.getOptionValue(Digits.TEST_FILE_OPTION);
 		
-		// Init and Learn Rate
-		cmd.getOptionValue("init");
-		cmd.getOptionValue("lr");
-		
-		// Neurons
-		cmd.getOptionValue("nclass"); // LVQ
-		cmd.getOptionValue("nhidden"); // MLP
+		// LVQ
+		cmd.getOptionValue(LEARN_RATE_OPTION);
+		cmd.getOptionValue(REDUCTION_RATE_OPTION);
+		cmd.getOptionValue(NEURONS_COUNT_OPTION);
+		cmd.getOptionValue(INI_METHOD_OPTION);
 	}
 
 }

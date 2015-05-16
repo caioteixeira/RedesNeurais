@@ -10,9 +10,9 @@ import java.util.Scanner;
 public class LVQ extends Classifier {
 	public enum LVQIniMethod
 	{
-		Random,
-		FirstValues,
-		Zero
+		RANDOM,
+		FIRST_VALUES,
+		ZERO
 	}
 
 	int neuronsCount;
@@ -27,7 +27,7 @@ public class LVQ extends Classifier {
 	private double learnRate; //Taxa inicial de aprendizado
 	private double stopLimiar = 0.00001; //limiar de parada
 	
-	private LVQIniMethod iniMethod = LVQIniMethod.FirstValues;
+	private LVQIniMethod iniMethod = LVQIniMethod.FIRST_VALUES;
 	
 	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.MANHATTAN;
 	
@@ -118,7 +118,7 @@ public class LVQ extends Classifier {
 				countNeuronsFromClass = 1;
 			}
 			//Inicializa pesos randomicamente
-			if(iniMethod == LVQIniMethod.Random)
+			if(iniMethod == LVQIniMethod.RANDOM)
 				neurons[i] = new LVQNeuron(actualClassIndex, trainSet.attrib_count);
 			//Inicializa pesos em zero
 			else
@@ -130,7 +130,7 @@ public class LVQ extends Classifier {
 		}
 		
 		//Se for First Values, procura os primeiros valores de cada classe
-		if(iniMethod == LVQIniMethod.FirstValues)
+		if(iniMethod == LVQIniMethod.FIRST_VALUES)
 		{
 			trainSet.reset();
 			for(int i = 0; i < neurons.length; i++)
