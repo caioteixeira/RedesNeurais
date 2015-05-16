@@ -8,23 +8,16 @@ import org.apache.commons.cli.ParseException;
 
 public class DigitsProject {
 	
-	private static CommandLineParser parser = new DefaultParser();
 	private static Options options = new Options();
 	private static HelpFormatter formatter = new HelpFormatter();
-	
-	// FIXME colocar a mesma que esta na LVQ e utilizar este enum ou separar o mesmo em uma classe
-	public enum InitType {
-		ZERO,
-		RANDOM
-	}
-	
+		
 	// Args
 	String trainFilePath;
 	String validateFilePath;
 	String testFilePath;
 	
 	double learnRate;
-	InitType initWith; 
+	LVQ.LVQIniMethod initWith; 
 	
 	int classNeuronsNumbers;
 	int hiddenNeuronsNumbers;

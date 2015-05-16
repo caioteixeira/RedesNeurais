@@ -1,3 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 
 public class LVQ extends Classifier {
 	public enum LVQIniMethod
@@ -29,6 +35,39 @@ public class LVQ extends Classifier {
 		this.neuronsCount = neuronsCount;
 		this.iniMethod = iniMethod;
 		this.reductionRate = reductionRate;
+	}
+	
+	/**
+	 * Construtor da LVQ a partir de um arquivo .lvq
+	 * @param fileName
+	 */
+	public LVQ(String fileName) {
+		/* TODO Ler na seguinte ordem
+		 * learnRate (double
+		 *	reductionRate (double)
+		 *	stopLimiar (double)
+		 *	neuronsCount (int)
+		 *	LVQIniMethod (int)
+		 *	Neurons (linha a linha) com os components
+		 */
+		try
+		{
+			File f = new File(fileName);
+			Scanner sc = new Scanner(f);
+			
+			while(sc.hasNext())
+			{
+				String line = sc.nextLine();
+				
+				// TODO Ler atributos e neuronios...
+			}
+			
+			sc.close();
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.println("N�O ACHOU ARQUIVO: "+fileName);
+		}
 	}
 	
 	//Inicialização dos pesos
@@ -171,21 +210,17 @@ public class LVQ extends Classifier {
 			//Reduz linearmente
 			//actualLearnRate = learnRate * ((double)(stopCondition - EpochsCounter)/(double)stopCondition);
 			actualLearnRate = learnRate * Math.pow(Math.E, -1 * (EpochsCounter/reductionRate));
-			
-			
+
 			/* 6
 				Teste a condição de parada
 				A condição deve especificar um número fixo de iterações (i.e.,execução do Passo 1) 
 				ou um valor mínimo para a taxa de aprendizado. 
 			 */
-			
-			
-			
 			double validationError = validate(validateSet);
 			logError(EpochsCounter, trainError ,validationError);
 			EpochsCounter++;
 			
-			//Atualiza a checagem do limiar de variacao
+			// Atualiza a checagem do limiar de variacao
 			if(EpochsCounter % 5 == 0)
 			{
 				lastError = actualError;
@@ -270,5 +305,28 @@ public class LVQ extends Classifier {
 		}
 		
 		test.printResults();
+	}
+	
+	/**
+	 * Salva Rede LVQ em um arquivo .lvq
+	 * @param name
+	 */
+	public void save(String name) {
+		try {
+			FileWriter file = new FileWriter(name);
+			// Escrever TODO
+			/* TODO Ordem
+			 * learnRate (double
+			 *	reductionRate (double)
+			 *	stopLimiar (double)
+			 *	neuronsCount (int)
+			 *	LVQIniMethod (int)
+			 *	Neurons (linha a linha) com os components
+			 */
+			//file.write(this.nextString() + "\n");
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
