@@ -6,7 +6,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 
-public class DigitsProject {
+public class DigitsLVQ {
 	
 	private static Options options = new Options();
 	private static HelpFormatter formatter = new HelpFormatter();
