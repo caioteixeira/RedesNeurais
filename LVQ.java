@@ -125,6 +125,8 @@ public class LVQ extends Classifier {
 				break;
 			}
 			
+			double trainError = 0.0;
+			
 			System.out.println("Epoca: " + EpochsCounter +" Taxa de aprendizado em: " + actualLearnRate);
 			//2- Para cada vetor de entrada de treinamento, executar os passos 3-4
 			while (trainSet.hasNext()) {
@@ -151,18 +153,19 @@ public class LVQ extends Classifier {
 						wJ(new) = wJ(old) - α[x – wJ(old)]; 
 				 */
 				if (selectedNeuron._class == neuronDataLine._class) {
+					trainError += minDistance;
 					selectedNeuron.aproach(neuronDataLine, actualLearnRate);
-					//double distance = selectedNeuron.distanceFrom(neuronDataLine);
-					//System.out.println(distance);
 				} else {
+					trainError += calculateError(neuronDataLine);
 					selectedNeuron.diverge(neuronDataLine, actualLearnRate);
-					//double distance = selectedNeuron.distanceFrom(neuronDataLine);
-					//System.out.println(distance);
 				}
 			}
 			
 			// Reseta Train set para um possivel novo treinamento
 			trainSet.reset();
+			
+			//Média do erro de treinamento
+			trainError /= trainSet.size();
 			
 			// 5 - Reduza a taxa de aprendizado (?) como?
 			//Reduz linearmente
@@ -178,8 +181,8 @@ public class LVQ extends Classifier {
 			
 			
 			
-			double error = validate(validateSet);
-			logError(EpochsCounter, error);
+			double validationError = validate(validateSet);
+			logError(EpochsCounter, trainError ,validationError);
 			
 			
 			EpochsCounter++;
@@ -187,7 +190,7 @@ public class LVQ extends Classifier {
 			if(EpochsCounter % 5 == 0)
 			{
 				lastError = actualError;
-				actualError = error;
+				actualError = validationError;
 				
 				actualErrorVariation = Math.abs(lastError - actualError); //Pega o módulo de erro anterior - erro atual
 				System.out.println("validando: " + actualError);
@@ -206,32 +209,39 @@ public class LVQ extends Classifier {
 		validateSet.reset();
 		while(validateSet.hasNext())
 		{
-			boolean found = false;
-			double minDistance = 0.0;
 			LVQNeuron input = new LVQNeuron(validateSet.next(), validateSet.classAttributteIndex);
-			for (int i = 0; i < neurons.length; i++) {
-				if(input._class == neurons[i]._class)
-				{
-					double distance = input.distanceFrom(neurons[i]);
-					if(!found)
-						minDistance = distance;
-					else if(minDistance > distance)
-					{
-						minDistance = distance;
-					}
-					
-					found = true;
-				}
-			}
+			double minDistance = calculateError(input);
+			totalError += minDistance;
 			
-			if(found)
-				totalError += minDistance;
-			else
-				System.out.println("Class not found!" + input._class);
 		}
 		
 		//Retorna erro médio
 		return totalError/validateSet.size();
+	}
+	
+	private double calculateError(LVQNeuron input)
+	{
+		boolean found = false;
+		double minDistance = 0.0;
+		for (int i = 0; i < neurons.length; i++) {
+			if(input._class == neurons[i]._class)
+			{
+				double distance = input.distanceFrom(neurons[i]);
+				if(!found)
+					minDistance = distance;
+				else if(minDistance > distance)
+				{
+					minDistance = distance;
+				}
+				
+				found = true;
+			}
+		}
+		
+		if(!found)
+			System.out.println("Class not found!" + input._class);
+		
+		return minDistance;
 	}
 
 	@Override

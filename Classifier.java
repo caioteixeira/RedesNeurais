@@ -6,7 +6,7 @@ import java.util.Map;
 
 public abstract class Classifier {
 	
-	private Map<Integer, Double> errorMap;
+	private Map<Integer, Double[]> errorMap;
 	
 	public abstract void train(DataSet trainSet, DataSet validateSet);
 	//Retorna o erro
@@ -14,26 +14,27 @@ public abstract class Classifier {
 	public abstract void test(DataSet testSet);
 	
 	
-	//Guarda o erro de cada época em um map
-	protected void logError(int numberOfEpochs, double error)
+	//Guarda o erro de cada ï¿½poca em um map
+	protected void logError(int numberOfEpochs, double trainError, double validationError)
 	{
 		if(errorMap == null)
-			errorMap = new HashMap<Integer, Double>();
+			errorMap = new HashMap<Integer, Double[]>();
+		Double[] error = {trainError, validationError};
 		errorMap.put(numberOfEpochs, error);
 	}
 	
-	//Salva arquivo CSV com o Log de erros por época do treinamento
+	//Salva arquivo CSV com o Log de erros por ï¿½poca do treinamento
 	public void saveTrainningLogFile(String dir)
 	{
 		//Checando erros
 		if(errorMap == null)
 		{
-			System.out.println("Log vazio! Não salvando");
+			System.out.println("Log vazio! NÃ£o salvando");
 			return;
 		}
 		if(errorMap.keySet().isEmpty())
 		{
-			System.out.println("Log vazio! Não salvando");
+			System.out.println("Log vazio! NÃ£o salvando");
 			return;
 		}
 		
@@ -43,15 +44,16 @@ public abstract class Classifier {
 			
 			for(Integer key : errorMap.keySet())
 			{
-				fw.append(key + "," + errorMap.get(key)+"\n");
+				Double[] errors = errorMap.get(key);
+				
+				fw.append(key + "," + errors[0] + "," + errors[1] +"\n");
 			}
 			
 			fw.close();
 			
 		} catch (IOException e) {
-			System.out.println("Impossível salvar log! "+ dir );
+			System.out.println("ImpossÃ­vel salvar log! "+ dir );
 			e.printStackTrace();
 		}
 	}
-	
 }
