@@ -13,7 +13,7 @@ public class LVQ extends Classifier {
 	private double learnRate;
 	private LVQNeuron[] neurons;
 	
-	public DataSet validateSet;
+	///public DataSet validateSet;
 	
 	private LVQIniMethod iniMethod = LVQIniMethod.FirstValues;
 	
@@ -76,7 +76,7 @@ public class LVQ extends Classifier {
 	}
 
 	@Override
-	public void train(DataSet trainSet) {
+	public void train(DataSet trainSet, DataSet validateSet) {
 		System.out.println("Training");
 		
 		// PASSO 0 inicializar todos os pesos... K-means ou random

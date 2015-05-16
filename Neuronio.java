@@ -61,7 +61,7 @@ class Layer{
 	
 }
 
-class Principal{
+class Principal extends Classifier{
 	List<Layer> layers;
 	public double taxaDeAprendizagem;
 	public int nHidden;
@@ -256,10 +256,10 @@ class Principal{
 
 	}	
 
-	public void train(DataSet dados,boolean imprimePesos){
+	public void train(DataSet trainSet, DataSet validateSet){
 		//System.out.println("Treinamento");
-		while(dados.hasNext()){
-			double[] atributos = dados.next();
+		while(trainSet.hasNext()){
+			double[] atributos = trainSet.next();
 			Layer entrada = this.layers.get(0);
 			for(int i = 0; i < entrada.neuronios.size();i++){
 				entrada.neuronios.get(i).valor = atributos[i];
@@ -269,8 +269,8 @@ class Principal{
 			}
 			//System.out.println("FIm");
 			feedForward();
-			double classe = atributos[dados.classAttributteIndex];
-			System.out.println("Classe: "+classe);
+			double classe = atributos[trainSet.classAttributteIndex];
+			//System.out.println("Classe: "+classe);
 			double[] resp = respostaEsperada(classe,layers.get(layers.size()-1).neuronios.size());
 			
 			calculaErro(resp);
@@ -281,7 +281,7 @@ class Principal{
 			update();
 		}
 		apagaErro();
-		if(imprimePesos) printPeso();
+		//if(imprimePesos) printPeso();
 
 	}
 
@@ -306,14 +306,15 @@ class Principal{
 				erro += Math.pow((resp[i] - saida.neuronios.get(i).saida),2); 
 
 			}			
-
+			
+			apagaErro();
 		}
 
 		return erro/numDados; // CALCULO DO ERRO MEDIO QUADRADO - NAO SEI SE ESTA CERTO
 
 	}
 
-	public void test(DataSet dados,boolean imprimePeso){
+	public void test(DataSet dados){
 		System.out.println("Teste");
 		while(dados.hasNext()){
 			double[] atributos = dados.next();
@@ -331,20 +332,20 @@ class Principal{
 			double erro = 0;
 			for(int i = 0; i < saida.neuronios.size(); i++){
 				erro += Math.abs(resp[i] - saida.neuronios.get(i).saida);
-				System.out.print("Resposta: " +saida.neuronios.get(i).saida + " " +"Esperado: " +resp[i] + " " +"Erro: " +erro);
-				System.out.println("");
+				//System.out.print("Resposta: " +saida.neuronios.get(i).saida + " " +"Esperado: " +resp[i] + " " +"Erro: " +erro);
+				//System.out.println("");
 
 
 			}
 
 			if(erro <= 0.5) acertos++;
 			else erros++;
-			System.out.println("----------------------------------------------------------------");
+			//System.out.println("----------------------------------------------------------------");
 			apagaErro();
 		}
 		System.out.println("Acertos: " +acertos);
 		System.out.println("Erros: " +erros);
-		if(imprimePeso) printPeso();
+		//if(imprimePeso) printPeso();
 		//System.out.println(layers.get(layers.size()-1).neuronios.get(0).bias);
 
 	}
