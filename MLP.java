@@ -11,11 +11,11 @@ public class MLP extends Classifier {
 	int acertos;
 
 	public MLP(int nHidden, int nosEntrada, int nosSaida, int nosHidden,
-			boolean bias, double taxa, boolean aleatorio) {
+			boolean bias, double learnRate, boolean aleatorio) {
 		this.erros = 0;
 		this.acertos = 0;
 		this.nHidden = nHidden;
-		this.taxaDeAprendizagem = taxa;
+		this.taxaDeAprendizagem = learnRate;
 		layers = new ArrayList<MLPLayer>();
 		layers.add(new MLPLayer(nosEntrada, nosHidden, bias,aleatorio)); // cria camada de
 															// entrada
