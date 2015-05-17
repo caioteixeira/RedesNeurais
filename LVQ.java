@@ -54,7 +54,6 @@ public class LVQ extends Classifier {
 		 */
 		try
 		{
-			fileName = fileName + ".lvq";
 			System.out.println("Loading LVQ Network...");
 			File f = new File(fileName);
 			Scanner sc = new Scanner(f);
@@ -346,7 +345,6 @@ public class LVQ extends Classifier {
 	 */
 	public void save(String fileName) {
 		try {
-			fileName = fileName + ".lvq";
 			System.out.println("Saving LVQ " + fileName + "...");
 			FileWriter file = new FileWriter(fileName);
 			// Escrever TODO

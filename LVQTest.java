@@ -8,7 +8,6 @@ public class LVQTest {
 		/*DataSet validateSet = new DataSet(-1, "optdigits.norm.cortado.val");
 		validateSet.printClassDistribution();
 		
-		
 		//Divide dataSet em tres subconjuntos com 60,20 e 20 por cento dos dados, respectivamente
 		//DataSet[] sets = set.divideDataSet();
 		
