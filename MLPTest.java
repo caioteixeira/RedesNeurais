@@ -8,7 +8,7 @@ class MLPTest{
 		DataSet validateSet = new DataSet(-1, "optdigits.norm.cortado.val");
 		validateSet.printClassDistribution();
 		//boolean print = false;
-		Principal p = new Principal(1,61,4,40,true,0.5,true);
+		MLP p = new MLP(1,61,4,40,true,0.5,true);
 		p.train(trainSet, validateSet);
 		//p.logError(i+1, erro);
 		//trainSet.reset();

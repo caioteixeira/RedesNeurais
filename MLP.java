@@ -1,97 +1,28 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-class Neuronio {
 
-	// ARMAZENA AQUELA PARTE DA ENTRADA QUE ELE MULTIPLICA PESO E PASSA PARA A
-	// FUNCAO DE ATIVACAO
-	double valor;
-	List<Double> pesos;
-	// ARMAZENA O RESULTADO DA FUNCAO DE ATIVACAO
-	double saida;
-	// ARMAZENA A DIFERENCA PARA FACILITAR CODIGO. novoPeso =
-	// erroPeso.get(i)+pesos.get(i)
-	List<Double> erroPeso;
-	// E O MESMO ESQUEMA PARA OS PESOS
-	double erroBias;
-	// CADA NEURONIO ARMAZENA SEU erroDelta
-	double erroDelta;
-
-	double bias;
-
-	boolean temBias;
-
-	public Neuronio(int numSinapse, boolean bias, boolean aleatorio) {
-		this.pesos = new ArrayList<Double>();
-		this.erroPeso = new ArrayList<Double>();
-		if(aleatorio){
-			for (int i = 0; i < numSinapse; i++) {
-				pesos.add(-1 + 2 * Math.random());
-
-			}
-		}
-		else{
-
-			for (int i = 0; i < numSinapse; i++) {
-				pesos.add((double) 0);
-
-			}
-
-		}
-		temBias = bias;
-		this.bias = -0.5 + Math.random();
-
-	}
-}
-
-class Layer {
-	List<Neuronio> neuronios;
-
-	// List<Double> bias;
-	public Layer(int nNos, int numSinapse, boolean bias, boolean aleatorio) {
-		neuronios = new ArrayList<Neuronio>();
-		for (int i = 0; i < nNos; i++) {
-			neuronios.add(new Neuronio(numSinapse, bias, aleatorio));
-		}
-
-	}
-
-	public double ativ(double valor) {
-		return sigmoid(valor);
-
-	}
-
-	public double sigmoid(double valor) {
-		return 1 / (1 + Math.exp(-3 * valor));
-
-	}
-
-	public double derivada(double valor) {
-		double fx = sigmoid(valor);
-		return 3 * fx * (1 - fx);
-	}
-
-}
-
-class Principal extends Classifier {
-	List<Layer> layers;
+public class MLP extends Classifier {
+	List<MLPLayer> layers;
 	public double taxaDeAprendizagem;
 	public int nHidden;
 	int erros;
 	int acertos;
 
-	public Principal(int nHidden, int nosEntrada, int nosSaida, int nosHidden,
+	public MLP(int nHidden, int nosEntrada, int nosSaida, int nosHidden,
 			boolean bias, double taxa, boolean aleatorio) {
 		this.erros = 0;
 		this.acertos = 0;
 		this.nHidden = nHidden;
 		this.taxaDeAprendizagem = taxa;
-		layers = new ArrayList<Layer>();
-		layers.add(new Layer(nosEntrada, nosHidden, bias,aleatorio)); // cria camada de
+		layers = new ArrayList<MLPLayer>();
+		layers.add(new MLPLayer(nosEntrada, nosHidden, bias,aleatorio)); // cria camada de
 															// entrada
 
 		for (int i = 0; i < nHidden - 1; i++) {
 
-			layers.add(new Layer(nosHidden, nosHidden, bias,aleatorio)); // cria ate o
+			layers.add(new MLPLayer(nosHidden, nosHidden, bias,aleatorio)); // cria ate o
 																// penultimo
 																// nivel de
 																// camadas
@@ -99,9 +30,9 @@ class Principal extends Classifier {
 
 		}
 
-		layers.add(new Layer(nosHidden, nosSaida, bias,aleatorio)); // cria ultima camada
+		layers.add(new MLPLayer(nosHidden, nosSaida, bias,aleatorio)); // cria ultima camada
 															// escondida
-		layers.add(new Layer(nosSaida, 0, bias,aleatorio)); // cria camada de saida
+		layers.add(new MLPLayer(nosSaida, 0, bias,aleatorio)); // cria camada de saida
 
 	}
 
@@ -163,11 +94,11 @@ class Principal extends Classifier {
 
 	// faz a diferenca entre a camada de saida e a resposta esperada
 	public double calculaErro(double[] respostaEsperada) {
-		Layer saida = layers.get(layers.size() - 1);
+		MLPLayer saida = layers.get(layers.size() - 1);
 		double erro = 0;
-		List<Neuronio> neuronios = saida.neuronios;
+		List<MLPNeuron> neuronios = saida.neuronios;
 		for (int i = 0; i < neuronios.size(); i++) {
-			Neuronio neuronio = neuronios.get(i);
+			MLPNeuron neuronio = neuronios.get(i);
 			// verificar com o guilherme se o neuronio.valor é a mesma coisa q
 			// o somatório dos pesos.
 			double erroDelta = (respostaEsperada[i] - neuronio.saida)
@@ -176,10 +107,10 @@ class Principal extends Classifier {
 			erro += Math.pow(respostaEsperada[i] - neuronio.saida, 2);
 			// System.out.print("Resposta: "+neuronio.saida+" Esperado: "+respostaEsperada[i]);
 			// System.out.println("");
-			Layer oculta = layers.get(layers.size() - 2);
-			List<Neuronio> listNeuronioOculto = oculta.neuronios;
+			MLPLayer oculta = layers.get(layers.size() - 2);
+			List<MLPNeuron> listNeuronioOculto = oculta.neuronios;
 			for (int j = 0; j < listNeuronioOculto.size(); j++) {
-				Neuronio neuronioOculto = listNeuronioOculto.get(j);
+				MLPNeuron neuronioOculto = listNeuronioOculto.get(j);
 				neuronioOculto.erroPeso.add(taxaDeAprendizagem * erroDelta
 						* neuronioOculto.saida);
 			}
@@ -193,15 +124,15 @@ class Principal extends Classifier {
 
 	// PARA CADA CAMDA OCULTA SOMAR OS DELTAS DA CAMADA ACIMA
 	public void calcularErroCamadaOculta(int i) {
-		Layer saida = layers.get(i + 1);
-		Layer oculta = layers.get(i);
-		Layer entrada = layers.get(i - 1);
-		List<Neuronio> listNeuronioSaida = saida.neuronios;
-		List<Neuronio> listNeuronioOculta = oculta.neuronios;
-		List<Neuronio> listNeuronioEntrada = entrada.neuronios;
+		MLPLayer saida = layers.get(i + 1);
+		MLPLayer oculta = layers.get(i);
+		MLPLayer entrada = layers.get(i - 1);
+		List<MLPNeuron> listNeuronioSaida = saida.neuronios;
+		List<MLPNeuron> listNeuronioOculta = oculta.neuronios;
+		List<MLPNeuron> listNeuronioEntrada = entrada.neuronios;
 
 		for (int j = 0; j < listNeuronioOculta.size(); j++) {
-			Neuronio neuronio = listNeuronioOculta.get(j);
+			MLPNeuron neuronio = listNeuronioOculta.get(j);
 			double soma = 0;
 			for (int k = 0; k < listNeuronioSaida.size(); k++) {
 				soma += listNeuronioSaida.get(k).erroDelta
@@ -211,7 +142,7 @@ class Principal extends Classifier {
 			neuronio.erroDelta = erroDelta;
 
 			for (int l = 0; l < listNeuronioEntrada.size(); l++) {
-				Neuronio neuronioEntrada = listNeuronioEntrada.get(l);
+				MLPNeuron neuronioEntrada = listNeuronioEntrada.get(l);
 				neuronioEntrada.erroPeso.add(erroDelta * taxaDeAprendizagem
 						* neuronioEntrada.saida);
 
@@ -228,22 +159,22 @@ class Principal extends Classifier {
 													// entrada nao terem
 													// neuronios camadas abaixo
 
-			Layer entrada = layers.get(i - 1); // seleciona o nivel abaixo
-			Layer saida = layers.get(i); // seleciona o nivel atual
+			MLPLayer entrada = layers.get(i - 1); // seleciona o nivel abaixo
+			MLPLayer saida = layers.get(i); // seleciona o nivel atual
 
-			Iterator<Neuronio> itSaida = saida.neuronios.iterator();
+			Iterator<MLPNeuron> itSaida = saida.neuronios.iterator();
 			int j = 0;
 			while (itSaida.hasNext()) { // percorre todos os neuronios do nivel
 										// atual
-				Neuronio aux = itSaida.next();
-				Iterator<Neuronio> itEntrada = entrada.neuronios.iterator();
+				MLPNeuron aux = itSaida.next();
+				Iterator<MLPNeuron> itEntrada = entrada.neuronios.iterator();
 
 				while (itEntrada.hasNext()) { // percorre todos os neuronios do
 												// nivel abaixo e adiciona o
 												// valor com o peso ao j-esimo
 												// neuronio do nivel atual
 
-					Neuronio calc = itEntrada.next();
+					MLPNeuron calc = itEntrada.next();
 					aux.valor += calc.saida * calc.pesos.get(j);
 				}
 				if (aux.temBias)
@@ -259,9 +190,9 @@ class Principal extends Classifier {
 	public void update() {
 		double novoPeso;
 		for (int j = layers.size() - 1; j >= 0; j--) {
-			Layer camada = layers.get(j);
-			List<Neuronio> neuronios = camada.neuronios;
-			for (Neuronio neuronio : neuronios) {
+			MLPLayer camada = layers.get(j);
+			List<MLPNeuron> neuronios = camada.neuronios;
+			for (MLPNeuron neuronio : neuronios) {
 				for (int k = 0; k < neuronio.pesos.size(); k++) {
 					novoPeso = neuronio.pesos.get(k) + neuronio.erroPeso.get(k);
 					neuronio.pesos.set(k, novoPeso);
@@ -275,9 +206,9 @@ class Principal extends Classifier {
 
 	public void apagaErro() {
 		for (int i = 0; i < layers.size(); i++) {
-			Layer nivel = layers.get(i);
-			List<Neuronio> neuronio = nivel.neuronios;
-			for (Neuronio apaga : neuronio) {
+			MLPLayer nivel = layers.get(i);
+			List<MLPNeuron> neuronio = nivel.neuronios;
+			for (MLPNeuron apaga : neuronio) {
 				apaga.erroPeso.clear();
 				apaga.valor = 0;
 				apaga.saida = 0;
@@ -299,7 +230,7 @@ class Principal extends Classifier {
 			double erroTreino = 0;
 			while (trainSet.hasNext()) {
 				double[] atributos = trainSet.next();
-				Layer entrada = this.layers.get(0);
+				MLPLayer entrada = this.layers.get(0);
 				for (int i = 0; i < entrada.neuronios.size(); i++) {
 					entrada.neuronios.get(i).valor = atributos[i];
 					entrada.neuronios.get(i).saida = atributos[i];
@@ -351,7 +282,7 @@ class Principal extends Classifier {
 		while (dados.hasNext()) {
 			//numDados++;
 			double[] atributos = dados.next();
-			Layer entrada = this.layers.get(0);
+			MLPLayer entrada = this.layers.get(0);
 			for (int i = 0; i < entrada.neuronios.size(); i++) {
 				entrada.neuronios.get(i).valor = atributos[i];
 				entrada.neuronios.get(i).saida = atributos[i];
@@ -360,7 +291,7 @@ class Principal extends Classifier {
 			feedForward();
 			double classe = atributos[dados.classAttributteIndex];
 			double[] resp = respostaEsperada(classe, layers.get(layers.size() - 1).neuronios.size());
-			Layer saida = layers.get(layers.size() - 1);
+			MLPLayer saida = layers.get(layers.size() - 1);
 			for (int i = 0; i < saida.neuronios.size(); i++) {
 				erro += Math.pow((resp[i] - saida.neuronios.get(i).saida), 2);
 
@@ -378,7 +309,7 @@ class Principal extends Classifier {
 		TestData estatistica = new TestData(10);
 		while (dados.hasNext()) {
 			double[] atributos = dados.next();
-			Layer entrada = layers.get(0);
+			MLPLayer entrada = layers.get(0);
 			for (int i = 0; i < entrada.neuronios.size(); i++) {
 				entrada.neuronios.get(i).valor = atributos[i];
 				entrada.neuronios.get(i).saida = atributos[i];
@@ -389,7 +320,7 @@ class Principal extends Classifier {
 			//System.out.println(classe);
 			double[] resp = respostaEsperada(classe,layers.get(layers.size() - 1).neuronios.size());
 			double[]respostaRede = new double[layers.get(layers.size() - 1).neuronios.size()];
-			Layer saida = layers.get(layers.size() - 1);
+			MLPLayer saida = layers.get(layers.size() - 1);
 			double erro = 0;
 			for (int i = 0; i < saida.neuronios.size(); i++) {
 				erro += Math.abs(resp[i] - saida.neuronios.get(i).saida);
@@ -432,10 +363,10 @@ class Principal extends Classifier {
 
 	public void printPeso() {
 		for (int i = 0; i < layers.size(); i++) {
-			Layer imp = layers.get(i);
+			MLPLayer imp = layers.get(i);
 			System.out.println("Layer: " + i);
 			for (int j = 0; j < imp.neuronios.size(); j++) {
-				Neuronio n = imp.neuronios.get(j);
+				MLPNeuron n = imp.neuronios.get(j);
 				System.out.println("Neuronio: " + j);
 				for (int k = 0; k < n.pesos.size(); k++) {
 					System.out.println("Pesos: ");
