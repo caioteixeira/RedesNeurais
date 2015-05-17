@@ -7,24 +7,37 @@ import java.util.List;
 
 public class MLP extends Classifier {
 	List<MLPLayer> layers;
-	public double taxaDeAprendizagem;
-	public int nHidden;
+	public double learnRate;
+	public int layersCount;
+	
+	public int inputNodeCount;
+	public int outputNodeCount;
+	public int hiddenNodeCount;
+	public boolean bias;
+	public boolean random;
+	
 	int erros;
 	int acertos;
 
-	public MLP(int nHidden, int nosEntrada, int nosSaida, int nosHidden,
-			boolean bias, double learnRate, boolean aleatorio) {
+	public MLP(int nHidden, int inputNodeCount, int outputNodeCount, int hiddenNodeCount,
+			boolean bias, double learnRate, boolean random) {
 		this.erros = 0;
 		this.acertos = 0;
-		this.nHidden = nHidden;
-		this.taxaDeAprendizagem = learnRate;
+		this.layersCount = nHidden;
+		this.learnRate = learnRate;
+		this.inputNodeCount = inputNodeCount;
+		this.outputNodeCount = outputNodeCount;
+		this.hiddenNodeCount = hiddenNodeCount;
+		this.bias = bias;
+		this.random = random;
+		
 		layers = new ArrayList<MLPLayer>();
-		layers.add(new MLPLayer(nosEntrada, nosHidden, bias,aleatorio)); // cria camada de
+		layers.add(new MLPLayer(inputNodeCount, hiddenNodeCount, bias,random)); // cria camada de
 															// entrada
 
 		for (int i = 0; i < nHidden - 1; i++) {
 
-			layers.add(new MLPLayer(nosHidden, nosHidden, bias,aleatorio)); // cria ate o
+			layers.add(new MLPLayer(hiddenNodeCount, hiddenNodeCount, bias,random)); // cria ate o
 																// penultimo
 																// nivel de
 																// camadas
@@ -32,9 +45,9 @@ public class MLP extends Classifier {
 
 		}
 
-		layers.add(new MLPLayer(nosHidden, nosSaida, bias,aleatorio)); // cria ultima camada
+		layers.add(new MLPLayer(hiddenNodeCount, outputNodeCount, bias,random)); // cria ultima camada
 															// escondida
-		layers.add(new MLPLayer(nosSaida, 0, bias,aleatorio)); // cria camada de saida
+		layers.add(new MLPLayer(outputNodeCount, 0, bias,random)); // cria camada de saida
 
 	}
 
@@ -113,11 +126,11 @@ public class MLP extends Classifier {
 			List<MLPNeuron> listNeuronioOculto = oculta.neuronios;
 			for (int j = 0; j < listNeuronioOculto.size(); j++) {
 				MLPNeuron neuronioOculto = listNeuronioOculto.get(j);
-				neuronioOculto.erroPeso.add(taxaDeAprendizagem * erroDelta
+				neuronioOculto.erroPeso.add(learnRate * erroDelta
 						* neuronioOculto.saida);
 			}
 			if (neuronio.temBias)
-				neuronio.erroBias = taxaDeAprendizagem * erroDelta;
+				neuronio.erroBias = learnRate * erroDelta;
 
 		}
 		// System.out.println("Erro: "+erro);
@@ -145,12 +158,12 @@ public class MLP extends Classifier {
 
 			for (int l = 0; l < listNeuronioEntrada.size(); l++) {
 				MLPNeuron neuronioEntrada = listNeuronioEntrada.get(l);
-				neuronioEntrada.erroPeso.add(erroDelta * taxaDeAprendizagem
+				neuronioEntrada.erroPeso.add(erroDelta * learnRate
 						* neuronioEntrada.saida);
 
 			}
 			if (neuronio.temBias)
-				neuronio.erroBias = taxaDeAprendizagem * erroDelta;
+				neuronio.erroBias = learnRate * erroDelta;
 		}
 	}
 
@@ -387,7 +400,7 @@ public class MLP extends Classifier {
 	 * @param fileName
 	 */
 	public void save(String fileName) {
-		/*try {
+		try {
 			System.out.println("Saving MLP " + fileName + "...");
 			FileWriter file = new FileWriter(fileName);
 			// Escrever
@@ -397,25 +410,37 @@ public class MLP extends Classifier {
 			 *	inputNodeCount (int)
 			 *	outputNodeCount (int)
 			 *  hiddenNodeCount (int)
-			 *	LVQIniMethod (int)
+			 *  bias (boolean)
+			 *	random (boolean)
 			 *	Neurons (linha a linha) com os components
 			 */
-		/*
+		
 			StringBuilder builder = new StringBuilder();
 			// Learn Rate
 			builder.append(learnRate + ",");
-			// Reduction Rate
-			builder.append(reductionRate + ",");
-			// Stop Limiar
-			builder.append(stopLimiar + ",");
-			// Neurons Count
-			builder.append(neuronsCount + ",");
-			// Init Method
-			builder.append(iniMethod.ordinal() + "\n");
+			
+			// Layers Count
+			builder.append(layersCount + ",");
+			
+			// Input Node Count
+			builder.append(inputNodeCount + ",");
+			
+			// Output Node Count
+			builder.append(outputNodeCount + ",");
+			
+			// Hidden Node Count
+			builder.append(hiddenNodeCount + ",");
+									
+			// Bias
+			builder.append(hiddenNodeCount + ",");
+			
+			// Ini Random
+			builder.append(random + "\n");
 			
 			// Write Attributes
 			file.write(builder.toString());
 			
+			/*
 			// Write Neurons and Weights
 			for (LVQNeuron neuron : neurons) { 
 				StringBuilder builderNeuron = new StringBuilder();
@@ -431,12 +456,12 @@ public class MLP extends Classifier {
 				builderNeuron.deleteCharAt(builderNeuron.length()-1);
 				// Write Neuron Line
 				file.write(builderNeuron.toString() + "\n");
-			}
+			}*/
 			
 			file.close();
 			System.out.println(fileName + " saved!");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 }
