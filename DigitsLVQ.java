@@ -3,6 +3,27 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.ParseException;
 
+/*
+ 		Criando uma nova Rede, treinando (com validacao), teste, gerando log e salvando
+
+			DigitsLVQ 
+			-init FIRST_VALUES 
+			-lr 0.001 
+			-rr 30 
+			-nc 4 
+			-tn "optdigits.norm.cortado.tra" 
+			-tt "optdigits.norm.cortado.tes" 
+			-vl "optdigits.norm.cortado.val"
+			-log "trainningLogLVQDigits.csv"
+			-save "lvqNetwork.lvq"
+			
+		Carregando Rede e testando
+		
+			DigitsLVQ 
+			-lf "lvqNetwork.lvq"
+			-tt "optdigits.norm.cortado.tes"
+ 
+ */
 public class DigitsLVQ extends Digits {
 	
 	// LVQ Args
@@ -20,7 +41,7 @@ public class DigitsLVQ extends Digits {
 	static final String NEURONS_COUNT_OPTION = "nc";
 	static final String INI_METHOD_OPTION = "init";
 	
-	static final String LVQ_FILE_OPTION_TEXT = "taxa de aprendizado";
+	static final String LVQ_FILE_OPTION_TEXT = "Caminho para arquivo contendo Rede LVQ";
 	static final String LEARN_RATE_OPTION_TEXT = "taxa de aprendizado";
 	static final String REDUCTION_RATE_OPTION_TEXT = "taxa de reducao";
 	static final String NEURONS_COUNT_OPTION_TEXT = "numero de neuronios";
@@ -82,7 +103,7 @@ public class DigitsLVQ extends Digits {
 				iniMethod = LVQ.LVQIniMethod.valueOf(i);
 				lvq = new LVQ(learnRate, reductionRate, neuronsCount, iniMethod);
 			} else {
-				System.out.println("Faltou parametros para criacao da rede LVQ");
+				System.out.println("Faltou parametros para criacao/carregamento da rede LVQ");
 				return;
 			}
 		}
