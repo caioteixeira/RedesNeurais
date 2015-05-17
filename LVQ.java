@@ -221,7 +221,8 @@ public class LVQ extends Classifier {
 		double lastError = actualError;
 		System.out.println("Erro inicial (pos-inicializacao): " + actualError);
 		
-		while (actualErrorVariation > stopLimiar /*&& EpochsCounter < 1000*/) {
+		
+		while (actualErrorVariation > stopLimiar && actualError < 100.0 /*&& EpochsCounter < 1000*/) {
 			
 			if(actualLearnRate <= 0.0)
 			{

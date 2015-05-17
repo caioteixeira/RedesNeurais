@@ -75,10 +75,7 @@ public class MLPDigits extends Digits {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine cmd = parser.parse( options, args);
-			formatter.printHelp("MLPDigits", options, true);
-			
 			processArgs(cmd);
-			
 		} catch (ParseException e) {
 			System.out.println("Erro ao passar argumentos!");
 			formatter.printHelp("MLPDigits", options, true);
