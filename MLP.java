@@ -461,6 +461,7 @@ public class MLP extends Classifier {
 		return soma;
 	}
 
+	//metodo para verificar os pesos/bias de todos neuronios
 	public void printPeso() {
 		for (int i = 0; i < layers.size(); i++) {
 			//Sytem.out.println("Layer: "+i);
