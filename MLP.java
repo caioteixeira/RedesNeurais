@@ -1,9 +1,11 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.Scanner;
 
 public class MLP extends Classifier {
 	List<MLPLayer> layers;
@@ -49,6 +51,73 @@ public class MLP extends Classifier {
 															// escondida
 		layers.add(new MLPLayer(outputNodeCount, 0, bias,random)); // cria camada de saida
 
+	}
+	
+	/**
+	 * Construtor da MLP a partir de um arquivo .mlp
+	 * @param fileName
+	 */
+	public MLP(String fileName) {
+		/* Ordem
+		 *  learnRate (double)
+		 *	layersCount (int)
+		 *	inputNodeCount (int)
+		 *	outputNodeCount (int)
+		 *  hiddenNodeCount (int)
+		 *  bias (boolean)
+		 *	random (boolean)
+		 *	Layers, Neurons (linha a linha) com os components
+		 */
+		try
+		{
+		System.out.println("Loading MLP Network...");
+		File f = new File(fileName);
+		Scanner sc = new Scanner(f);
+		
+		// Read and populate attribs
+		String[] attribs = sc.nextLine().split(",");
+		this.learnRate = Double.valueOf(attribs[0]);
+		this.layersCount = Integer.valueOf(attribs[1]);
+		this.inputNodeCount = Integer.valueOf(attribs[2]);
+		this.outputNodeCount = Integer.valueOf(attribs[3]);
+		this.hiddenNodeCount = Integer.valueOf(attribs[4]);
+		this.bias = Boolean.valueOf(attribs[5]);
+		this.random = Boolean.valueOf(attribs[6]);
+		
+		/*// Neurons List
+		List<LVQNeuron> neuronsList = new ArrayList<LVQNeuron>();
+		while(sc.hasNext())
+		{
+			// Read Line
+			String neuronLine = sc.nextLine();
+			String[] components = neuronLine.split(",");
+			
+			// Create New Neuron
+			LVQNeuron neuron = new LVQNeuron(Double.valueOf(components[0]), components.length-1);
+			
+			// Create Double values
+			double[] values = new double[components.length-1];
+			for (int i = 1; i < components.length;i++) {
+				values[i-1] = Double.valueOf(components[i]);
+			}
+			
+			// Set Vector in Neuron
+			neuron.vector = new VectorNeural(values);
+			
+			// Add neuron in list
+			neuronsList.add(neuron);
+		}
+		
+		// Set neurons array in LVQ Network
+		this.neurons = neuronsList.toArray(new LVQNeuron[neuronsList.size()]);*/
+		
+		sc.close();
+		System.out.println(fileName + " loaded!");
+	}
+	catch(FileNotFoundException e)
+	{
+		System.out.println("File not founded: "+fileName);
+	}
 	}
 
 	public double[] respostaEsperada(double classe, int numNeuronios) {
@@ -399,7 +468,7 @@ public class MLP extends Classifier {
 		try {
 			System.out.println("Saving MLP " + fileName + "...");
 			FileWriter file = new FileWriter(fileName);
-			// Escrever
+
 			/* Ordem
 			 *  learnRate (double)
 			 *	layersCount (int)
@@ -408,7 +477,7 @@ public class MLP extends Classifier {
 			 *  hiddenNodeCount (int)
 			 *  bias (boolean)
 			 *	random (boolean)
-			 *	Neurons (linha a linha) com os components
+			 *	Layers, Neurons (linha a linha) com os components
 			 */
 		
 			StringBuilder builder = new StringBuilder();

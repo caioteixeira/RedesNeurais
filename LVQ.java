@@ -44,7 +44,7 @@ public class LVQ extends Classifier {
 	 * @param fileName
 	 */
 	public LVQ(String fileName) {
-		/* TODO Ler na seguinte ordem
+		/* Ler na seguinte ordem
 		 *  learnRate (double
 		 *	reductionRate (double)
 		 *	stopLimiar (double)
@@ -61,8 +61,8 @@ public class LVQ extends Classifier {
 			// Read and populate attribs
 			String[] attribs = sc.nextLine().split(",");
 			this.learnRate = Double.valueOf(attribs[0]);
-			this.learnRate = Double.valueOf(attribs[1]);
-			this.learnRate = Double.valueOf(attribs[2]);
+			this.reductionRate = Double.valueOf(attribs[1]);
+			this.stopLimiar = Double.valueOf(attribs[2]);
 			this.neuronsCount = Integer.valueOf(attribs[3]);
 			this.iniMethod = LVQIniMethod.values()[Integer.valueOf(attribs[4])];
 			
