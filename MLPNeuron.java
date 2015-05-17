@@ -41,4 +41,11 @@ class MLPNeuron {
 		this.bias = -0.5 + Math.random();
 
 	}
+	
+	public MLPNeuron(double bias, List<Double> pesos) {
+		this.pesos = pesos;
+		this.erroPeso = new ArrayList<Double>();
+		this.temBias = true;
+		this.bias = bias;
+	}
 }

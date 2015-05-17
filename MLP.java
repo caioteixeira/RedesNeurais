@@ -84,14 +84,14 @@ public class MLP extends Classifier {
 		this.bias = Boolean.valueOf(attribs[5]);
 		this.random = Boolean.valueOf(attribs[6]);
 		
-		/*// Neurons List
-		List<LVQNeuron> neuronsList = new ArrayList<LVQNeuron>();
+		List<MLPLayer> layersList = new ArrayList<MLPLayer>();
 		while(sc.hasNext())
 		{
 			// Read Line
 			String neuronLine = sc.nextLine();
-			String[] components = neuronLine.split(",");
+			//String[] neurons = neuronLine.split(";");
 			
+			/*layersList.add(new MLPLayer(nNos, numSinapse, bias, aleatorio))
 			// Create New Neuron
 			LVQNeuron neuron = new LVQNeuron(Double.valueOf(components[0]), components.length-1);
 			
@@ -105,11 +105,11 @@ public class MLP extends Classifier {
 			neuron.vector = new VectorNeural(values);
 			
 			// Add neuron in list
-			neuronsList.add(neuron);
+			neuronsList.add(neuron);*/
 		}
 		
-		// Set neurons array in LVQ Network
-		this.neurons = neuronsList.toArray(new LVQNeuron[neuronsList.size()]);*/
+		// Set Layers in MLP Network
+		this.layers = layersList;
 		
 		sc.close();
 		System.out.println(fileName + " loaded!");
