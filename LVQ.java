@@ -348,7 +348,7 @@ public class LVQ extends Classifier {
 		try {
 			System.out.println("Saving LVQ " + fileName + "...");
 			FileWriter file = new FileWriter(fileName);
-			// Escrever TODO
+			// Escrever
 			/* Ordem
 			 * learnRate (double
 			 *	reductionRate (double)

@@ -108,12 +108,12 @@ public class MLPDigits extends Digits {
 		} else {
 			// NEW MLP
 			String l,lc,in,o,h,i;
-			l = cmd.getOptionValue(LEARN_RATE_OPTION);
+			l  = cmd.getOptionValue(LEARN_RATE_OPTION);
 			lc = cmd.getOptionValue(LAYERS_COUNT_OPTION);
 			in = cmd.getOptionValue(INPUT_NODES_COUNT_OPTION);
-			o = cmd.getOptionValue(OUTPUT_NODES_COUNT_OPTION);
-			h = cmd.getOptionValue(HIDDEN_NODES_COUNT_OPTION);
-			i = cmd.getOptionValue(INI_METHOD_OPTION);
+			o  = cmd.getOptionValue(OUTPUT_NODES_COUNT_OPTION);
+			h  = cmd.getOptionValue(HIDDEN_NODES_COUNT_OPTION);
+			i  = cmd.getOptionValue(INI_METHOD_OPTION);
 			
 			if (l != null && lc != null && in != null &&
 					o != null && h != null  && i != null) { 

@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -378,5 +380,63 @@ public class MLP extends Classifier {
 
 		}
 
+	}
+	
+	/**
+	 * Salva Rede MLP em um arquivo .mlp
+	 * @param fileName
+	 */
+	public void save(String fileName) {
+		/*try {
+			System.out.println("Saving MLP " + fileName + "...");
+			FileWriter file = new FileWriter(fileName);
+			// Escrever
+			/* Ordem
+			 *  learnRate (double)
+			 *	layersCount (int)
+			 *	inputNodeCount (int)
+			 *	outputNodeCount (int)
+			 *  hiddenNodeCount (int)
+			 *	LVQIniMethod (int)
+			 *	Neurons (linha a linha) com os components
+			 */
+		/*
+			StringBuilder builder = new StringBuilder();
+			// Learn Rate
+			builder.append(learnRate + ",");
+			// Reduction Rate
+			builder.append(reductionRate + ",");
+			// Stop Limiar
+			builder.append(stopLimiar + ",");
+			// Neurons Count
+			builder.append(neuronsCount + ",");
+			// Init Method
+			builder.append(iniMethod.ordinal() + "\n");
+			
+			// Write Attributes
+			file.write(builder.toString());
+			
+			// Write Neurons and Weights
+			for (LVQNeuron neuron : neurons) { 
+				StringBuilder builderNeuron = new StringBuilder();
+				// Neuron class
+				builderNeuron.append(neuron._class + ",");
+				
+				// Iterate vector components
+				for (double component : neuron.vector.components) {
+					builderNeuron.append(component + ",");
+				}
+				
+				// Delete last comma
+				builderNeuron.deleteCharAt(builderNeuron.length()-1);
+				// Write Neuron Line
+				file.write(builderNeuron.toString() + "\n");
+			}
+			
+			file.close();
+			System.out.println(fileName + " saved!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
 	}
 }
