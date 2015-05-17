@@ -20,7 +20,7 @@ javac -cp ".\libs\commons-cli-1.3.jar;" .\*.java
 java -cp "libs\commons-cli-1.3.jar;" MLPDigits + Argumentos
 java -cp "libs\commons-cli-1.3.jar;" LVQDigits + Argumentos
 
-* Leia abaixa utilizacao dos argumentos
+* Leia abaixo utilizacao dos argumentos
 
 =============================================================================
 2 - MLP
