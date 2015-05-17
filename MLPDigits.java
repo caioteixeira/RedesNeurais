@@ -1,34 +1,13 @@
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-/*
- 		Criando uma nova Rede, treinando (com validacao), teste, gerando log e salvando
-
-			DigitsLVQ 
-			-init FIRST_VALUES 
-			-lr 0.001 
-			-rr 30 
-			-nc 4 
-			-tn "optdigits.norm.cortado.tra" 
-			-tt "optdigits.norm.cortado.tes" 
-			-vl "optdigits.norm.cortado.val"
-			-trainlog "trainningLogLVQDigits.csv"
-			-testlog "testLogLVQDigits.csv"
-			-save "lvqNetwork.lvq"
-			
-		Carregando Rede, testando e salvando dados gerados no teste
-		
-			DigitsLVQ
-			-load "lvqNetwork.lvq"
-			-tt "optdigits.norm.cortado.tes"
-			-testlog "testLogLVQDigits.csv"
- 
- */
-public class DigitsLVQ extends Digits {
+public class MLPDigits extends Digits {
 	
-	// LVQ Args
+	// MLP Args
 	static LVQ lvq;
 	static String lvqFilePath;
 	static double learnRate;
@@ -36,7 +15,7 @@ public class DigitsLVQ extends Digits {
 	static int neuronsCount;
 	static LVQ.LVQIniMethod iniMethod;
 	
-	// LVQ Args consts
+	// MLP Args consts
 	static final String LEARN_RATE_OPTION = "lr";
 	static final String REDUCTION_RATE_OPTION = "rr";
 	static final String NEURONS_COUNT_OPTION = "nc";
@@ -53,15 +32,13 @@ public class DigitsLVQ extends Digits {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine cmd = parser.parse( options, args);
-			formatter.printHelp("DigitsLVQ", options, true);
+			formatter.printHelp("MLPDigits", options, true);
 			
 			processArgs(cmd);
 			
 		} catch (ParseException e) {
-			//e.printStackTrace();
-			
 			System.out.println("Erro ao passar argumentos!");
-			formatter.printHelp("DigitsProject", options, true);
+			formatter.printHelp("MLPDigits", options, true);
 		}
 	}
 	
