@@ -121,9 +121,9 @@ public class DigitsLVQ extends Digits {
 			lvq.train(trainSet, validateSet);
 		}
 		
-		if (validateFilePath != null && trainFilePath == null) {
-			validateSet = new DataSet(-1, validateFilePath);
-			lvq.validate(validateSet);
+		if ((trainFilePath != null && validateFilePath == null) ||
+			(trainFilePath == null && validateFilePath != null) ) {
+			System.out.println("Para Treino deve-se passar o conjunto de teste E validacao!");
 		}
 		
 		if (testFilePath != null) {
