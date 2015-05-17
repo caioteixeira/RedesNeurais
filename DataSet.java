@@ -217,6 +217,10 @@ public class DataSet {
 		return out;
 	}
 	
+	/**
+	 * Salva DataSet
+	 * @param name
+	 */
 	public void save(String name)
 	{
 		try {
@@ -232,6 +236,9 @@ public class DataSet {
 		}
 	}
 	
+	/**
+	 * Calcula Numero das classes
+	 */
 	private void calculateNumberOfClasses()
 	{
 		this.class_count = 0;
@@ -257,11 +264,19 @@ public class DataSet {
 		this.reset();
 	}
 	
+	/**
+	 * Verifica se o conjunto possui proximo retornando uma variavel booleana
+	 * @return
+	 */
 	public boolean hasNext()
 	{
 		return readIndex < dataSet.size();
 	}
 	
+	/**
+	 * Retorna proxima String do DataSet
+	 * @return String
+	 */
 	public String nextString()
 	{
 		String r = dataSet.get(readIndex);

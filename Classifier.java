@@ -9,12 +9,18 @@ public abstract class Classifier {
 	private Map<Integer, Double[]> errorMap;
 	
 	public abstract void train(DataSet trainSet, DataSet validateSet);
+	
 	//Retorna o erro
 	public abstract double validate(DataSet validateSet);
 	public abstract TestData test(DataSet testSet);
 	
 	
-	//Guarda o erro de cada �poca em um map
+	/**
+	 * Guarda o erro de cada epoca em um map
+	 * @param numberOfEpochs
+	 * @param trainError
+	 * @param validationError
+	 */
 	protected void logError(int numberOfEpochs, double trainError, double validationError)
 	{
 		if(errorMap == null)
@@ -23,7 +29,10 @@ public abstract class Classifier {
 		errorMap.put(numberOfEpochs, error);
 	}
 	
-	//Salva arquivo CSV com o Log de erros por �poca do treinamento
+	/**
+	 * Salva arquivo CSV com o Log de erros por epoca do treinamento
+	 * @param dir
+	 */
 	public void saveTrainningLogFile(String dir)
 	{
 		//Checando erros
