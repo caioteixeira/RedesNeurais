@@ -1,31 +1,42 @@
 import java.util.Random;
 
-//Representa neuronio
+/**
+ * Classe que representa neuronio da rede LVQ
+ */
 public class LVQNeuron
 {
 	public VectorNeural vector;
+	
+	// Classe representada pelo neuronio
 	double _class;
 	
-	// Random weights constructor
+	/**
+	 * Construtor de neuronio com pesos aleatorios
+	 * @param _class
+	 * @param attrib_count
+	 */
 	public LVQNeuron(double _class, int attrib_count) {
 		Random random = new Random();
 		double[] values = new double[attrib_count];
 		for (int i = 0; i < values.length; i++) {
-			// Tem que ver se assim ta um random legal
 			values[i] = random.nextDouble();
 		}
 		
-		// Set neuron class number
+		// Seta numero da classe
 		this._class = _class;
 		
-		// Create vector with random values
+		// cria vetor com valores aleatorios
 		vector = new VectorNeural(values);
 	}
 	
-	// Dataset constructor
+	/**
+	 * Construtor baseado na linha do dataset
+	 * @param dataSetLine
+	 * @param classAtributteIndex
+	 */
 	public LVQNeuron(double[] dataSetLine, int classAtributteIndex)
 	{
-		//TODO: Verificar se indice e valido
+		// Seta classe
 		this._class = dataSetLine[classAtributteIndex];
 		
 		//Cria novo arranjo removendo indice de classe
@@ -42,13 +53,21 @@ public class LVQNeuron
 		this.vector = new VectorNeural(v);	
 	}
 	
-	//Calcula distancia com outra unidade
+	/**
+	 * Calcula distancia com outra unidade
+	 * @param n
+	 * @return distance
+	 */
 	public double distanceFrom(LVQNeuron n)
 	{
 		return this.vector.distanceFrom(n.vector, LVQ.DEFAULT_DISTANCE_METHOD);
 	}
 	
-	//Aproxima
+	/**
+	 * Aproxima neuronio
+	 * @param x
+	 * @param learnRate
+	 */
 	public void aproach(LVQNeuron x, double learnRate)
 	{
 		VectorNeural xV = x.vector;
@@ -57,7 +76,11 @@ public class LVQNeuron
 		this.vector = this.vector.add(xV.subtract(this.vector).multiply(learnRate));
 	}
 	
-	//Afasta
+	/**
+	 * Afasta
+	 * @param x
+	 * @param learnRate
+	 */
 	public void diverge(LVQNeuron x, double learnRate)
 	{
 		VectorNeural xV = x.vector;

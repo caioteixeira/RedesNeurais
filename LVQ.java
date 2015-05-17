@@ -8,29 +8,46 @@ import java.util.Scanner;
 
 
 public class LVQ extends Classifier {
+	
+	/**
+	 * Enum para os metodos 
+	 * de inicializacao de neuronios 
+	 * da rede LVQ
+	 */
 	public enum LVQIniMethod
 	{
 		RANDOM,
 		FIRST_VALUES,
 		ZERO
 	}
-
+	
+	// Quantidade de neuronios
 	int neuronsCount;
-	int i = 65; //Class Index
-	VectorNeural[] inputNeurons;
-	VectorNeural[] outputNeurons;
+	
+	// Neuronios da rede LVQ
 	private LVQNeuron[] neurons;
 	
-	///public DataSet validateSet;
+	/** Taxas Utilizadas na LVQ **/
+	// Taxa de redução da taxa de aprendizado
+	private double reductionRate; 
+	// Taxa inicial de aprendizado
+	private double learnRate; 
+	// Limiar de parada
+	private double stopLimiar = 0.00001; 
 	
-	private double reductionRate; //Taxa de redução da taxa de aprendizado
-	private double learnRate; //Taxa inicial de aprendizado
-	private double stopLimiar = 0.00001; //limiar de parada
-	
+	// Metodo de inicializacao dos neuronios da LVQ
 	private LVQIniMethod iniMethod = LVQIniMethod.FIRST_VALUES;
 	
+	// Metodo de calculo da distancia (euclidiana ou manhattan)
 	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.MANHATTAN;
 	
+	/**
+	 * Construtor padrao da LVQ recebendo os seguintes parametos:
+	 * @param learnRate
+	 * @param reductionRate
+	 * @param neuronsCount
+	 * @param iniMethod
+	 */
 	public LVQ(double learnRate, double reductionRate, int neuronsCount, LVQIniMethod iniMethod)
 	{
 		this.learnRate = learnRate;
@@ -102,7 +119,10 @@ public class LVQ extends Classifier {
 		}
 	}
 	
-	//Inicialização dos pesos
+	/**
+	 * Metodo para inicializacao dos neuronios
+	 * @param trainSet
+	 */
 	private void initializeNeurons(DataSet trainSet) {
 		// Inicializa em posicoes randomicas ou zero
 		neurons = new LVQNeuron[(trainSet.class_count)*neuronsCount];
@@ -159,7 +179,7 @@ public class LVQ extends Classifier {
 		}
 		
 	}
-
+	
 	@Override
 	public void train(DataSet trainSet, DataSet validateSet) {
 		System.out.println("Training");
@@ -261,9 +281,6 @@ public class LVQ extends Classifier {
 				actualErrorVariation = Math.abs(lastError - actualError); //Pega o módulo de erro anterior - erro atual
 				System.out.println("validando: " + actualError);
 			}
-			
-			
-				
 		}
 	}
 
@@ -285,33 +302,6 @@ public class LVQ extends Classifier {
 		return totalError/validateSet.size();
 	}
 	
-	
-	//Calcula o erro para determinado neurônio de entrada
-	private double calculateError(LVQNeuron input)
-	{
-		boolean found = false;
-		double minDistance = 0.0;
-		for (int i = 0; i < neurons.length; i++) {
-			if(input._class == neurons[i]._class)
-			{
-				double distance = input.distanceFrom(neurons[i]);
-				if(!found)
-					minDistance = distance;
-				else if(minDistance > distance)
-				{
-					minDistance = distance;
-				}
-				
-				found = true;
-			}
-		}
-		
-		if(!found)
-			System.out.println("Class not found!" + input._class);
-		
-		return minDistance;
-	}
-
 	@Override
 	public TestData test(DataSet testSet) {
 		System.out.println("Testing");
@@ -340,6 +330,36 @@ public class LVQ extends Classifier {
 		return test;
 	}
 	
+	/**
+	 * Calcula o erro para determinado neurônio de entrada
+	 * @param input
+	 * @return double
+	 */
+	private double calculateError(LVQNeuron input)
+	{
+		boolean found = false;
+		double minDistance = 0.0;
+		for (int i = 0; i < neurons.length; i++) {
+			if(input._class == neurons[i]._class)
+			{
+				double distance = input.distanceFrom(neurons[i]);
+				if(!found)
+					minDistance = distance;
+				else if(minDistance > distance)
+				{
+					minDistance = distance;
+				}
+				
+				found = true;
+			}
+		}
+		
+		if(!found)
+			System.out.println("Class not found!" + input._class);
+		
+		return minDistance;
+	}
+
 	/**
 	 * Salva Rede LVQ em um arquivo .lvq
 	 * @param fileName

@@ -1,18 +1,34 @@
-
-//Representa vetor e suas operacoes
+/**
+ * Classe que representa vetor e suas operacoes
+ */
 public class VectorNeural
 {
+	/**
+	 * Enum dos metodos de calculo de distancia (euclidiana e manhattan)
+	 */
 	public static enum DistanceMethod {
 		MANHATTAN,
 		EUCLIDEAN
 	};
 	
+	// Componentes do vetor (pesos)
 	public double[] components;
+	
+	/**
+	 * Construtor do vetor neural recebendo valores dos pesos
+	 * @param values
+	 */
 	public VectorNeural(double[] values)
 	{
 		this.components = values;
 	}
 	
+	/**
+	 * Construtor de vetor neural recebendo unico valor 
+	 * que sera setado em um array de determinada dimensao
+	 * @param value
+	 * @param dimensions
+	 */
 	public VectorNeural(double value, int dimensions)
 	{
 		this.components = new double[dimensions];
@@ -22,7 +38,11 @@ public class VectorNeural
 		}
 	}
 	
-	//Operacao de adicao
+	/**
+	 * Operacao de adicao
+	 * @param value
+	 * @return
+	 */
 	public VectorNeural add(VectorNeural value)
 	{
 		if(!this.hasEqualDimensions(value))
@@ -42,7 +62,11 @@ public class VectorNeural
 		return new VectorNeural(rVectorNeural);
 	}
 	
-	//Operacao de subtracao
+	/**
+	 * Operacao de subtracao
+	 * @param value
+	 * @return vectorNeural
+	 */
 	public VectorNeural subtract(VectorNeural value)
 	{
 		if(!this.hasEqualDimensions(value))
@@ -62,7 +86,11 @@ public class VectorNeural
 		return new VectorNeural(rVectorNeural);
 	}
 	
-	//Operacao de multiplicacao
+	/**
+	 * Operacao de multiplicacao
+	 * @param value
+	 * @return vectorNeural
+	 */
 	public VectorNeural multiply(double value)
 	{
 		double[] rVectorNeural = new double[components.length];
@@ -74,25 +102,34 @@ public class VectorNeural
 		return new VectorNeural(rVectorNeural);
 	}
 	
-	//Distancia de manhatan e euclidiana
+	/**
+	 * Calcula distancia ate determinado vetor (euclidiana ou manhattan)
+	 * @param VectorNeural
+	 * @param distanceMethod
+	 * @return distance
+	 */
 	public double distanceFrom(VectorNeural VectorNeural, DistanceMethod distanceMethod)
 	{
-		// http://en.wikipedia.org/wiki/Taxicab_geometry
-		// http://stackoverflow.com/questions/8224470/calculating-manhattan-distance
-		// distance = Math.abs(x1-x0) + Math.abs(y1-y0);
-		// http://pt.stackoverflow.com/questions/12654/como-fa%C3%A7o-pra-calcular-dist%C3%A2ncia-euclidiana
-		// Euclidiana -- distance = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
+		/* Baseado em
+		 * 
+		 *	http://en.wikipedia.org/wiki/Taxicab_geometry
+		 *	http://stackoverflow.com/questions/8224470/calculating-manhattan-distance
+		 *	distance = Math.abs(x1-x0) + Math.abs(y1-y0);
+		 *	http://pt.stackoverflow.com/questions/12654/como-fa%C3%A7o-pra-calcular-dist%C3%A2ncia-euclidiana
+		 *	Euclidiana -- distance = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
+		 */
 		
 		double distance = -1;
 		
-		// VectorNeural Lengths
+		// Tamanho dos vetores
 		int VectorNeural1Length = this.components.length;
 		int VectorNeural2Length = VectorNeural.components.length;
 		
-		// Check VectorNeural lengths
+		// Valida tamanho dos vetores
 		if (VectorNeural1Length == VectorNeural2Length) {
 			distance = 0;
-			// Select method
+			
+			// Seleciona metodo e calcula distancia
 			switch (distanceMethod) {
 
 			case MANHATTAN:
