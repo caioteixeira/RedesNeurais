@@ -463,6 +463,7 @@ public class MLP extends Classifier {
 
 	public void printPeso() {
 		for (int i = 0; i < layers.size(); i++) {
+			//Sytem.out.println("Layer: "+i);
 			MLPLayer imp = layers.get(i);
 			System.out.println("Layer: " + i);
 			for (int j = 0; j < imp.neuronios.size(); j++) {
@@ -472,6 +473,7 @@ public class MLP extends Classifier {
 					System.out.println("Pesos: ");
 					System.out.println(n.pesos.get(k));
 				}
+				System.out.println("Bias "+n.bias);
 			}
 		}
 	}
