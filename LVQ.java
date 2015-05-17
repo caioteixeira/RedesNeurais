@@ -39,7 +39,7 @@ public class LVQ extends Classifier {
 	private LVQIniMethod iniMethod = LVQIniMethod.FIRST_VALUES;
 	
 	// Metodo de calculo da distancia (euclidiana ou manhattan)
-	static final VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.MANHATTAN;
+	static VectorNeural.DistanceMethod DEFAULT_DISTANCE_METHOD = VectorNeural.DistanceMethod.MANHATTAN;
 	
 	/**
 	 * Construtor padrao da LVQ recebendo os seguintes parametos:
@@ -54,6 +54,20 @@ public class LVQ extends Classifier {
 		this.neuronsCount = neuronsCount;
 		this.iniMethod = iniMethod;
 		this.reductionRate = reductionRate;
+	}
+	
+	/**
+	 * Construtor da LVQ que altera o calculo da distancia:
+	 * @param learnRate
+	 * @param reductionRate
+	 * @param neuronsCount
+	 * @param iniMethod
+	 * @param distanceMethod
+	 */
+	public LVQ(double learnRate, double reductionRate, int neuronsCount, LVQIniMethod iniMethod, VectorNeural.DistanceMethod distanceMethod)
+	{
+		this(learnRate,reductionRate,neuronsCount,iniMethod);
+		LVQ.DEFAULT_DISTANCE_METHOD = distanceMethod;
 	}
 	
 	/**

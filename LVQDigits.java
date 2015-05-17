@@ -12,7 +12,8 @@ import org.apache.commons.cli.ParseException;
  		Criando uma nova Rede, treinando (com validacao), teste, gerando log e salvando
 
 			LVQDigits 
-			-init FIRST_VALUES 
+			-init FIRST_VALUES
+			-distance EUCLIDEAN 
 			-lr 0.001 
 			-rr 30 
 			-nc 4 
@@ -40,17 +41,20 @@ public class LVQDigits extends Digits {
 	static double reductionRate;
 	static int neuronsCount;
 	static LVQ.LVQIniMethod iniMethod;
+	static VectorNeural.DistanceMethod distMethod;
 	
 	// LVQ Args consts
 	static final String LEARN_RATE_OPTION = "lr";
 	static final String REDUCTION_RATE_OPTION = "rr";
 	static final String NEURONS_COUNT_OPTION = "nc";
 	static final String INI_METHOD_OPTION = "init";
+	static final String DISTANCE_METHOD_OPTION = "distance";
 	
 	static final String LEARN_RATE_OPTION_TEXT = "taxa de aprendizado";
 	static final String REDUCTION_RATE_OPTION_TEXT = "taxa de reducao";
 	static final String NEURONS_COUNT_OPTION_TEXT = "numero de neuronios";
 	static final String INI_METHOD_OPTION_TEXT = "metodo de inicializacao dos neuronios (RANDOM , FIRST_VALUES ou ZERO)";
+	static final String DISTANCE_METHOD_OPTION_TEXT = "escolha do calculo de distancia (EUCLIDEAN ou MANHATTAN)";
 	
 	public static void main(String[] args) {
 		initializeOptions();
@@ -80,6 +84,7 @@ public class LVQDigits extends Digits {
 		options.addOption(REDUCTION_RATE_OPTION, true, REDUCTION_RATE_OPTION_TEXT);
 		options.addOption(NEURONS_COUNT_OPTION, true, NEURONS_COUNT_OPTION_TEXT);
 		options.addOption(INI_METHOD_OPTION, true, INI_METHOD_OPTION_TEXT);
+		options.addOption(DISTANCE_METHOD_OPTION, true, DISTANCE_METHOD_OPTION_TEXT);
 	}
 	
 	private static void processArgs(CommandLine cmd) {
@@ -91,11 +96,12 @@ public class LVQDigits extends Digits {
 			lvq = new LVQ(lvqFilePath);
 		} else {
 			// NEW LVQ
-			String l,r,n,i;
+			String l,r,n,i,d;
 			l = cmd.getOptionValue(LEARN_RATE_OPTION);
 			r = cmd.getOptionValue(REDUCTION_RATE_OPTION);
 			n = cmd.getOptionValue(NEURONS_COUNT_OPTION);
 			i = cmd.getOptionValue(INI_METHOD_OPTION);
+			d = cmd.getOptionValue(DISTANCE_METHOD_OPTION);
 			
 			if (l != null && r != null && n != null && i != null) { 
 				// Check Parameters
@@ -103,7 +109,13 @@ public class LVQDigits extends Digits {
 				reductionRate = Double.valueOf(r);
 				neuronsCount = Integer.parseInt(n);
 				iniMethod = LVQ.LVQIniMethod.valueOf(i);
-				lvq = new LVQ(learnRate, reductionRate, neuronsCount, iniMethod);
+				
+				if (d != null) {
+					distMethod = VectorNeural.DistanceMethod.valueOf(d);
+					lvq = new LVQ(learnRate, reductionRate, neuronsCount, iniMethod, distMethod);
+				} else {
+					lvq = new LVQ(learnRate, reductionRate, neuronsCount, iniMethod);
+				}
 			} else {
 				System.out.println("Faltou parametros para criacao/carregamento da rede LVQ");
 				return;
