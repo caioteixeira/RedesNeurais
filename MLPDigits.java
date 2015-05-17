@@ -3,7 +3,12 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.ParseException;
 
-/*
+/**
+ *  Programa para execucao da rede MLP
+ *  Verifique o padrao de entrada 
+ *  ou utilize os exemplos abaixo para execucao do programa
+ *  ** Estas informacoes tambem estao no arquivo README.txt
+
 	Criando uma nova Rede, treinando (com validacao), teste, gerando log e salvando
 
 	MLPDigits 

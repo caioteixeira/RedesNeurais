@@ -1,7 +1,10 @@
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 
-
+/**
+ * Classe Base dos programas MLPDigits e LVQDigits
+ * Contem as variaveis e constantes comum em ambas
+ */
 public class Digits {
 	protected static Options options = new Options();
 	protected static HelpFormatter formatter = new HelpFormatter();
