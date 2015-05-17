@@ -373,7 +373,7 @@ class Principal extends Classifier {
 		return erro;
 	}
 
-	public void test(DataSet dados) {
+	public TestData test(DataSet dados) {
 		System.out.println("Teste");
 		TestData estatistica = new TestData(10);
 		while (dados.hasNext()) {
@@ -415,6 +415,7 @@ class Principal extends Classifier {
 		// System.out.println(layers.get(layers.size()-1).neuronios.get(0).bias);
 		estatistica.printResults();
 		estatistica.saveResults("MLP-matriz");
+		return estatistica;
 
 	}
 	

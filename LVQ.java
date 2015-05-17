@@ -313,7 +313,7 @@ public class LVQ extends Classifier {
 	}
 
 	@Override
-	public void test(DataSet testSet) {
+	public TestData test(DataSet testSet) {
 		System.out.println("Testing");
 		TestData test = new TestData(testSet.class_count);
 		//testSet.printClassDistribution(testSet.classAttributteIndex);
@@ -337,6 +337,7 @@ public class LVQ extends Classifier {
 		}
 		
 		test.printResults();
+		return test;
 	}
 	
 	/**

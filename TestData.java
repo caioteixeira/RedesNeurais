@@ -78,7 +78,6 @@ public class TestData {
 			fw.write("Taxa de precisão: "+ precision() + "\n");
 			fw.write("Taxa de falsas descobertas: " + fdr() + "\n");
 			
-			
 			//fw.write("")
 			
 			fw.write("\nMatrix de confusao\n");

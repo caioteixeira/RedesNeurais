@@ -23,6 +23,6 @@ public class LVQTest {
 		//LVQ lvq = new LVQ("lvqNetwork");
 		//DataSet testSet = new DataSet(64, "optdigits.norm.tes");
 		//testSet.printClassDistribution(testSet.classAttributteIndex);
-		lvq.test(testSet); 
+		lvq.test(testSet);
 	}
 }

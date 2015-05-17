@@ -11,7 +11,7 @@ public abstract class Classifier {
 	public abstract void train(DataSet trainSet, DataSet validateSet);
 	//Retorna o erro
 	public abstract double validate(DataSet validateSet);
-	public abstract void test(DataSet testSet);
+	public abstract TestData test(DataSet testSet);
 	
 	
 	//Guarda o erro de cada �poca em um map

@@ -70,8 +70,9 @@ public class DigitsLVQ extends Digits {
 		options.addOption(Digits.VALIDATE_FILE_OPTION, true, Digits.VALIDATE_FILE_OPTION_TEXT);
 		options.addOption(Digits.TEST_FILE_OPTION, true, Digits.TEST_FILE_OPTION_TEXT);
 		options.addOption(Digits.SAVE_OPTION, true, Digits.SAVE_OPTION_TEXT);
-		options.addOption(Digits.LOG_OPTION, true, Digits.LOG_OPTION_TEXT);
-
+		options.addOption(Digits.TRAIN_LOG_OPTION, true, Digits.TRAIN_LOG_OPTION_TEXT);
+		options.addOption(Digits.TEST_LOG_OPTION, true, Digits.TEST_LOG_OPTION_TEXT);
+		
 		options.addOption(LVQ_FILE_OPTION, true, LVQ_FILE_OPTION_TEXT);
 		options.addOption(LEARN_RATE_OPTION, true, LEARN_RATE_OPTION_TEXT);
 		options.addOption(REDUCTION_RATE_OPTION, true, REDUCTION_RATE_OPTION_TEXT);
@@ -111,15 +112,19 @@ public class DigitsLVQ extends Digits {
 		trainFilePath    = cmd.getOptionValue(Digits.TRAINING_FILE_OPTION);
 		validateFilePath = cmd.getOptionValue(Digits.VALIDATE_FILE_OPTION);
 		testFilePath     = cmd.getOptionValue(Digits.TEST_FILE_OPTION);
-		
-		boolean trained = false;
+
 		// DATA SETS
 		DataSet trainSet, validateSet, testSet;
 		if (trainFilePath != null && validateFilePath != null) {
 			trainSet = new DataSet(-1, trainFilePath);
 			validateSet = new DataSet(-1, validateFilePath);
 			lvq.train(trainSet, validateSet);
-			trained = true;
+			
+			// If user pass logPath... Save.
+			String trainLogPath = cmd.getOptionValue(TRAIN_LOG_OPTION);
+			if (trainLogPath != null) {
+				lvq.saveTrainningLogFile(trainLogPath);
+			}
 		}
 		
 		if ((trainFilePath != null && validateFilePath == null) ||
@@ -130,6 +135,8 @@ public class DigitsLVQ extends Digits {
 		if (testFilePath != null) {
 			testSet = new DataSet(-1, testFilePath);
 			lvq.test(testSet);
+			
+			
 		}
 		
 		// SAVE AND LOG OPTIONS
@@ -137,16 +144,6 @@ public class DigitsLVQ extends Digits {
 		if (savePath != null) {
 			// Save LVQ
 			lvq.save(savePath);
-		}
-		
-		String logPath = cmd.getOptionValue(LOG_OPTION);
-		if (logPath != null) {
-			if (trained) {
-				// Save Log
-				lvq.saveTrainningLogFile(logPath);
-			} else {
-				System.out.println("Log so eh salvo quando a LVQ passou por um treino nesta execucao");
-			}
 		}
 	}
 }
