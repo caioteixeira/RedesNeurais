@@ -14,7 +14,7 @@ import org.apache.commons.cli.ParseException;
 			-tn "optdigits.norm.cortado.tra" 
 			-tt "optdigits.norm.cortado.tes" 
 			-vl "optdigits.norm.cortado.val"
-			-log "trainningLogLVQDigits.csv"
+			-tlog "trainningLogLVQDigits.csv"
 			-save "lvqNetwork.lvq"
 			
 		Carregando Rede e testando
@@ -94,7 +94,6 @@ public class DigitsLVQ extends Digits {
 			n = cmd.getOptionValue(NEURONS_COUNT_OPTION);
 			i = cmd.getOptionValue(INI_METHOD_OPTION);
 			
-			// POG zuada FIXME - REMOVER
 			if (l != null && r != null && n != null && i != null) { 
 				// Check Parameters
 				learnRate = Double.valueOf(l);
@@ -113,12 +112,14 @@ public class DigitsLVQ extends Digits {
 		validateFilePath = cmd.getOptionValue(Digits.VALIDATE_FILE_OPTION);
 		testFilePath     = cmd.getOptionValue(Digits.TEST_FILE_OPTION);
 		
+		boolean trained = false;
 		// DATA SETS
 		DataSet trainSet, validateSet, testSet;
 		if (trainFilePath != null && validateFilePath != null) {
 			trainSet = new DataSet(-1, trainFilePath);
 			validateSet = new DataSet(-1, validateFilePath);
 			lvq.train(trainSet, validateSet);
+			trained = true;
 		}
 		
 		if ((trainFilePath != null && validateFilePath == null) ||
@@ -140,9 +141,12 @@ public class DigitsLVQ extends Digits {
 		
 		String logPath = cmd.getOptionValue(LOG_OPTION);
 		if (logPath != null) {
-			// Save Log
-			lvq.saveTrainningLogFile(logPath);
+			if (trained) {
+				// Save Log
+				lvq.saveTrainningLogFile(logPath);
+			} else {
+				System.out.println("Log so eh salvo quando a LVQ passou por um treino nesta execucao");
+			}
 		}
 	}
-
 }
