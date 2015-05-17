@@ -14,7 +14,8 @@ import org.apache.commons.cli.ParseException;
 			-tn "optdigits.norm.cortado.tra" 
 			-tt "optdigits.norm.cortado.tes" 
 			-vl "optdigits.norm.cortado.val"
-			-tlog "trainningLogLVQDigits.csv"
+			-trainlog "trainningLogLVQDigits.csv"
+			-testlog "testLogLVQDigits.csv"
 			-save "lvqNetwork.lvq"
 			
 		Carregando Rede e testando
@@ -120,7 +121,7 @@ public class DigitsLVQ extends Digits {
 			validateSet = new DataSet(-1, validateFilePath);
 			lvq.train(trainSet, validateSet);
 			
-			// If user pass logPath... Save.
+			// If user pass trainLogPath... Save.
 			String trainLogPath = cmd.getOptionValue(TRAIN_LOG_OPTION);
 			if (trainLogPath != null) {
 				lvq.saveTrainningLogFile(trainLogPath);
@@ -134,9 +135,13 @@ public class DigitsLVQ extends Digits {
 		
 		if (testFilePath != null) {
 			testSet = new DataSet(-1, testFilePath);
-			lvq.test(testSet);
+			TestData testData = lvq.test(testSet);
 			
-			
+			// If user pass testLogPath... Save.
+			String testLogPath = cmd.getOptionValue(TEST_FILE_OPTION);
+			if (testLogPath != null && testData != null) {
+				testData.saveResults(testLogPath);
+			}
 		}
 		
 		// SAVE AND LOG OPTIONS
