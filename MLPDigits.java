@@ -19,14 +19,14 @@ import org.apache.commons.cli.ParseException;
 	-vl "optdigits.norm.cortado.val"
 	-trainlog "trainningLogMLPDigits.csv"
 	-testlog "testLogMLPDigits.csv"
-	-save "mlpNetwork.lvq"
+	-save "mlpNetwork.mlp"
 	
 	Carregando Rede, testando e salvando dados gerados no teste
 	
-		MLPDigits
-		-load "mlpNetwork.lvq"
-		-tt "optdigits.norm.cortado.tes"
-		-testlog "testLogMLPDigits.csv"
+	MLPDigits
+	-load "mlpNetwork.mlp"
+	-tt "optdigits.norm.cortado.tes"
+	-testlog "testLogMLPDigits.csv"
 
 */
 public class MLPDigits extends Digits {
