@@ -62,9 +62,7 @@ public class LVQDigits extends Digits {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine cmd = parser.parse( options, args);
-			formatter.printHelp("LVQDigits", options, true);
 			processArgs(cmd);
-			
 		} catch (ParseException e) {
 			System.out.println("Erro ao passar argumentos!");
 			formatter.printHelp("LVQDigits", options, true);
