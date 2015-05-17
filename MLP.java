@@ -89,23 +89,39 @@ public class MLP extends Classifier {
 		{
 			// Read Line
 			String neuronLine = sc.nextLine();
-			//String[] neurons = neuronLine.split(";");
+			String[] neurons = neuronLine.split(";");
 			
-			/*layersList.add(new MLPLayer(nNos, numSinapse, bias, aleatorio))
-			// Create New Neuron
-			LVQNeuron neuron = new LVQNeuron(Double.valueOf(components[0]), components.length-1);
-			
-			// Create Double values
-			double[] values = new double[components.length-1];
-			for (int i = 1; i < components.length;i++) {
-				values[i-1] = Double.valueOf(components[i]);
+			List<MLPNeuron> neuronsList = new ArrayList<MLPNeuron>();
+			for (String neuron : neurons) {
+				String[] components = neuron.split(",");
+				
+				// Components
+				MLPNeuron neuronComponent;
+				List<Double> weightsList = new ArrayList<Double>();
+				
+				// Index to count bias or not
+				int i = 0;
+				
+				// Check Bias and create neuronComponent
+				if (bias) {
+					double biasValue = Double.parseDouble(components[0]);
+					i = 1;
+					neuronComponent = new MLPNeuron(biasValue, weightsList);
+				} else {
+					neuronComponent = new MLPNeuron(weightsList);
+				}
+				
+				// Set Weights
+				for (; i < components.length;i++) {
+					weightsList.add(Double.parseDouble(components[i]));
+				}
+				
+				// Add Neuron
+				neuronsList.add(neuronComponent);
 			}
 			
-			// Set Vector in Neuron
-			neuron.vector = new VectorNeural(values);
-			
-			// Add neuron in list
-			neuronsList.add(neuron);*/
+			// Add Layer with neuronsList
+			layersList.add(new MLPLayer(neuronsList));
 		}
 		
 		// Set Layers in MLP Network

@@ -20,7 +20,7 @@ class MLPNeuron {
 
 	boolean temBias;
 
-	public MLPNeuron(int numSinapse, boolean bias, boolean aleatorio) {
+	public MLPNeuron(int numSinapse, boolean hasBias, boolean aleatorio) {
 		this.pesos = new ArrayList<Double>();
 		this.erroPeso = new ArrayList<Double>();
 		if(aleatorio){
@@ -37,14 +37,17 @@ class MLPNeuron {
 			}
 
 		}
-		temBias = bias;
+		temBias = hasBias;
 		this.bias = -0.5 + Math.random();
-
+	}
+		
+	public MLPNeuron(List<Double> pesos) {
+		this.pesos = pesos;
+		this.erroPeso = new ArrayList<Double>();
 	}
 	
 	public MLPNeuron(double bias, List<Double> pesos) {
-		this.pesos = pesos;
-		this.erroPeso = new ArrayList<Double>();
+		this(pesos);
 		this.temBias = true;
 		this.bias = bias;
 	}

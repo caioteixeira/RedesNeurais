@@ -104,7 +104,7 @@ public class MLPDigits extends Digits {
 		
 		if (mlpFilePath != null) { 
 			// Load MLP File
-			// TODO
+			mlp = new MLP(mlpFilePath);
 		} else {
 			// NEW MLP
 			String l,lc,in,o,h,i;
@@ -181,7 +181,7 @@ public class MLPDigits extends Digits {
 		String savePath = cmd.getOptionValue(SAVE_OPTION);
 		if (savePath != null) {
 			// Save LVQ
-			// TODO mlp.save(savePath);
+			mlp.save(savePath);
 		}
 	}
 }

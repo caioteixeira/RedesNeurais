@@ -11,9 +11,12 @@ public class MLPLayer {
 		for (int i = 0; i < nNos; i++) {
 			neuronios.add(new MLPNeuron(numSinapse, bias, aleatorio));
 		}
-
 	}
-
+	
+	public MLPLayer(List<MLPNeuron> neurons) {
+		this.neuronios = neurons;
+	}
+	
 	public double ativ(double valor) {
 		return sigmoid(valor);
 
