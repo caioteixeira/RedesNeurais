@@ -1,6 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 
@@ -18,7 +18,7 @@ public abstract class Classifier {
 	protected void logError(int numberOfEpochs, double trainError, double validationError)
 	{
 		if(errorMap == null)
-			errorMap = new HashMap<Integer, Double[]>();
+			errorMap = new TreeMap<Integer, Double[]>();
 		Double[] error = {trainError, validationError};
 		errorMap.put(numberOfEpochs, error);
 	}
