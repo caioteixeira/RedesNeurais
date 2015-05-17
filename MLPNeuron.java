@@ -5,7 +5,7 @@ class MLPNeuron {
 	// ARMAZENA AQUELA PARTE DA ENTRADA QUE ELE MULTIPLICA PESO E PASSA PARA A
 	// FUNCAO DE ATIVACAO
 	double valor;
-	List<Double> pesos;
+	public List<Double> pesos;
 	// ARMAZENA O RESULTADO DA FUNCAO DE ATIVACAO
 	double saida;
 	// ARMAZENA A DIFERENCA PARA FACILITAR CODIGO. novoPeso =
@@ -16,7 +16,7 @@ class MLPNeuron {
 	// CADA NEURONIO ARMAZENA SEU erroDelta
 	double erroDelta;
 
-	double bias;
+	public double bias;
 
 	boolean temBias;
 

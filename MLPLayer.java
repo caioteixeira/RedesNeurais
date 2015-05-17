@@ -3,7 +3,7 @@ import java.util.List;
 
 
 public class MLPLayer {
-	List<MLPNeuron> neuronios;
+	public List<MLPNeuron> neuronios;
 
 	// List<Double> bias;
 	public MLPLayer(int nNos, int numSinapse, boolean bias, boolean aleatorio) {

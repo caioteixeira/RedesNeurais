@@ -386,13 +386,9 @@ public class MLP extends Classifier {
 				for (int k = 0; k < n.pesos.size(); k++) {
 					System.out.println("Pesos: ");
 					System.out.println(n.pesos.get(k));
-
 				}
-
 			}
-
 		}
-
 	}
 	
 	/**
@@ -432,7 +428,7 @@ public class MLP extends Classifier {
 			builder.append(hiddenNodeCount + ",");
 									
 			// Bias
-			builder.append(hiddenNodeCount + ",");
+			builder.append(bias + ",");
 			
 			// Ini Random
 			builder.append(random + "\n");
@@ -440,24 +436,30 @@ public class MLP extends Classifier {
 			// Write Attributes
 			file.write(builder.toString());
 			
-			/*
-			// Write Neurons and Weights
-			for (LVQNeuron neuron : neurons) { 
-				StringBuilder builderNeuron = new StringBuilder();
-				// Neuron class
-				builderNeuron.append(neuron._class + ",");
-				
-				// Iterate vector components
-				for (double component : neuron.vector.components) {
-					builderNeuron.append(component + ",");
+			// Write Layers, Neurons and Weights
+			for (MLPLayer layer : layers) {
+				for (MLPNeuron neuron : layer.neuronios) {
+					StringBuilder builderNeuron = new StringBuilder();
+					// If bias... Save bias.
+					if (bias) {
+						// Bias
+						builderNeuron.append(neuron.bias + ",");
+					}
+					
+					for (double weight : neuron.pesos) {
+						builderNeuron.append(weight + ",");
+					}
+					
+					// Delete last comma
+					builderNeuron.deleteCharAt(builderNeuron.length()-1);
+					
+					// Write Neuron Line
+					file.write(builderNeuron.toString() + ";");
 				}
 				
-				// Delete last comma
-				builderNeuron.deleteCharAt(builderNeuron.length()-1);
-				// Write Neuron Line
-				file.write(builderNeuron.toString() + "\n");
-			}*/
-			
+				// Write Layer Line
+				file.write("\n");
+			}			
 			file.close();
 			System.out.println(fileName + " saved!");
 		} catch (IOException e) {
