@@ -176,7 +176,7 @@ public class MLPDigits extends Digits {
 			TestData testData = mlp.test(testSet);
 			
 			// If user pass testLogPath... Save.
-			String testLogPath = cmd.getOptionValue(TEST_FILE_OPTION);
+			String testLogPath = cmd.getOptionValue(TEST_LOG_OPTION);
 			if (testLogPath != null && testData != null) {
 				testData.saveResults(testLogPath);
 			}
