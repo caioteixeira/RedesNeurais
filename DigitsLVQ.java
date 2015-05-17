@@ -18,11 +18,12 @@ import org.apache.commons.cli.ParseException;
 			-testlog "testLogLVQDigits.csv"
 			-save "lvqNetwork.lvq"
 			
-		Carregando Rede e testando
+		Carregando Rede, testando e salvando dados gerados no teste
 		
-			DigitsLVQ 
-			-lf "lvqNetwork.lvq"
+			DigitsLVQ
+			-load "lvqNetwork.lvq"
 			-tt "optdigits.norm.cortado.tes"
+			-testlog "testLogLVQDigits.csv"
  
  */
 public class DigitsLVQ extends Digits {
@@ -36,13 +37,11 @@ public class DigitsLVQ extends Digits {
 	static LVQ.LVQIniMethod iniMethod;
 	
 	// LVQ Args consts
-	static final String LVQ_FILE_OPTION = "lf";
 	static final String LEARN_RATE_OPTION = "lr";
 	static final String REDUCTION_RATE_OPTION = "rr";
 	static final String NEURONS_COUNT_OPTION = "nc";
 	static final String INI_METHOD_OPTION = "init";
 	
-	static final String LVQ_FILE_OPTION_TEXT = "Caminho para arquivo contendo Rede LVQ";
 	static final String LEARN_RATE_OPTION_TEXT = "taxa de aprendizado";
 	static final String REDUCTION_RATE_OPTION_TEXT = "taxa de reducao";
 	static final String NEURONS_COUNT_OPTION_TEXT = "numero de neuronios";
@@ -74,7 +73,7 @@ public class DigitsLVQ extends Digits {
 		options.addOption(Digits.TRAIN_LOG_OPTION, true, Digits.TRAIN_LOG_OPTION_TEXT);
 		options.addOption(Digits.TEST_LOG_OPTION, true, Digits.TEST_LOG_OPTION_TEXT);
 		
-		options.addOption(LVQ_FILE_OPTION, true, LVQ_FILE_OPTION_TEXT);
+		options.addOption(LOAD_FILE_OPTION, true, LOAD_OPTION_TEXT);
 		options.addOption(LEARN_RATE_OPTION, true, LEARN_RATE_OPTION_TEXT);
 		options.addOption(REDUCTION_RATE_OPTION, true, REDUCTION_RATE_OPTION_TEXT);
 		options.addOption(NEURONS_COUNT_OPTION, true, NEURONS_COUNT_OPTION_TEXT);
@@ -83,7 +82,7 @@ public class DigitsLVQ extends Digits {
 	
 	private static void processArgs(CommandLine cmd) {
 		
-		lvqFilePath = cmd.getOptionValue(LVQ_FILE_OPTION);
+		lvqFilePath = cmd.getOptionValue(LOAD_FILE_OPTION);
 		
 		if (lvqFilePath != null) { 
 			// Load LVQ File
