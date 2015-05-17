@@ -352,7 +352,7 @@ public class MLP extends Classifier {
 				update();
 			}
 			trainSet.reset();
-			System.out.println("Erro Treinamento: " +erroTreino);
+			//System.out.println("Erro Treinamento: " +erroTreino);
 			
 			double erro = validate(validateSet);
 			logError(epoca,erroTreino,erro);
@@ -362,7 +362,7 @@ public class MLP extends Classifier {
 				erroAtual = erro;
 				if(erroAtual > erroValidacao) cont++;
 				else cont = 0;
-				System.out.println("Contador: "+cont);
+				//System.out.println("Contador: "+cont);
 				//System.out.println("Erro Validacao: "+erroAtual);
 								
 			}
@@ -400,12 +400,12 @@ public class MLP extends Classifier {
 			apagaErro();
 		}
 		dados.reset();
-		System.out.println("Erro Validacao: "+erro);
+		//System.out.println("Erro Validacao: "+erro);
 		return erro;
 	}
 
 	public TestData test(DataSet dados) {
-		System.out.println("Teste");
+		//System.out.println("Teste");
 		TestData estatistica = new TestData(10);
 		while (dados.hasNext()) {
 			double[] atributos = dados.next();
