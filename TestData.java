@@ -73,9 +73,9 @@ public class TestData {
 			
 			fw.write(description + "\n"); // Descrição da máquina
 			fw.write("Numero de testes: "+ (hits+errors) + "\n");
-			fw.write("Acurácia: " + hits + "\n");
+			fw.write("Acuracia: " + hits + "\n");
 			fw.write("Erro: " + errors + "\n");
-			fw.write("Taxa de precisão: "+ precision() + "\n");
+			fw.write("Taxa de precisao: "+ precision() + "\n");
 			fw.write("Taxa de falsas descobertas: " + fdr() + "\n");
 			
 			//fw.write("")
