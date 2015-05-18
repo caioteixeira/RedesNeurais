@@ -8,19 +8,41 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MLP extends Classifier {
+	
+	// List de camadas da MLP
 	List<MLPLayer> layers;
+	
+	// Taxa de aprendizado
 	public double learnRate;
+	
+	// Total de camadas
 	public int layersCount;
 	
+	// Numero de nos nas camadas de entrada, saida e escondida
 	public int inputNodeCount;
 	public int outputNodeCount;
 	public int hiddenNodeCount;
+	
+	// Usar bias
 	public boolean bias;
+	
+	// Usar random na inicializacao dos pesos - caso false usa zero
 	public boolean random;
 	
+	// Contadores de erros e acertos
 	int erros;
 	int acertos;
-
+	
+	/**
+	 * Construtor padrao da MLP que cria uma nova rede MLP conforme os atributos passados
+	 * @param nHidden
+	 * @param inputNodeCount
+	 * @param outputNodeCount
+	 * @param hiddenNodeCount
+	 * @param bias
+	 * @param learnRate
+	 * @param random
+	 */
 	public MLP(int nHidden, int inputNodeCount, int outputNodeCount, int hiddenNodeCount,
 			boolean bias, double learnRate, boolean random) {
 		this.erros = 0;
@@ -34,23 +56,19 @@ public class MLP extends Classifier {
 		this.random = random;
 		
 		layers = new ArrayList<MLPLayer>();
-		layers.add(new MLPLayer(inputNodeCount, hiddenNodeCount, bias,random)); // cria camada de
-															// entrada
-
+		
+		// Criando camada de entrada
+		layers.add(new MLPLayer(inputNodeCount, hiddenNodeCount, bias,random)); 
+		
+		// Cria ate o penultimo nivel de camadas escondidas
 		for (int i = 0; i < nHidden - 1; i++) {
-
-			layers.add(new MLPLayer(hiddenNodeCount, hiddenNodeCount, bias,random)); // cria ate o
-																// penultimo
-																// nivel de
-																// camadas
-																// escondidas
-
+			layers.add(new MLPLayer(hiddenNodeCount, hiddenNodeCount, bias,random));
 		}
-
-		layers.add(new MLPLayer(hiddenNodeCount, outputNodeCount, bias,random)); // cria ultima camada
-															// escondida
-		layers.add(new MLPLayer(outputNodeCount, 0, bias,random)); // cria camada de saida
-
+		
+		// Cria ultima camada escondida
+		layers.add(new MLPLayer(hiddenNodeCount, outputNodeCount, bias,random));
+		// Cria camada de saida
+		layers.add(new MLPLayer(outputNodeCount, 0, bias,random));
 	}
 	
 	/**
@@ -70,70 +88,71 @@ public class MLP extends Classifier {
 		 */
 		try
 		{
-		System.out.println("Loading MLP Network...");
-		File f = new File(fileName);
-		Scanner sc = new Scanner(f);
-		
-		// Read and populate attribs
-		String[] attribs = sc.nextLine().split(",");
-		this.learnRate = Double.valueOf(attribs[0]);
-		this.layersCount = Integer.valueOf(attribs[1]);
-		this.inputNodeCount = Integer.valueOf(attribs[2]);
-		this.outputNodeCount = Integer.valueOf(attribs[3]);
-		this.hiddenNodeCount = Integer.valueOf(attribs[4]);
-		this.bias = Boolean.valueOf(attribs[5]);
-		this.random = Boolean.valueOf(attribs[6]);
-		
-		List<MLPLayer> layersList = new ArrayList<MLPLayer>();
-		while(sc.hasNext())
-		{
-			// Read Line
-			String neuronLine = sc.nextLine();
-			String[] neurons = neuronLine.split(";");
+			System.out.println("Loading MLP Network...");
+			File f = new File(fileName);
+			Scanner sc = new Scanner(f);
 			
-			List<MLPNeuron> neuronsList = new ArrayList<MLPNeuron>();
-			for (String neuron : neurons) {
-				String[] components = neuron.split(",");
+			// Le e popula atributos da rede mlp
+			String[] attribs = sc.nextLine().split(",");
+			this.learnRate = Double.valueOf(attribs[0]);
+			this.layersCount = Integer.valueOf(attribs[1]);
+			this.inputNodeCount = Integer.valueOf(attribs[2]);
+			this.outputNodeCount = Integer.valueOf(attribs[3]);
+			this.hiddenNodeCount = Integer.valueOf(attribs[4]);
+			this.bias = Boolean.valueOf(attribs[5]);
+			this.random = Boolean.valueOf(attribs[6]);
+			
+			List<MLPLayer> layersList = new ArrayList<MLPLayer>();
+			while(sc.hasNext())
+			{
+				// Le linha
+				String neuronLine = sc.nextLine();
+				// Pega neuronios daquela linha
+				String[] neurons = neuronLine.split(";");
 				
-				// Components
-				MLPNeuron neuronComponent;
-				List<Double> weightsList = new ArrayList<Double>();
-				
-				// Index to count bias or not
-				int i = 0;
-				
-				// Check Bias and create neuronComponent
-				if (bias) {
-					double biasValue = Double.parseDouble(components[0]);
-					i = 1;
-					neuronComponent = new MLPNeuron(biasValue, weightsList);
-				} else {
-					neuronComponent = new MLPNeuron(weightsList);
+				List<MLPNeuron> neuronsList = new ArrayList<MLPNeuron>();
+				for (String neuron : neurons) {
+					String[] components = neuron.split(",");
+					
+					// Componentes do neuronio
+					MLPNeuron neuronComponent;
+					List<Double> weightsList = new ArrayList<Double>();
+					
+					// Index para contar bias ou nao
+					int i = 0;
+					
+					// Validacao para ver se tem bias e criar MLPNeuron
+					if (bias) {
+						double biasValue = Double.parseDouble(components[0]);
+						i = 1;
+						neuronComponent = new MLPNeuron(biasValue, weightsList);
+					} else {
+						neuronComponent = new MLPNeuron(weightsList);
+					}
+					
+					// Seta Pesos do neuronio
+					for (; i < components.length;i++) {
+						weightsList.add(Double.parseDouble(components[i]));
+					}
+					
+					// Adiciona neuronio
+					neuronsList.add(neuronComponent);
 				}
 				
-				// Set Weights
-				for (; i < components.length;i++) {
-					weightsList.add(Double.parseDouble(components[i]));
-				}
-				
-				// Add Neuron
-				neuronsList.add(neuronComponent);
+				// Adiciona camada passando a lista de neuronios
+				layersList.add(new MLPLayer(neuronsList));
 			}
 			
-			// Add Layer with neuronsList
-			layersList.add(new MLPLayer(neuronsList));
+			// Seta camadas da rede MLP
+			this.layers = layersList;
+			
+			sc.close();
+			System.out.println(fileName + " loaded!");
 		}
-		
-		// Set Layers in MLP Network
-		this.layers = layersList;
-		
-		sc.close();
-		System.out.println(fileName + " loaded!");
-	}
-	catch(FileNotFoundException e)
-	{
-		System.out.println("File not founded: "+fileName);
-	}
+		catch(FileNotFoundException e)
+		{
+			System.out.println("File not founded: "+fileName);
+		}
 	}
 
 	public double[] respostaEsperada(double classe, int numNeuronios) {
@@ -192,15 +211,18 @@ public class MLP extends Classifier {
 
 	}
 
-	// faz a diferenca entre a camada de saida e a resposta esperada
+	/**
+	 * Calcula a diferenca entre a camada de saida e a resposta esperada
+	 * @param respostaEsperada
+	 * @return
+	 */
 	public double calculaErro(double[] respostaEsperada) {
 		MLPLayer saida = layers.get(layers.size() - 1);
 		double erro = 0;
 		List<MLPNeuron> neuronios = saida.neuronios;
 		for (int i = 0; i < neuronios.size(); i++) {
 			MLPNeuron neuronio = neuronios.get(i);
-			// verificar com o guilherme se o neuronio.valor é a mesma coisa q
-			// o somatório dos pesos.
+			
 			double erroDelta = (respostaEsperada[i] - neuronio.saida)
 					* saida.derivada(neuronio.valor);
 			neuronio.erroDelta = erroDelta;
@@ -222,7 +244,10 @@ public class MLP extends Classifier {
 		return erro;
 	}
 
-	// PARA CADA CAMDA OCULTA SOMAR OS DELTAS DA CAMADA ACIMA
+	/**
+	 * Calcula o erro da camada oculta
+	 * @param i
+	 */
 	public void calcularErroCamadaOculta(int i) {
 		MLPLayer saida = layers.get(i + 1);
 		MLPLayer oculta = layers.get(i);
@@ -251,42 +276,53 @@ public class MLP extends Classifier {
 				neuronio.erroBias = learnRate * erroDelta;
 		}
 	}
-
+	
+	/**
+	 * Metodo de feedForward
+	 */
 	public void feedForward() {
-
-		for (int i = 1; i < layers.size(); i++) { // inicia em 1 devido aos
-													// neuronios da camada de
-													// entrada nao terem
-													// neuronios camadas abaixo
-
-			MLPLayer entrada = layers.get(i - 1); // seleciona o nivel abaixo
-			MLPLayer saida = layers.get(i); // seleciona o nivel atual
+		/*
+		 * Inicia em 1 devido aos neuronios
+		 * da camada de entrada nao terem
+		 * neuronios camadas abaixo
+		 */
+		for (int i = 1; i < layers.size(); i++) {
+			// Seleciona o nivel abaixo
+			MLPLayer entrada = layers.get(i - 1);
+			// Seleciona o nivel atual
+			MLPLayer saida = layers.get(i);
 
 			Iterator<MLPNeuron> itSaida = saida.neuronios.iterator();
 			int j = 0;
-			while (itSaida.hasNext()) { // percorre todos os neuronios do nivel
-										// atual
+			// Percorre todos os neuronios do nivel atual
+			while (itSaida.hasNext()) {
 				MLPNeuron aux = itSaida.next();
 				Iterator<MLPNeuron> itEntrada = entrada.neuronios.iterator();
-
-				while (itEntrada.hasNext()) { // percorre todos os neuronios do
-												// nivel abaixo e adiciona o
-												// valor com o peso ao j-esimo
-												// neuronio do nivel atual
-
+				
+				/* Percorre todos os neuronios do nivel abaixo 
+				 * e adiciona o valor com o peso
+				 * ao j-esimo neuronio do nivel atual
+				 */
+				while (itEntrada.hasNext()) {
 					MLPNeuron calc = itEntrada.next();
 					aux.valor += calc.saida * calc.pesos.get(j);
 				}
-				if (aux.temBias)
-					aux.valor += aux.bias; // ADRIANO E ASSIM A SOMA DO
-											// BIAS?????
-				aux.saida = saida.ativ(aux.valor); // calcula o valor de saida
-													// apos a funcao de ativacao
+				
+				if (aux.temBias) {
+					aux.valor += aux.bias;
+				}
+				
+				// Calcula o valor de saida apos a funcao de ativacao
+				aux.saida = saida.ativ(aux.valor);
+				
 				j++;
 			}
 		}
 	}
-
+	
+	/**
+	 * Atualiza pesos e bias
+	 */
 	public void update() {
 		double novoPeso;
 		for (int j = layers.size() - 1; j >= 0; j--) {
@@ -303,7 +339,10 @@ public class MLP extends Classifier {
 		}
 		apagaErro();
 	}
-
+	
+	/**
+	 * Apaga erro dos neuronios das camadas da MLP
+	 */
 	public void apagaErro() {
 		for (int i = 0; i < layers.size(); i++) {
 			MLPLayer nivel = layers.get(i);
@@ -312,13 +351,16 @@ public class MLP extends Classifier {
 				apaga.erroPeso.clear();
 				apaga.valor = 0;
 				apaga.saida = 0;
-
 			}
-
 		}
 
 	}
-
+	
+	/**
+	 * Recebe trainSet e validateSet para treinar rede MLP
+	 * @param trainSet
+	 * @param validateSet
+	 */
 	public void train(DataSet trainSet, DataSet validateSet) {
 		// System.out.println("Treinamento");
 		int epoca = 1;
@@ -374,7 +416,11 @@ public class MLP extends Classifier {
 			// if(imprimePesos) printPeso();
 		}
 	}
-
+	
+	/**
+	 * Valida rede MLP
+	 * @param dados
+	 */
 	public double validate(DataSet dados) {
 		// System.out.println("Validacao");
 		double erro = 0;
@@ -403,7 +449,11 @@ public class MLP extends Classifier {
 		//System.out.println("Erro Validacao: "+erro);
 		return erro;
 	}
-
+	
+	/**
+	 * Testa rede MLP
+	 * @param dados
+	 */
 	public TestData test(DataSet dados) {
 		//System.out.println("Teste");
 		TestData estatistica = new TestData(10);
@@ -457,11 +507,13 @@ public class MLP extends Classifier {
 				soma += Math.pow(2, i);
 			}
 		}
-		
 		return soma;
 	}
-
-	//metodo para verificar os pesos/bias de todos neuronios
+	
+	
+	/**
+	 * Metodo para verificar os pesos/bias de todos os neuronios
+	 */
 	public void printPeso() {
 		for (int i = 0; i < layers.size(); i++) {
 			//Sytem.out.println("Layer: "+i);
@@ -500,35 +552,36 @@ public class MLP extends Classifier {
 			 */
 		
 			StringBuilder builder = new StringBuilder();
-			// Learn Rate
+			
+			// Taxa de aprendizado
 			builder.append(learnRate + ",");
 			
-			// Layers Count
+			// Numero de camadas
 			builder.append(layersCount + ",");
 			
-			// Input Node Count
+			// Numero de nos da camada de entrada
 			builder.append(inputNodeCount + ",");
 			
-			// Output Node Count
+			// Numero de nos da camada de saida
 			builder.append(outputNodeCount + ",");
 			
-			// Hidden Node Count
+			// Numero de nos da camada escondida
 			builder.append(hiddenNodeCount + ",");
 									
 			// Bias
 			builder.append(bias + ",");
 			
-			// Ini Random
+			// Inicializacao de pesos random
 			builder.append(random + "\n");
 			
-			// Write Attributes
+			// Escreve atributos
 			file.write(builder.toString());
 			
-			// Write Layers, Neurons and Weights
+			// Escreve Camadas, Neuronios e pesos
 			for (MLPLayer layer : layers) {
 				for (MLPNeuron neuron : layer.neuronios) {
 					StringBuilder builderNeuron = new StringBuilder();
-					// If bias... Save bias.
+					// Se bias... Salva bias.
 					if (bias) {
 						// Bias
 						builderNeuron.append(neuron.bias + ",");
@@ -538,14 +591,14 @@ public class MLP extends Classifier {
 						builderNeuron.append(weight + ",");
 					}
 					
-					// Delete last comma
+					// Deleta ultima virgula
 					builderNeuron.deleteCharAt(builderNeuron.length()-1);
 					
-					// Write Neuron Line
+					// Escreve linha do neuronio
 					file.write(builderNeuron.toString() + ";");
 				}
 				
-				// Write Layer Line
+				// Escreve linha da camada
 				file.write("\n");
 			}			
 			file.close();
