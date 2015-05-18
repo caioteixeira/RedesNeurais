@@ -1,21 +1,34 @@
 import java.io.FileWriter;
 import java.io.IOException;
 
-
+/**
+ * Representa os dados gerados nos teste das redes MLP ou LVQ
+ */
 public class TestData {
 	
 	public String description = ""; //Deve ser usada para descrever a configuração da máquina testada
 	
+	// Matriz de confusao
 	int[][] confusionMatrix;
-	int hits; //Erros
-	int errors; //Acertos
+	//Acertos
+	int hits; 
+	//Erros
+	int errors; 
 	
-	//nClasses: numero de Classes do dataset
+	/**
+	 * Construtor padrao do TestData
+	 * @param nClasses : numero de Classes do dataset
+	 */
 	public TestData(int nClasses)
 	{
 		confusionMatrix = new int[nClasses][nClasses];
 	}
 	
+	/**
+	 * Testa Conforme a classe selecionada e a classe de resposta
+	 * @param selectedClass
+	 * @param answerClass
+	 */
 	public void test(double selectedClass, double answerClass)
 	{	
 		if(selectedClass == answerClass)
@@ -38,7 +51,9 @@ public class TestData {
 		confusionMatrix[i][j]++;
 	}
 	
-	//Imprime resultados na tela
+	/**
+	 * Imprime resultados na tela
+	 */
 	public void printResults()
 	{
 		System.out.println("Numero de testes: "+ (hits+errors));
@@ -71,7 +86,10 @@ public class TestData {
 		}
 	}
 	
-	//Imprime resultados em arquivo
+	/**
+	 * Imprime resultados no arquivo
+	 * @param dir
+	 */
 	public void saveResults(String dir)
 	{
 		try {
@@ -114,7 +132,10 @@ public class TestData {
 		}
 	}
 	
-	//Taxa de precisão
+	/**
+	 * Calcula taxa de precisao
+	 * @return
+	 */
 	public double precision()
 	{
 		double truePositives = (double)truePositives();
@@ -123,7 +144,10 @@ public class TestData {
 		return truePositives/(truePositives+falsePositives);
 	}
 	
-	//Taxa de falsas descobertas
+	/**
+	 * Calcula taxa de falsas descobertas
+	 * @return
+	 */
 	public double fdr()
 	{
 		double truePositives = (double)truePositives();
@@ -132,8 +156,10 @@ public class TestData {
 		return falsePositives/(truePositives +falsePositives);
 	}
 	
-	
-	//Número de verdadeiros positivos
+	/**
+	 * Numero de verdadeiros positivos
+	 * @return
+	 */
 	public int truePositives()
 	{
 		int vp = 0;
@@ -144,7 +170,11 @@ public class TestData {
 		
 		return vp;
 	}
-	//Número de falsos positivos
+	
+	/**
+	 * Numero de falsos positivos
+	 * @return
+	 */
 	public int falsePositives()
 	{
 		int fp = 0;

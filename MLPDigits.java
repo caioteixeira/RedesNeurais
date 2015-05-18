@@ -143,7 +143,7 @@ public class MLPDigits extends Digits {
 			}
 		}
 		
-		// XXX TODO REFACTOR - Codigo identico ao do LVQDigits!
+		/* DIGITS PART */
 		// Files
 		trainFilePath    = cmd.getOptionValue(Digits.TRAINING_FILE_OPTION);
 		validateFilePath = cmd.getOptionValue(Digits.VALIDATE_FILE_OPTION);

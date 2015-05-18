@@ -7,9 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Representa rede neural MLP
+ */
 public class MLP extends Classifier {
 	
-	// List de camadas da MLP
+	// Lista de camadas da MLP
 	List<MLPLayer> layers;
 	
 	// Taxa de aprendizado
@@ -236,7 +239,7 @@ public class MLP extends Classifier {
 				neuronioOculto.erroPeso.add(learnRate * erroDelta
 						* neuronioOculto.saida);
 			}
-			if (neuronio.temBias)
+			if (neuronio.hasBias)
 				neuronio.erroBias = learnRate * erroDelta;
 
 		}
@@ -272,7 +275,7 @@ public class MLP extends Classifier {
 						* neuronioEntrada.saida);
 
 			}
-			if (neuronio.temBias)
+			if (neuronio.hasBias)
 				neuronio.erroBias = learnRate * erroDelta;
 		}
 	}
@@ -308,7 +311,7 @@ public class MLP extends Classifier {
 					aux.valor += calc.saida * calc.pesos.get(j);
 				}
 				
-				if (aux.temBias) {
+				if (aux.hasBias) {
 					aux.valor += aux.bias;
 				}
 				
@@ -332,7 +335,7 @@ public class MLP extends Classifier {
 				for (int k = 0; k < neuronio.pesos.size(); k++) {
 					novoPeso = neuronio.pesos.get(k) + neuronio.erroPeso.get(k);
 					neuronio.pesos.set(k, novoPeso);
-					if (neuronio.temBias)
+					if (neuronio.hasBias)
 						neuronio.bias += neuronio.erroBias;
 				}
 			}
