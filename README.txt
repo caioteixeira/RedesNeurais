@@ -1,5 +1,11 @@
 Programa LVQ e MLP
+Integrantes do grupo:
+Adriano dos Santos Rodrigues da Silva	8623910
+Caio Vinicius Marques Teixeira	        8516883
+Guilherme Hernandes do Nascimento       8598631
+João Pedro Nardari dos Santos		8623865
 
+=============================================================================
 1 - Como compilar as classes?
 
 2 - MLP
@@ -13,14 +19,15 @@ Programa LVQ e MLP
 1 - Como compilar e executar as classes?
 =============================================================================
 Inicialize seu programa na linha de comando, acesse a pasta RedesNeurais
-e execute o seguinte comando
+e execute o seguintes comandos:
 
 javac -cp ".\libs\commons-cli-1.3.jar;" .\*.java
 
 java -cp "libs\commons-cli-1.3.jar;" MLPDigits + Argumentos
 java -cp "libs\commons-cli-1.3.jar;" LVQDigits + Argumentos
 
-* Leia abaixo utilizacao dos argumentos
+* deve-se utilizar o argumento cp para passar a biblioteca commons-cli-1.3.jar como parametro
+** Leia abaixo utilizacao dos argumentos
 
 =============================================================================
 2 - MLP
