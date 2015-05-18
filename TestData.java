@@ -29,7 +29,7 @@ public class TestData {
 		
 		int i = (int) selectedClass;
 		int j = (int) answerClass;
-		if(i > confusionMatrix.length || j > confusionMatrix.length)
+		if(i >= confusionMatrix.length || j >= confusionMatrix.length)
 		{
 			System.out.println("Indice invalido!");
 			return;
