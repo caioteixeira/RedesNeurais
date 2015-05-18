@@ -6,7 +6,7 @@ Guilherme Hernandes do Nascimento       8598631
 João Pedro Nardari dos Santos		8623865
 
 =============================================================================
-1 - Como compilar as classes?
+1 - Como compilar e executar as redes?
 
 2 - MLP
 	1.1 - Parametros e utilizacao MLP
@@ -16,7 +16,7 @@ João Pedro Nardari dos Santos		8623865
 	2.2 - Exemplos de utilizacao LVQ
 
 =============================================================================
-1 - Como compilar e executar as classes?
+1 - Como compilar e executar as redes?
 =============================================================================
 Inicialize seu programa na linha de comando, acesse a pasta RedesNeurais
 e execute o seguintes comandos:
