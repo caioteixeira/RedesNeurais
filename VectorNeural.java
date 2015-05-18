@@ -47,7 +47,6 @@ public class VectorNeural
 	{
 		if(!this.hasEqualDimensions(value))
 		{
-			//TODO: Lancar exception?
 			System.out.println("Nao pode adicionar vetores de dimensoes diferentes!");
 			return null;
 		}
@@ -71,7 +70,6 @@ public class VectorNeural
 	{
 		if(!this.hasEqualDimensions(value))
 		{
-			//TODO: Lancar exception?
 			System.out.println("Nao pode adicionar vetores de dimensoes diferentes!");
 			return null;
 		}

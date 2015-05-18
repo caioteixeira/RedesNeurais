@@ -61,14 +61,6 @@ public class DataSet {
 		dataSet = new LinkedList<String>();
 		for(String line : list)
 		{
-			/* FIXME - REMOVE
-			Random r = new Random();
-			int s = dataSet.size();
-			
-			Garante que DataSet seja carregado em mem�ria em ordem aleat�ria
-			int a = s > 1? r.nextInt(s): 0; */
-			
-			
 			//Define attrib_count
 			String[] attributes = line.split(",");
 			if(attrib_count == 0)
@@ -108,14 +100,7 @@ public class DataSet {
 				{
 					System.out.println("Numero de atributos incompativel!");
 				}
-				
-				/* FIXME - REMOVE
-				Random r = new Random();
-				int s = dataSet.size();
-				
-				Garante que DataSet seja carregado em mem�ria em ordem aleat�ria
-				int a = s > 1? r.nextInt(s): 0; */
-				
+								
 				dataSet.add(line);
 			}
 			
@@ -123,7 +108,7 @@ public class DataSet {
 		}
 		catch(FileNotFoundException e)
 		{
-			System.out.println("N�O ACHOU ARQUIVO: "+fileName);
+			System.out.println("NAO ACHOU ARQUIVO: "+fileName);
 		}
 	}
 	
@@ -308,7 +293,6 @@ public class DataSet {
 	 */
 	public void nextSet(double[] values, int attribClass)
 	{
-		// FIXME POG - concat
 		String newLine = String.valueOf(values[0]);
 		for (int i = 1; i < values.length; i++) {
 			newLine += ("," + String.valueOf(values[i]));
