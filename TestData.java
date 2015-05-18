@@ -17,7 +17,7 @@ public class TestData {
 	}
 	
 	public void test(double selectedClass, double answerClass)
-	{
+	{	
 		if(selectedClass == answerClass)
 		{
 			hits++;
@@ -29,6 +29,12 @@ public class TestData {
 		
 		int i = (int) selectedClass;
 		int j = (int) answerClass;
+		if(i > confusionMatrix.length || j > confusionMatrix.length)
+		{
+			System.out.println("Indice invalido!");
+			return;
+		}
+		
 		confusionMatrix[i][j]++;
 	}
 	
