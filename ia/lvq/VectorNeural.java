@@ -1,3 +1,4 @@
+package ia.lvq;
 /**
  * Classe que representa vetor e suas operacoes
  */

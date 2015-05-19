@@ -1,3 +1,6 @@
+import ia.data.DataSet;
+import ia.lvq.LVQ;
+
 
 public class LVQTest {
 	public static void main(String[] args) {

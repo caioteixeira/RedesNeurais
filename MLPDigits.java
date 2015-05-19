@@ -1,3 +1,7 @@
+import ia.data.DataSet;
+import ia.data.TestData;
+import ia.mlp.MLP;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;

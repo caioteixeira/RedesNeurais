@@ -1,3 +1,8 @@
+import ia.data.DataSet;
+import ia.data.TestData;
+import ia.lvq.LVQ;
+import ia.lvq.VectorNeural;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;

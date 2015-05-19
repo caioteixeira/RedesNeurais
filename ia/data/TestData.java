@@ -1,3 +1,4 @@
+package ia.data;
 import java.io.FileWriter;
 import java.io.IOException;
 
