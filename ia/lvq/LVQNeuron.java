@@ -1,3 +1,4 @@
+package ia.lvq;
 import java.util.Random;
 
 /**

@@ -1,3 +1,8 @@
+package ia.mlp;
+import ia.data.Classifier;
+import ia.data.DataSet;
+import ia.data.TestData;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

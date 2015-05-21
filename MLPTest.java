@@ -1,3 +1,6 @@
+import ia.data.DataSet;
+import ia.mlp.MLP;
+
 class MLPTest{
 	
 	public static void main(String[]args){
