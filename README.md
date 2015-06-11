@@ -9,14 +9,13 @@
 ![project class diagram](https://raw.githubusercontent.com/caioteixeira/RedesNeurais/master/diagrama_classes_redesNeurais.jpg?token=AEPMf0wX-MBrIUIUM_4GsphAOWsgGBhTks5VgvsHwA%3D%3D)
 
 =============================================================================
-1. Como compilar e executar as redes?
-
-2. MLP
-	1.1 Parametros e utilizacao MLP
-	1.2 Exemplos de utilizacao MLP
-3. LVQ
-	2.1 Parametros e utilizacao LVQ
-	2.2 Exemplos de utilizacao LVQ
+- 1. Como compilar e executar as redes?
+- 2. MLP
+	- 2.1 Parametros e utilizacao MLP
+	- 2.2 Exemplos de utilizacao MLP
+- 3. LVQ
+	- 3.1 Parametros e utilizacao LVQ
+	- 3.2 Exemplos de utilizacao LVQ
 
 =============================================================================
 1 - Como compilar e executar as redes?
@@ -56,7 +55,7 @@ e execute o seguintes comandos:
 
 
 ##2.2 - Exemplos de uso MLP
-####2.2.1 - Criando uma nova Rede MLP, treinando (com validacao), teste, gerando log e salvando
+*2.2.1 - Criando uma nova Rede MLP, treinando (com validacao), teste, gerando log e salvando*
 	
 	java -cp "libs\commons-cli-1.3.jar;" MLPDigits 
 	-init RANDOM 
@@ -73,7 +72,7 @@ e execute o seguintes comandos:
 	-testlog "testLogMLPDigits.csv"
 	-save "mlpNetwork.mlp"
 	
-####2.2.2 - Carregando Rede, testando e salvando dados gerados no teste
+*2.2.2 - Carregando Rede, testando e salvando dados gerados no teste*
 	
 	java -cp "libs\commons-cli-1.3.jar;" MLPDigits
 	-load "mlpNetwork.mlp"
@@ -103,7 +102,7 @@ e execute o seguintes comandos:
 	 -vl <arg>         nome do arquivo do conjunto de dados de validacao
 
 ##3.2 - Exemplos de uso LVQ
-####3.2.1 - Criando uma nova Rede, treinando (com validacao), teste, gerando log e salvando
+*3.2.1 - Criando uma nova Rede, treinando (com validacao), teste, gerando log e salvando*
 
 	java -cp "libs\commons-cli-1.3.jar;" LVQDigits 
 	-init FIRST_VALUES
@@ -118,7 +117,7 @@ e execute o seguintes comandos:
 	-testlog "testLogLVQDigits.csv"
 	-save "lvqNetwork.lvq"
 			
-####3.2.2 - Carregando Rede, testando e salvando dados gerados no teste
+*3.2.2 - Carregando Rede, testando e salvando dados gerados no teste*
 
 	java -cp "libs\commons-cli-1.3.jar;" LVQDigits
 	-load "lvqNetwork.lvq"
