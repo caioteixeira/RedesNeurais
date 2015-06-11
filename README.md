@@ -1,4 +1,16 @@
 # Programa LVQ e MLP
+
+## Indice
+- Integrantes do Grupo
+- Diagrama de Classes do Projeto
+- 1. Como compilar e executar as redes?
+- 2. MLP
+	- 2.1 Parametros e utilizacao MLP
+	- 2.2 Exemplos de utilizacao MLP
+- 3. LVQ
+	- 3.1 Parametros e utilizacao LVQ
+	- 3.2 Exemplos de utilizacao LVQ
+
 ## Integrantes do grupo:
 * Adriano dos Santos Rodrigues da Silva	8623910
 * Caio Vinicius Marques Teixeira	8516883
@@ -8,17 +20,7 @@
 ## Diagrama de Classes do projeto
 ![project class diagram](https://raw.githubusercontent.com/caioteixeira/RedesNeurais/master/diagrama_classes_redesNeurais.jpg?token=AEPMf0wX-MBrIUIUM_4GsphAOWsgGBhTks5VgvsHwA%3D%3D)
 
-=============================================================================
-- 1. Como compilar e executar as redes?
-- 2. MLP
-	- 2.1 Parametros e utilizacao MLP
-	- 2.2 Exemplos de utilizacao MLP
-- 3. LVQ
-	- 3.1 Parametros e utilizacao LVQ
-	- 3.2 Exemplos de utilizacao LVQ
-
-
-#1 Como compilar e executar as redes?
+#1. Como compilar e executar as redes?
 Inicialize seu programa na linha de comando, acesse a pasta RedesNeurais
 e execute o seguintes comandos:
 
