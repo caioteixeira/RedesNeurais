@@ -32,7 +32,7 @@ Obs: Deve-se utilizar o argumento cp para passar a biblioteca commons-cli-1.3.ja
 
 Obs2: Leia abaixo utilizacao dos argumentos
 
-#2 MLP
+#2. MLP
 ##2.1 Parametros e utilizacao MLP
 	usage: MLPDigits [-bias] [-hc <arg>] [-ic <arg>] [-init <arg>] [-lc <arg>]
 	       [-load <arg>] [-lr <arg>] [-oc <arg>] [-save <arg>] [-testlog
@@ -80,7 +80,7 @@ Obs2: Leia abaixo utilizacao dos argumentos
 	-tt "optdigits.norm.cortado.tes"
 	-testlog "testLogMLPDigits.csv"
 
-#3 LVQ
+#3. LVQ
 ##3.1 Parametros e utilizacao
 	usage: LVQDigits [-distance <arg>] [-init <arg>] [-load <arg>] [-lr <arg>]
 	       [-nc <arg>] [-rr <arg>] [-save <arg>] [-testlog <arg>] [-tn <arg>]
