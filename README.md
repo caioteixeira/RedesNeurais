@@ -18,7 +18,7 @@
 * 8623865 - João Pedro Nardari dos Santos
 
 ## Diagrama de Classes do projeto
-![project class diagram](https://raw.githubusercontent.com/caioteixeira/RedesNeurais/master/diagrama_classes_redesNeurais.jpg?token=AEPMf0wX-MBrIUIUM_4GsphAOWsgGBhTks5VgvsHwA%3D%3D)
+![project class diagram](https://raw.githubusercontent.com/caioteixeira/RedesNeurais/master/RedesNeuraisDiagram.png?token=AEPMf9o2NOz8XWvrElqwB7v3jK7tQDOfks5VgwXDwA%3D%3D)
 
 #1. Como compilar e executar as redes?
 Inicialize seu programa na linha de comando, acesse a pasta RedesNeurais
