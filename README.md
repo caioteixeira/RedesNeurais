@@ -37,7 +37,7 @@ java -cp "libs\commons-cli-1.3.jar;" LVQDigits + Argumentos
 =============================================================================
 1.1 - Parametros e utilizacao MLP
 =============================================================================
-usage: MLPDigits [-bias] [-hc <arg>] [-ic <arg>] [-init <arg>] [-lc <arg>]
+```usage: MLPDigits [-bias] [-hc <arg>] [-ic <arg>] [-init <arg>] [-lc <arg>]
        [-load <arg>] [-lr <arg>] [-oc <arg>] [-save <arg>] [-testlog
        <arg>] [-tn <arg>] [-trainlog <arg>] [-tt <arg>] [-vl <arg>]
  -bias             opcao para utilizacao de bias
@@ -55,7 +55,7 @@ usage: MLPDigits [-bias] [-hc <arg>] [-ic <arg>] [-init <arg>] [-lc <arg>]
  -trainlog <arg>   opcao para gerar log de treinamento .csv, passar o
                    caminho
  -tt <arg>         nome do arquivo do conjunto de dados de teste
- -vl <arg>         nome do arquivo do conjunto de dados de validacao
+ -vl <arg>         nome do arquivo do conjunto de dados de validacao```
 
 ==================================================================================
 2.2 - Exemplos de uso MLP
@@ -90,7 +90,7 @@ usage: MLPDigits [-bias] [-hc <arg>] [-ic <arg>] [-init <arg>] [-lc <arg>]
 ====================================================================================
 3.1 - Parametros e utilizacao
 ====================================================================================
-usage: LVQDigits [-distance <arg>] [-init <arg>] [-load <arg>] [-lr <arg>]
+```usage: LVQDigits [-distance <arg>] [-init <arg>] [-load <arg>] [-lr <arg>]
        [-nc <arg>] [-rr <arg>] [-save <arg>] [-testlog <arg>] [-tn <arg>]
        [-trainlog <arg>] [-tt <arg>] [-vl <arg>]
  -distance <arg>   escolha do calculo de distancia (EUCLIDEAN ou
@@ -108,7 +108,7 @@ usage: LVQDigits [-distance <arg>] [-init <arg>] [-load <arg>] [-lr <arg>]
  -trainlog <arg>   opcao para gerar log de treinamento .csv, passar o
                    caminho
  -tt <arg>         nome do arquivo do conjunto de dados de teste
- -vl <arg>         nome do arquivo do conjunto de dados de validacao
+ -vl <arg>         nome do arquivo do conjunto de dados de validacao```
 
 ====================================================================================
 3.2 - Exemplos de uso LVQ
