@@ -1,15 +1,15 @@
 # Programa LVQ e MLP
 
 ## Indice
-- Integrantes do Grupo
-- Diagrama de Classes do Projeto
-- 1. Como compilar e executar as redes?
-- 2. MLP
-	- 2.1 Parametros e utilizacao MLP
-	- 2.2 Exemplos de utilizacao MLP
-- 3. LVQ
-	- 3.1 Parametros e utilizacao LVQ
-	- 3.2 Exemplos de utilizacao LVQ
+- [Integrantes do Grupo](#integrantes-do-grupo)
+- [Diagrama de Classes do Projeto](#diagrama-de-classes-do-projeto)
+- [1. Como compilar e executar as redes?](#1-como-compilar-e-executar-as-redes)
+- [2. MLP](#2-mlp)
+	- [2.1 Parametros e utilizacao MLP](#21-parametros-e-utilizacao-mlp)
+	- [2.2 Exemplos de utilizacao MLP](#22-exemplos-de-uso-mlp)
+- [3. LVQ](#3-lvq)
+	- [3.1 Parametros e utilizacao LVQ](#31-parametros-e-utilizacao)
+	- [3.2 Exemplos de utilizacao LVQ](#32-exemplos-de-uso-lvq)
 
 ## Integrantes do grupo:
 * Adriano dos Santos Rodrigues da Silva	8623910
