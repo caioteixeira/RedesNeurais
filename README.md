@@ -12,10 +12,10 @@
 	- [3.2 Exemplos de utilizacao LVQ](#32-exemplos-de-uso-lvq)
 
 ## Integrantes do grupo:
-* Adriano dos Santos Rodrigues da Silva	8623910
-* Caio Vinicius Marques Teixeira	8516883
-* Guilherme Hernandes do Nascimento     8598631
-* João Pedro Nardari dos Santos		8623865
+* 8623910 - Adriano dos Santos Rodrigues da Silva
+* 8516883 - Caio Vinicius Marques Teixeira
+* 8598631 - Guilherme Hernandes do Nascimento
+* 8623865 - João Pedro Nardari dos Santos
 
 ## Diagrama de Classes do projeto
 ![project class diagram](https://raw.githubusercontent.com/caioteixeira/RedesNeurais/master/diagrama_classes_redesNeurais.jpg?token=AEPMf0wX-MBrIUIUM_4GsphAOWsgGBhTks5VgvsHwA%3D%3D)
