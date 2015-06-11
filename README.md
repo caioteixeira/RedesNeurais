@@ -30,9 +30,9 @@ e execute o seguintes comandos:
 
 `java -cp "libs\commons-cli-1.3.jar;" LVQDigits + Argumentos`
 
-Obs: Deve-se utilizar o argumento cp para passar a biblioteca commons-cli-1.3.jar como parametro
+*Obs: Deve-se utilizar o argumento cp para passar a biblioteca commons-cli-1.3.jar como parametro*
 
-Obs2: Leia abaixo utilizacao dos argumentos
+*Obs2: Leia abaixo utilizacao dos argumentos*
 
 #2. MLP
 ##2.1 Parametros e utilizacao MLP
