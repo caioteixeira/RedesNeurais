@@ -1,11 +1,11 @@
-Programa LVQ e MLP
-Integrantes do grupo:
-Adriano dos Santos Rodrigues da Silva	8623910
-Caio Vinicius Marques Teixeira	        8516883
-Guilherme Hernandes do Nascimento       8598631
-João Pedro Nardari dos Santos		8623865
+# Programa LVQ e MLP
+## Integrantes do grupo:
+* Adriano dos Santos Rodrigues da Silva	8623910
+* Caio Vinicius Marques Teixeira	8516883
+* Guilherme Hernandes do Nascimento     8598631
+* João Pedro Nardari dos Santos		8623865
 
-Diagrama de Classes do projeto
+## Diagrama de Classes do projeto
 ![project class diagram](https://raw.githubusercontent.com/caioteixeira/RedesNeurais/master/diagrama_classes_redesNeurais.jpg?token=AEPMf0wX-MBrIUIUM_4GsphAOWsgGBhTks5VgvsHwA%3D%3D)
 
 =============================================================================
