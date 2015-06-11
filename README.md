@@ -6,7 +6,7 @@ Guilherme Hernandes do Nascimento       8598631
 João Pedro Nardari dos Santos		8623865
 
 Diagrama de Classes do projeto
-![project class diagram](https://raw.githubusercontent.com/caioteixeira/RedesNeurais/master/diagrama_classes_redesNeurais.jpg)
+![project class diagram](https://raw.githubusercontent.com/caioteixeira/RedesNeurais/blob/master/diagrama_classes_redesNeurais.jpg)
 
 =============================================================================
 1 - Como compilar e executar as redes?
