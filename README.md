@@ -1,28 +1,27 @@
-# Programa LVQ e MLP
+# LVQ and MLP
 
-## Indice
-- [Integrantes do Grupo](#integrantes-do-grupo)
-- [Diagrama de Classes do Projeto](#diagrama-de-classes-do-projeto)
-- [1. Como compilar e executar as redes?](#1-como-compilar-e-executar-as-redes)
+## Index
+- [Group Members](#group-members)
+- [Class Diagram](#class-diagram)
+- [1. How to compile and run](#1-how-to-compile-and-run-the-neural-networks)
 - [2. MLP](#2-mlp)
-	- [2.1 Parametros e utilizacao MLP](#21-parametros-e-utilizacao-mlp)
-	- [2.2 Exemplos de utilizacao MLP](#22-exemplos-de-uso-mlp)
+	- [2.1 MLP Parameters](#21-mlp-parameters)
+	- [2.2 MLP Examples](#22-mlp-examples)
 - [3. LVQ](#3-lvq)
-	- [3.1 Parametros e utilizacao LVQ](#31-parametros-e-utilizacao)
-	- [3.2 Exemplos de utilizacao LVQ](#32-exemplos-de-uso-lvq)
+	- [3.1 LVQ Parameters](#31-lvq-parameters)
+	- [3.2 LVQ Examples](#32-lvq-examples)
 
-## Integrantes do grupo:
+## Group Members:
 * 8623910 - Adriano dos Santos Rodrigues da Silva
 * 8516883 - Caio Vinicius Marques Teixeira
 * 8598631 - Guilherme Hernandes do Nascimento
-* 8623865 - Jo„o Pedro Nardari dos Santos
+* 8623865 - Jo√£o Pedro Nardari dos Santos
 
-## Diagrama de Classes do projeto
+## Class Diagram
 ![project class diagram](https://raw.githubusercontent.com/caioteixeira/RedesNeurais/master/RedesNeuraisDiagram.png?token=AEPMf9o2NOz8XWvrElqwB7v3jK7tQDOfks5VgwXDwA%3D%3D)
 
-#1. Como compilar e executar as redes?
-Inicialize seu programa na linha de comando, acesse a pasta RedesNeurais
-e execute o seguintes comandos:
+#1. How to compile and run the neural networks
+Open the RedesNeurais folder and run the following commands:
 
 `javac -cp ".\libs\commons-cli-1.3.jar;" .\*.java`
 
@@ -30,35 +29,33 @@ e execute o seguintes comandos:
 
 `java -cp "libs\commons-cli-1.3.jar;" LVQDigits + Argumentos`
 
-*Obs: Deve-se utilizar o argumento cp para passar a biblioteca commons-cli-1.3.jar como parametro*
+*Obs: You should use the cp argument to include the commons-cli-1.3.jar library*
 
-*Obs2: Leia abaixo utilizacao dos argumentos*
+*Obs2: Look below about how to use parameters*
 
 #2. MLP
-##2.1 Parametros e utilizacao MLP
+##2.1 MLP parameters
 	usage: MLPDigits [-bias] [-hc <arg>] [-ic <arg>] [-init <arg>] [-lc <arg>]
 	       [-load <arg>] [-lr <arg>] [-oc <arg>] [-save <arg>] [-testlog
 	       <arg>] [-tn <arg>] [-trainlog <arg>] [-tt <arg>] [-vl <arg>]
-	 -bias             opcao para utilizacao de bias
-	 -hc <arg>         numero de nos hidden
-	 -ic <arg>         numero de nos de entrada
-	 -init <arg>       metodo de inicializacao dos neuronios (RANDOM ou ZERO)
-	 -lc <arg>         numero de camadas hidden
-	 -load <arg>       Caminho para arquivo contendo Rede LVQ
-	 -lr <arg>         taxa de aprendizado
-	 -oc <arg>         numero de nos de saida
-	 -save <arg>       opcao de salvar rede neural, passe com o caminho do
-	                   arquivo que quer salvar a rede
-	 -testlog <arg>    opcao para gerar log de teste .csv, passar o caminho
-	 -tn <arg>         nome do arquivo do conjunto de dados de treino
-	 -trainlog <arg>   opcao para gerar log de treinamento .csv, passar o
-	                   caminho
-	 -tt <arg>         nome do arquivo do conjunto de dados de teste
-	 -vl <arg>         nome do arquivo do conjunto de dados de validacao
+	 -bias             use bias
+	 -hc <arg>         number of hidden nodes
+	 -ic <arg>         number of input nodes
+	 -init <arg>       neuron initialization methods (RANDOM or ZERO)
+	 -lc <arg>         number of hidden layers
+	 -load <arg>       path for file containing existing LVQ network
+	 -lr <arg>         learning rate
+	 -oc <arg>         number of output nodes
+	 -save <arg>       save the neural network, insert the file path
+	 -testlog <arg>    save a log file, insert the file path
+	 -tn <arg>         training data set path
+	 -trainlog <arg>   save training log file, insert the file path
+	 -tt <arg>         test data set path
+	 -vl <arg>         validation data set path
 
 
-##2.2 Exemplos de uso MLP
-**2.2.1 Criando uma nova Rede MLP, treinando (com validacao), teste, gerando log e salvando**
+##2.2 MLP Examples
+**2.2.1 Create a new MLP network, train (with validation), test, generate and save log file**
 	
 	java -cp "libs\commons-cli-1.3.jar;" MLPDigits 
 	-init RANDOM 
@@ -75,7 +72,7 @@ e execute o seguintes comandos:
 	-testlog "testLogMLPDigits.csv"
 	-save "mlpNetwork.mlp"
 	
-**2.2.2 Carregando Rede, testando e salvando dados gerados no teste**
+**2.2.2 Load a MLP network, test and save output data**
 	
 	java -cp "libs\commons-cli-1.3.jar;" MLPDigits
 	-load "mlpNetwork.mlp"
@@ -83,29 +80,27 @@ e execute o seguintes comandos:
 	-testlog "testLogMLPDigits.csv"
 
 #3. LVQ
-##3.1 Parametros e utilizacao
+##3.1 LVQ Parameters
 	usage: LVQDigits [-distance <arg>] [-init <arg>] [-load <arg>] [-lr <arg>]
 	       [-nc <arg>] [-rr <arg>] [-save <arg>] [-testlog <arg>] [-tn <arg>]
 	       [-trainlog <arg>] [-tt <arg>] [-vl <arg>]
-	 -distance <arg>   escolha do calculo de distancia (EUCLIDEAN ou
+	 -distance <arg>   length metric mode (EUCLIDEAN or
 	                   MANHATTAN)
-	 -init <arg>       metodo de inicializacao dos neuronios (RANDOM ,
+	 -init <arg>       neuron initialization method (RANDOM ,
 	                   FIRST_VALUES ou ZERO)
-	 -load <arg>       Caminho para arquivo contendo Rede LVQ
-	 -lr <arg>         taxa de aprendizado
-	 -nc <arg>         numero de neuronios
-	 -rr <arg>         taxa de reducao
-	 -save <arg>       opcao de salvar rede neural, passe com o caminho do
-	                   arquivo que quer salvar a rede
-	 -testlog <arg>    opcao para gerar log de teste .csv, passar o caminho
-	 -tn <arg>         nome do arquivo do conjunto de dados de treino
-	 -trainlog <arg>   opcao para gerar log de treinamento .csv, passar o
-	                   caminho
-	 -tt <arg>         nome do arquivo do conjunto de dados de teste
-	 -vl <arg>         nome do arquivo do conjunto de dados de validacao
+	 -load <arg>       File path for LVQ network
+	 -lr <arg>         learning rate
+	 -nc <arg>         number of neurons
+	 -rr <arg>         reduction rate
+	 -save <arg>       save the neural network, insert the file path
+	 -testlog <arg>    save a test log file, insert the file path
+	 -tn <arg>         training data set path
+	 -trainlog <arg>   save training log file, insert the file path
+	 -tt <arg>         test data set path
+	 -vl <arg>         validation data set path
 
-##3.2 Exemplos de uso LVQ
-**3.2.1 Criando uma nova Rede, treinando (com validacao), teste, gerando log e salvando**
+##3.2 LVQ Examples
+**3.2.1 Create a new LVQ network, train (with validation), test, generate and save log file**
 
 	java -cp "libs\commons-cli-1.3.jar;" LVQDigits 
 	-init FIRST_VALUES
@@ -120,7 +115,7 @@ e execute o seguintes comandos:
 	-testlog "testLogLVQDigits.csv"
 	-save "lvqNetwork.lvq"
 			
-**3.2.2 Carregando Rede, testando e salvando dados gerados no teste**
+**3.2.2 Load a LVQ network, test and save output data**
 
 	java -cp "libs\commons-cli-1.3.jar;" LVQDigits
 	-load "lvqNetwork.lvq"
